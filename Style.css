@@ -413,3 +413,110 @@ footer {
         flex: none;
     }
 }
+/* --- CODE SNIPPET MESSAGE BUBBLES --- */
+.code-snippet-msg {
+    background: #000; /* Deep black contrast */
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 8px;
+    font-family: 'Courier New', monospace;
+    position: relative;
+    overflow: hidden;
+}
+
+/* The actual text within the snippet */
+.chat-code {
+    display: block;
+    color: #79c0ff; /* Light blue code color */
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+    margin-bottom: 10px;
+    background: transparent;
+    border: none;
+}
+
+/* THE RUN BUTTON - Make it look like a high-tech trigger */
+.run-btn {
+    background: var(--accent);
+    color: #0d1117;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.run-btn:hover {
+    box-shadow: 0 0 15px var(--accent);
+    transform: translateY(-1px);
+}
+
+.run-btn:active {
+    transform: translateY(0);
+}
+
+/* --- SYSTEM MESSAGES --- */
+.message small {
+    opacity: 0.5;
+    font-size: 0.6rem;
+    margin-right: 5px;
+    letter-spacing: 1px;
+}
+.preview-header {
+    background: var(--tab-bg);
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--accent);
+}
+/* --- PREVIEW PANEL STYLING --- */
+.status-dot {
+    color: var(--accent);
+    animation: pulse 2s infinite;
+    margin-right: 5px;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.close-preview {
+    background: none;
+    border: none;
+    color: #ff4444;
+    font-size: 1.5rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* --- ADMIN UI VISIBILITY --- */
+/* The JS will toggle this from 'none' to 'block' if the creator token is found */
+#admin-preview-controls {
+    padding: 20px;
+    background: #111116;
+    border-top: 1px solid #222;
+    display: none; 
+    text-align: center;
+}
+
+.auth-note {
+    font-size: 9px;
+    opacity: 0.4;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
