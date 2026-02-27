@@ -78,10 +78,11 @@
     &copy; 2026 CodePedia Encyclopedia | Hosted on GitHub Pages
 </footer>
 
-<script src="script.js"></script>
-<script>
-    // Simple filter function for the Home Page
-    function filterCategories() {
+<script type="module" src="script.js"></script>
+
+<script type="module">
+    // We attach the function to 'window' so the HTML buttons can still find it
+    window.filterCategories = function() {
         let input = document.getElementById('mainSearch').value.toLowerCase();
         let cards = document.getElementsByClassName('content-card');
 
