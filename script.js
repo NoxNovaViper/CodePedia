@@ -213,45 +213,50 @@ if (document.getElementById('chat-window')) {
     const joinBar = document.getElementById('join-bar');
     const askJoinBtn = document.getElementById('ask-join-btn');
     const leaderboardList = document.getElementById('leaderboard-list');
+    const clearBtn = document.getElementById('clear-chat');
 
     let currentRoom = 'global';
     let messagesRef;
     let myId = localStorage.getItem('cp-userid') || "dev-" + Math.random().toString(36).substring(7);
     localStorage.setItem('cp-userid', myId);
 
-    // --- 1. CODE FORMATTING FUNCTION ---
+    // --- 1. CODE FORMATTING ---
     function formatCode(text) {
-        // Detects `text` and wraps it in a styled code tag
         return text.replace(/`([^`]+)`/g, '<code class="chat-code">$1</code>');
     }
 
-    // --- 2. LEADERBOARD SYSTEM ---
-    function updateLeaderboard() {
+    // --- 2. BUBBLE LEADERBOARD ---
+    function initLeaderboard() {
         onValue(ref(db, 'members'), (snapshot) => {
-            if (!leaderboardList) return;
+            if (!leaderboardList || !snapshot.exists()) return;
             leaderboardList.innerHTML = "";
             let rankings = [];
 
-            snapshot.forEach((room) => {
-                const memberCount = Object.keys(room.val()).length;
-                onValue(ref(db, `bubbles/${room.key}/name`), (nameSnap) => {
-                    rankings.push({ name: nameSnap.val() || room.key, count: memberCount });
-                });
+            snapshot.forEach((bubble) => {
+                const memberCount = Object.keys(bubble.val()).length;
+                rankings.push({ id: bubble.key, count: memberCount });
             });
 
-            setTimeout(() => {
-                rankings.sort((a, b) => b.count - a.count);
-                rankings.slice(0, 5).forEach((item, i) => {
+            rankings.sort((a, b) => b.count - a.count);
+
+            rankings.slice(0, 5).forEach((item, i) => {
+                onValue(ref(db, `bubbles/${item.id}/name`), (nameSnap) => {
+                    const bubbleName = nameSnap.val() || item.id;
                     const div = document.createElement('div');
                     div.className = `clan-rank ${i === 0 ? 'top-clan-glow' : ''}`;
-                    div.innerHTML = `<span>${i==0?'🥇':i==1?'🥈':i==2?'🥉':'💻'} ${item.name}</span> <b>${item.count} Members</b>`;
+                    const icon = i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : "🫧";
+                    
+                    div.innerHTML = `
+                        <span>${icon} <b>${bubbleName}</b></span>
+                        <span style="color:var(--accent)">${item.count} Devs</span>
+                    `;
                     leaderboardList.appendChild(div);
                 });
-            }, 200);
+            });
         });
     }
 
-    // --- 3. ROOM CONNECTION LOGIC ---
+    // --- 3. CONNECTION LOGIC ---
     function connectToRoom(roomName) {
         if (messagesRef) off(messagesRef);
         currentRoom = roomName;
@@ -261,40 +266,39 @@ if (document.getElementById('chat-window')) {
         reqPanel.style.display = 'none';
         chatWindow.innerHTML = "";
 
-        const roomMetaRef = ref(db, `bubbles/${currentRoom}`);
-        onValue(roomMetaRef, (snap) => {
-            const roomData = snap.val();
-            const isPrivate = roomData?.private || false;
+        onValue(ref(db, `bubbles/${currentRoom}`), (snap) => {
+            const data = snap.val();
+            const isPrivate = data?.private || false;
             const myToken = localStorage.getItem(`leader_${currentRoom}`);
 
             onValue(ref(db, `blacklist/${currentRoom}/${myId}`), (banSnap) => {
                 if (banSnap.exists()) {
-                    chatWindow.innerHTML = `<div class="message" style="color:#ff4444;">🚫 Access Denied: You are blacklisted from this bubble.</div>`;
+                    chatWindow.innerHTML = `<div class="message" style="color:#ff4444;">🚫 Access Denied: Blacklisted from this Bubble.</div>`;
                     chatForm.style.display = 'none';
                     return;
                 }
 
                 if (isPrivate && !myToken) {
                     onValue(ref(db, `members/${currentRoom}/${myId}`), (memSnap) => {
-                        if (memSnap.exists()) loadChat(myToken ? "leader" : "member");
+                        if (memSnap.exists()) loadChat(myToken ? "creator" : "member");
                         else {
-                            chatWindow.innerHTML = `<div class="message">🔒 This is a private dev bubble.</div>`;
+                            chatWindow.innerHTML = `<div class="message">🔒 This is a private Dev Bubble.</div>`;
                             chatForm.style.display = 'none';
                             joinBar.style.display = 'block';
                         }
                     });
                 } else {
-                    loadChat(myToken ? "leader" : "member");
+                    loadChat(myToken ? "creator" : "guest");
                 }
             });
         });
     }
 
     function loadChat(rank) {
-        chatWindow.innerHTML = `<div class="message" style="border-left: 4px solid var(--accent); opacity:0.7;">Connected to ${currentRoom} as ${rank.toUpperCase()}</div>`;
+        chatWindow.innerHTML = `<div class="message" style="border-left: 4px solid var(--accent); opacity:0.7;">Entered ${currentRoom} as ${rank.toUpperCase()}</div>`;
         messagesRef = ref(db, 'rooms/' + currentRoom);
         
-        if (rank === "leader") {
+        if (rank === "creator") {
             reqPanel.style.display = 'block';
             listenForRequests();
         }
@@ -303,29 +307,30 @@ if (document.getElementById('chat-window')) {
             const data = snapshot.val();
             const div = document.createElement('div');
             div.className = 'message';
-            const nameStyle = `style="color:${data.color}"`;
-            
-            // Apply code formatting to the text
             const cleanText = formatCode(data.text);
             
-            div.innerHTML = `<small>[${data.rank.toUpperCase()}]</small> <b ${nameStyle}>${data.username}</b>: <span>${cleanText}</span>`;
+            div.innerHTML = `
+                <small>[${data.rank.toUpperCase()}]</small> 
+                <b style="color:${data.color}">${data.username}</b>: 
+                <span>${cleanText}</span>
+            `;
             chatWindow.appendChild(div);
             chatWindow.scrollTop = chatWindow.scrollHeight;
         });
     }
 
-    // --- 4. MESSAGE & COMMAND SUBMISSION ---
+    // --- 4. INPUT & COMMANDS ---
     chatForm.onsubmit = (e) => {
         e.preventDefault();
         const text = msgInput.value.trim();
         const myToken = localStorage.getItem(`leader_${currentRoom}`);
 
         if (text.startsWith('/') && myToken) {
-            const [cmd, targetName, targetId] = text.split(' ');
-            if (cmd === '/kick' && targetId) {
-                set(ref(db, `blacklist/${currentRoom}/${targetId}`), true);
-                remove(ref(db, `members/${currentRoom}/${targetId}`));
-                push(messagesRef, { username: "SYSTEM", text: `👢 ${targetName} kicked from bubble.`, color: "#ff4444", rank: "system" });
+            const [cmd, tName, tId] = text.split(' ');
+            if (cmd === '/kick' && tId) {
+                set(ref(db, `blacklist/${currentRoom}/${tId}`), true);
+                remove(ref(db, `members/${currentRoom}/${tId}`));
+                push(messagesRef, { username: "SYSTEM", text: `👢 ${tName} removed from bubble.`, color: "#ff4444", rank: "sys" });
             }
             msgInput.value = ""; return;
         }
@@ -334,17 +339,17 @@ if (document.getElementById('chat-window')) {
             username: nickInput.value,
             text: text,
             color: userColor.value,
-            rank: myToken ? "leader" : "member",
+            rank: myToken ? "creator" : "dev",
             userId: myId,
             timestamp: serverTimestamp()
         });
         msgInput.value = "";
     }
 
-    // --- 5. INITIALIZATION & UTILS ---
+    // --- 5. BUBBLE MANAGEMENT ---
     askJoinBtn.onclick = () => {
         set(ref(db, `requests/${currentRoom}/${myId}`), { name: nickInput.value, id: myId });
-        alert("Request sent to bubble leader!");
+        alert("Request sent to Bubble Creator!");
     };
 
     window.acceptMember = (id, name) => {
@@ -359,70 +364,60 @@ if (document.getElementById('chat-window')) {
                 const req = child.val();
                 const div = document.createElement('div');
                 div.className = 'req-item';
-                div.innerHTML = `<span>${req.name}</span> <button class="copy-btn" onclick="acceptMember('${req.id}', '${req.name}')">Accept</button>`;
+                div.innerHTML = `<span>${req.name}</span> <button class="copy-btn" onclick="acceptMember('${req.id}', '${req.name}')">Add to Bubble</button>`;
                 reqList.appendChild(div);
             });
         });
     }
 
     createBubbleBtn.onclick = () => {
-        const name = prompt("Enter Bubble Name:");
+        const name = prompt("Bubble Name:");
         if (name) {
-            const isPrivate = confirm("Make this bubble Private (Invite Only)?");
+            const isPrivate = confirm("Make this an Invite-Only Bubble?");
             const key = name.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
             const token = Math.random().toString(36).substring(2);
-            set(ref(db, 'bubbles/' + key), { name: name, private: isPrivate, leaderToken: token });
+            set(ref(db, 'bubbles/' + key), { name: name, private: isPrivate, creatorToken: token });
             localStorage.setItem(`leader_${key}`, token);
-            alert("Bubble Created!");
+            alert("Bubble Initialized!");
         }
     };
 
-    onChildAdded(ref(db, 'bubbles'), (snap) => {
-        const b = snap.val();
-        const option = document.createElement('option');
-        option.value = snap.key;
-        option.innerHTML = `🫧 ${b.name} ${b.private ? '🔒' : ''}`;
-        document.getElementById('bubble-list').appendChild(option);
+    onChildAdded(messagesRef, (snapshot) => {
+        const data = snapshot.val();
+        const div = document.createElement('div');
+        div.className = 'message';
+        
+        let content = formatCode(data.text);
+    
+        // MEME DETECTION: If the text is a link to an image, render the image
+        const imageRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/i;
+        if (imageRegex.test(data.text)) {
+            content = `<div class="meme-container">
+                        <img src="${data.text}" class="chat-meme" alt="dev-meme">
+                       </div>`;
+        }
+    
+        div.innerHTML = `
+            <small>[${data.rank.toUpperCase()}]</small> 
+            <b style="color:${data.color}">${data.username}</b>: 
+            <span>${content}</span>
+        `;
+        chatWindow.appendChild(div);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
     });
 
-    updateLeaderboard();
+    // --- 6. ADMIN UTILS ---
+    clearBtn.onclick = () => {
+        const myToken = localStorage.getItem(`leader_${currentRoom}`);
+        if (!myToken) return alert("Only the Bubble Creator can clear history.");
+        
+        if (confirm("Wipe all messages in this Bubble?")) {
+            remove(ref(db, 'rooms/' + currentRoom));
+            chatWindow.innerHTML = `<div class="message">Console cleared.</div>`;
+        }
+    };
+
+    initLeaderboard();
     connectToRoom('global');
     roomSelect.onchange = (e) => connectToRoom(e.target.value);
 }
-// --- 7. CLAN LEADERBOARD LOGIC ---
-function initLeaderboard(db) {
-    const leaderboardList = document.getElementById('leaderboard-list');
-    
-    onValue(ref(db, 'members'), (snapshot) => {
-        if (!snapshot.exists()) return;
-        
-        let rankings = [];
-        snapshot.forEach((clan) => {
-            const memberCount = Object.keys(clan.val()).length;
-            rankings.push({ id: clan.key, count: memberCount });
-        });
-
-        // Sort by member count (Highest first)
-        rankings.sort((a, b) => b.count - a.count);
-
-        leaderboardList.innerHTML = "";
-        rankings.slice(0, 5).forEach((clan, index) => {
-            // Get clan name from bubbles node
-            onValue(ref(db, `bubbles/${clan.id}/name`), (nameSnap) => {
-                const clanName = nameSnap.val() || clan.id;
-                const div = document.createElement('div');
-                div.className = `clan-rank ${index === 0 ? 'top-clan-glow' : ''}`;
-                
-                const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : "⚔️";
-                
-                div.innerHTML = `
-                    <span>${medal} <b>${clanName}</b></span>
-                    <span style="color:var(--accent)">${clan.count} Members</span>
-                `;
-                leaderboardList.appendChild(div);
-            });
-        });
-    });
-}
-
-// Make sure to call initLeaderboard(db) inside your chat window check!

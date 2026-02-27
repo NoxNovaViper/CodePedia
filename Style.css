@@ -279,3 +279,46 @@ footer {
     display: inline-block;
     margin: 2px 0;
 }
+#chat-form {
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+}
+
+#msg-input {
+    flex-grow: 1; /* This makes the bar stretch */
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: white;
+    border-radius: 6px;
+    outline: none;
+}
+
+#msg-input:focus {
+    border-color: var(--accent);
+}
+.chat-meme {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 8px;
+    margin-top: 10px;
+    border: 2px solid var(--border);
+    display: block;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.chat-meme:hover {
+    transform: scale(1.02);
+    border-color: var(--accent);
+}
+
+.meme-container {
+    background: rgba(0,0,0,0.2);
+    padding: 5px;
+    border-radius: 10px;
+    display: inline-block;
+}

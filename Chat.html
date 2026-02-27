@@ -6,6 +6,7 @@
     <title>Live Chat | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
     <style>
+        /* Panel Styles */
         #request-panel {
             background: rgba(0, 212, 255, 0.1);
             border: 1px solid var(--accent);
@@ -15,6 +16,7 @@
             display: flex; justify-content: space-between; align-items: center;
             padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
         }
+
         /* Leaderboard Styling */
         .leaderboard-card {
             background: var(--card);
@@ -23,14 +25,36 @@
             padding: 15px;
             margin-bottom: 20px;
         }
-        .clan-rank {
+        .bubble-rank {
             display: flex; justify-content: space-between;
             padding: 8px; border-radius: 4px; margin-bottom: 4px;
             background: rgba(255,255,255,0.03);
         }
-        .top-clan-glow {
+        .top-bubble-glow {
             box-shadow: 0 0 15px var(--accent);
             border: 1px solid var(--accent) !important;
+        }
+
+        /* Fixed Chat Bar Layout */
+        #chat-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        #msg-input {
+            flex: 1; /* This makes the input fill the space */
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid var(--border);
+            background: rgba(255,255,255,0.05);
+            color: white;
+        }
+
+        /* Admin Area Styling */
+        .admin-area {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
         }
     </style>
 </head>
@@ -43,14 +67,14 @@
 
 <div class="container">
     <div class="leaderboard-card">
-        <h3 style="margin-top:0; color:var(--accent); text-align:center;">🏆 Top Clans Leaderboard</h3>
+        <h3 style="margin-top:0; color:var(--accent); text-align:center;">🏆 Top Dev Bubbles</h3>
         <div id="leaderboard-list">
-            <p style="text-align:center; opacity:0.5;">Calculating clan power...</p>
+            <p style="text-align:center; opacity:0.5;">Calculating circle power...</p>
         </div>
     </div>
 
     <div id="request-panel">
-        <h3 style="margin-top:0; color:var(--accent);">🛡️ Leader Dashboard: Join Requests</h3>
+        <h3 style="margin-top:0; color:var(--accent);">🛡️ Creator Dashboard: Access Requests</h3>
         <div id="request-list"></div>
     </div>
 
@@ -68,7 +92,7 @@
             <div style="display: flex; gap: 5px;">
                 <select id="room-select" class="chat-select">
                     <option value="global">🌍 Global Chat</option>
-                    <optgroup label="The Big 6">
+                    <optgroup label="Language Rooms">
                         <option value="python">🐍 Python</option>
                         <option value="javascript">📜 JavaScript</option>
                         <option value="cpp">👾 C++</option>
@@ -76,7 +100,7 @@
                         <option value="csharp">🎯 C#</option>
                         <option value="go">🐹 Go</option>
                     </optgroup>
-                    <optgroup label="Personal Bubbles" id="bubble-list"></optgroup>
+                    <optgroup label="Dev Bubbles" id="bubble-list"></optgroup>
                 </select>
                 <button id="create-bubble" class="copy-btn" title="Create a Personal Bubble" style="padding: 5px 12px;">+</button>
             </div>
@@ -84,16 +108,20 @@
     </div>
 
     <div id="join-bar" style="display:none; margin-bottom:10px;">
-        <p id="join-msg">This bubble is private. You must be accepted by the leader.</p>
-        <button id="ask-join-btn" class="copy-btn" style="width:100%">⚔️ Request to Join Clan</button>
+        <p id="join-msg">This bubble is private. Request access to join the conversation.</p>
+        <button id="ask-join-btn" class="copy-btn" style="width:100%">⚔️ Request Access to Bubble</button>
     </div>
 
     <div id="chat-window"></div>
 
     <form id="chat-form">
-        <input type="text" id="msg-input" placeholder="Type a message..." required autocomplete="off">
+        <input type="text" id="msg-input" placeholder="Type a message (use `code` for snippets)..." required autocomplete="off">
         <button type="submit" class="copy-btn">Send</button>
     </form>
+
+    <div class="admin-area">
+        <button id="clear-chat" class="clear-btn" style="padding: 8px 20px;">🗑️ Clear Console History</button>
+    </div>
 </div>
 
 <script type="module" src="script.js"></script>
