@@ -113,131 +113,13 @@
             border-radius: 4px;
         }
 
-        .gate-label {
-            font-size: 0.75rem;
-            opacity: 0.6;
-            margin-bottom: 25px;
-        }
-
-        #gate-nick {
-            width: 100%;
-            padding: 15px;
-            background: #000;
-            border: 1px solid #333;
-            color: #fff;
-            margin-bottom: 20px;
-        }
-
-        /* --- CONTROLS & FORMS --- */
-        .leaderboard-card {
-            border: 1px solid var(--border);
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        #request-panel {
-            display: none;
-            border: 1px solid #ffa500;
-            background: rgba(255, 165, 0, 0.05);
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .chat-controls {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .control-label {
-            display: block;
-            font-size: 10px;
-            opacity: 0.5;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-
-        .control-group {
-            display: flex;
-            gap: 8px;
-        }
-
-        #nickname-input { flex: 1; }
-
-        #user-color {
-            width: 45px;
-            height: 40px;
-            border: none;
-            background: none;
-            cursor: pointer;
-        }
-
-        #room-select {
-            flex: 1;
-            background: #000;
-            color: #fff;
-            border: 1px solid var(--border);
-            padding: 5px;
-        }
-
-        #chat-form {
-            display: flex;
-            gap: 12px;
-            background: var(--card-bg);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        #msg-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #fff;
-            outline: none;
-            padding: 10px;
-        }
-
-        .footer-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 5px;
-        }
-
-        .system-id {
-            font-size: 10px;
-            opacity: 0.3;
-            letter-spacing: 1px;
-        }
-
-        #clear-chat {
-            background: none;
-            border: none;
-            color: #ff4444;
-            font-size: 0.7rem;
-            cursor: pointer;
-            text-decoration: underline;
-            opacity: 0.5;
-        }
-
-        /* Responsive Fixes */
-        @media (max-width: 1150px) {
-            .main-wrapper { flex-direction: column; }
-            #preview-container { 
-                position: relative; 
-                top: 0; 
-                height: 500px; 
-                width: 100%; 
-                flex: none;
-            }
-        }
-
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.3; }
             100% { opacity: 1; }
         }
+
+        .hidden-input { display: none; }
     </style>
 </head>
 <body>
@@ -283,7 +165,7 @@
                 </div>
             </div>
 
-            <div id="join-bar" class="join-area">
+            <div id="join-bar" class="join-area" style="display:none;">
                 <p class="join-msg">[!] Access Denied: Bubble is Encrypted.</p>
                 <button id="ask-join-btn" class="copy-btn">REQUEST_DECRYPTION_KEY</button>
             </div>
@@ -302,7 +184,7 @@
             </div>
 
             <form id="chat-form">
-                <button type="button" id="upload-btn" class="attach-btn">📎</button>
+                <button type="button" id="upload-btn" class="attach-btn" onclick="document.getElementById('file-input').click()">📎</button>
                 <input type="file" id="file-input" accept="image/*" class="hidden-input">
                 <input type="text" id="msg-input" placeholder="Broadcast message (use `code` for snippets)..." required autocomplete="off">
                 <button type="submit" class="copy-btn">SEND</button>
