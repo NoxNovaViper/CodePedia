@@ -15,7 +15,7 @@
 </header>
 
 <div class="container">
-    <input type="text" class="search-box" id="mainSearch" placeholder="Search categories or snippets...">
+    <input type="text" class="search-box" id="mainSearch" placeholder="Search categories (e.g. 'Math', 'Chat')..." onkeyup="filterCategories()">
 
     <section id="featured">
         <h2>Featured Snippet</h2>
@@ -39,7 +39,7 @@
     </section>
 
     <h2>Categories</h2>
-    <div class="category-grid">
+    <div class="category-grid" id="categoryGrid">
         <div class="card content-card">
             <div>
                 <h3>Mathematics</h3>
@@ -63,6 +63,14 @@
             </div>
             <a href="Strings.html" class="browse-link">Browse Strings &rarr;</a>
         </div>
+
+        <div class="card content-card" style="border-top: 4px solid var(--accent);">
+            <div>
+                <h3>Community Chat</h3>
+                <p>Discuss code, ask questions, and hang out with other developers in real-time.</p>
+            </div>
+            <a href="Chat.html" class="browse-link" style="color: var(--accent);">Open Live Chat &rarr;</a>
+        </div>
     </div>
 </div>
 
@@ -71,6 +79,24 @@
 </footer>
 
 <script src="script.js"></script>
+<script>
+    // Simple filter function for the Home Page
+    function filterCategories() {
+        let input = document.getElementById('mainSearch').value.toLowerCase();
+        let cards = document.getElementsByClassName('content-card');
+
+        for (let i = 0; i < cards.length; i++) {
+            let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+            let desc = cards[i].getElementsByTagName('p')[0].innerText.toLowerCase();
+            
+            if (title.includes(input) || desc.includes(input)) {
+                cards[i].style.display = "";
+            } else {
+                cards[i].style.display = "none";
+            }
+        }
+    }
+</script>
 
 </body>
 </html>
