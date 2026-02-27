@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Encyclopedia | CodePedia</title>
+    
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+
+<header>
+    <nav><a href="index.html">&larr; Back to Home</a></nav>
+    <h1>Math Encyclopedia</h1>
+    <p>Essential mathematical algorithms and efficiency logic.</p>
+</header>
+
+<div class="container">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Search math algorithms (e.g. 'Factorial')...">
+
+    <section class="card">
+        <h2>Prime Efficiency Visualizer</h2>
+        <p>Why we only check factors up to $\sqrt{n}$ to determine primality:</p>
+        <div class="visualizer">
+            <input type="range" id="mathSlider" min="1" max="36" value="1" style="width: 80%;">
+            <h3 id="visualizer-output">Factor Pair: 1 × 36.0</h3>
+            <p id="logic-explanation">Move the slider to see factor pairs of 36.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Factorial (n!)</h2>
+        <p>Calculates the product of all positive integers up to $n$ using iteration or recursion.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'fact-py', 'fact-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'fact-js', 'fact-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'fact-cpp', 'fact-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'fact-java', 'fact-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'fact-cs', 'fact-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'fact-go', 'fact-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('fact-box')">Copy Code</button>
+            </div>
+            <pre id="fact-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Greatest Common Divisor (GCD)</h2>
+        <p>Finding the largest shared factor using the Euclidean Algorithm.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'gcd-py', 'gcd-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'gcd-js', 'gcd-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'gcd-cpp', 'gcd-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'gcd-java', 'gcd-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'gcd-cs', 'gcd-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'gcd-go', 'gcd-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('gcd-box')">Copy Code</button>
+            </div>
+            <pre id="gcd-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+</div>
+
+<footer>&copy; 2026 CodePedia Math | Structured for Efficiency</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
