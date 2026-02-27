@@ -1,0 +1,174 @@
+:root {
+    --bg: #0d1117;
+    --text: #c9d1d9;
+    --accent: #58a6ff;
+    --card: #161b22;
+    --border: #30363d;
+    --tab-bg: #21262d; /* Added for the tab bar */
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    scroll-behavior: smooth;
+}
+
+header {
+    background: #010409;
+    padding: 2.5rem 1rem;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+}
+
+nav a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 15px;
+}
+
+nav a:hover { text-decoration: underline; }
+
+.container {
+    max-width: 850px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.search-box {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: white;
+    margin-bottom: 2.5rem;
+    box-sizing: border-box;
+    outline: none;
+}
+.search-box:focus { border-color: var(--accent); }
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+    transition: transform 0.2s;
+}
+
+.card:hover { transform: translateY(-2px); }
+
+/* --- Tab System Styles --- */
+.tabs {
+    display: flex;
+    background: var(--tab-bg);
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    margin-top: 1rem;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: none;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: 0.3s;
+    border-right: 1px solid var(--border);
+}
+
+.tab-btn:last-child { border-right: none; }
+.tab-btn.active { background: var(--accent); color: white; font-weight: bold; }
+
+/* --- Code Display & Copy Button --- */
+.code-header {
+    display: flex;
+    justify-content: flex-end;
+    background: var(--tab-bg);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    padding: 5px 10px;
+}
+
+.copy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.copy-btn:hover { background: var(--border); color: white; }
+
+.code-display, pre {
+    background: #000;
+    padding: 1.2rem;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid var(--border);
+    color: #79c0ff;
+    font-family: 'Courier New', monospace;
+    overflow-x: auto;
+    margin: 0;
+    min-height: 100px;
+    white-space: pre;
+}
+
+/* --- Visualizers (Used in Math.html) --- */
+.visualizer {
+    background: #000;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    border: 1px solid var(--accent);
+    text-align: center;
+}
+
+footer { 
+    text-align: center; 
+    padding: 3rem 0; 
+    opacity: 0.6; 
+    font-size: 0.85rem; 
+    border-top: 1px solid var(--border); 
+    margin-top: 4rem; 
+}
+/* --- Category Layout (The missing piece) --- */
+.category-grid {
+    display: grid;
+    /* This automatically creates as many columns as will fit */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 1rem;
+}
+
+/* Ensures all cards in the grid have the same height */
+.content-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 180px; 
+}
+
+/* Style for the link at the bottom of the card */
+.browse-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.browse-link:hover {
+    text-decoration: underline;
+}
