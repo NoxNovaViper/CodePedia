@@ -245,3 +245,37 @@ footer {
     cursor: pointer;
     font-size: 0.7rem;
 }
+.chat-layout {
+    display: flex;
+    gap: 20px;
+}
+.main-chat { flex: 3; }
+.clan-sidebar {
+    flex: 1;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 15px;
+    height: 510px; /* Matches chat window + form */
+}
+.member-item {
+    padding: 8px;
+    border-bottom: 1px solid #222;
+    cursor: pointer;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+}
+.member-item:hover { background: #1a1a1a; }
+.rank-badge { font-size: 0.6rem; padding: 2px 5px; border-radius: 3px; background: #444; }
+.chat-code {
+    background: #1e1e1e; /* VS Code dark background */
+    color: #d4d4d4;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    border: 1px solid #333;
+    display: inline-block;
+    margin: 2px 0;
+}
