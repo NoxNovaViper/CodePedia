@@ -3,143 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Chat | CodePedia</title>
+    <title>CodePedia | Dev-Stream IDE</title>
     <link rel="stylesheet" href="Style.css">
     <style>
-        /* Panel Styles */
-        #request-panel {
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid var(--accent);
-            padding: 10px; margin-bottom: 10px; border-radius: 8px; display: none;
-        }
-        .req-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.1);
+        /* --- 2026 IDE GRID SYSTEM --- */
+        .main-wrapper {
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            width: 100%;
+            margin-top: 20px;
         }
 
-        /* Leaderboard Styling */
-        .leaderboard-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+        .chat-section {
+            flex: 1.2;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* --- PREVIEW PANEL (RIGHT) --- */
+        #preview-container {
+            flex: 1;
+            background: #0d0d12;
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            overflow: hidden;
+            display: none; 
+            position: sticky;
+            top: 20px;
+            height: calc(100vh - 60px);
+            box-shadow: -15px 0 45px rgba(0, 212, 255, 0.15);
+        }
+
+        #live-preview {
+            width: 100%;
+            height: calc(100% - 120px);
+            background: #ffffff;
+            border: none;
+        }
+
+        .preview-header {
+            background: #1a1a24;
             padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--accent);
+            font-family: 'Courier New', Courier, monospace;
+            border-bottom: 1px solid #333;
+        }
+
+        .status-dot {
+            color: var(--accent);
+            animation: pulse 2s infinite;
+            margin-right: 5px;
+        }
+
+        #admin-preview-controls {
+            padding: 20px;
+            background: #111116;
+            border-top: 1px solid #222;
+            display: none;
+            text-align: center;
+        }
+
+        .auth-note {
+            font-size: 9px;
+            opacity: 0.4;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        /* --- CHAT & GATE UI --- */
+        .chat-wrap { 
+            position: relative; 
+            min-height: 550px; 
+            border: 1px solid var(--border); 
+            border-radius: 10px; 
+            overflow: hidden; 
+            background: var(--card-bg);
+        }
+
+        #chat-window {
+            height: 450px;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        #chat-gate {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(8, 8, 12, 0.98);
+            z-index: 1000;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(12px);
+        }
+
+        .gate-card {
+            text-align: center;
+            padding: 50px;
+            border: 1px solid var(--accent);
+            background: #111;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            max-width: 450px;
+            width: 95%;
+            border-radius: 4px;
+        }
+
+        .gate-label {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-bottom: 25px;
+        }
+
+        #gate-nick {
+            width: 100%;
+            padding: 15px;
+            background: #000;
+            border: 1px solid #333;
+            color: #fff;
             margin-bottom: 20px;
         }
-        .bubble-rank {
-            display: flex; justify-content: space-between;
-            padding: 8px; border-radius: 4px; margin-bottom: 4px;
-            background: rgba(255,255,255,0.03);
-        }
-        .top-bubble-glow {
-            box-shadow: 0 0 15px var(--accent);
-            border: 1px solid var(--accent) !important;
+
+        /* --- CONTROLS & FORMS --- */
+        .leaderboard-card {
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 8px;
         }
 
-        /* Fixed Chat Bar Layout */
+        #request-panel {
+            display: none;
+            border: 1px solid #ffa500;
+            background: rgba(255, 165, 0, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .chat-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .control-label {
+            display: block;
+            font-size: 10px;
+            opacity: 0.5;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        #nickname-input { flex: 1; }
+
+        #user-color {
+            width: 45px;
+            height: 40px;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        #room-select {
+            flex: 1;
+            background: #000;
+            color: #fff;
+            border: 1px solid var(--border);
+            padding: 5px;
+        }
+
         #chat-form {
             display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            align-items: center;
+            gap: 12px;
+            background: var(--card-bg);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
         }
+
         #msg-input {
-            flex: 1; 
-            padding: 12px;
-            border-radius: 5px;
-            border: 1px solid var(--border);
-            background: rgba(255,255,255,0.05);
-            color: white;
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
             outline: none;
+            padding: 10px;
         }
-        #msg-input:focus { border-color: var(--accent); }
 
-        /* Admin Area Styling */
-        .admin-area {
-            margin-top: 15px;
+        .footer-actions {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 5px;
         }
 
-        /* Attachment Button Style */
-        .attach-btn {
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: 0.2s;
+        .system-id {
+            font-size: 10px;
+            opacity: 0.3;
+            letter-spacing: 1px;
         }
-        .attach-btn:hover { background: rgba(255,255,255,0.1); border-color: var(--accent); }
+
+        #clear-chat {
+            background: none;
+            border: none;
+            color: #ff4444;
+            font-size: 0.7rem;
+            cursor: pointer;
+            text-decoration: underline;
+            opacity: 0.5;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 1150px) {
+            .main-wrapper { flex-direction: column; }
+            #preview-container { 
+                position: relative; 
+                top: 0; 
+                height: 500px; 
+                width: 100%; 
+                flex: none;
+            }
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <nav><a href="index.html">&larr; Back to Home</a></nav>
-    <h1>Global Dev Chat</h1>
+    <nav><a href="index.html" class="back-link">&lt;/&gt; BACK_TO_ROOT</a></nav>
+    <h1 class="main-title">CODEPEDIA <span class="accent-text">STREAM</span></h1>
 </header>
 
 <div class="container">
-    <div class="leaderboard-card">
-        <h3 style="margin-top:0; color:var(--accent); text-align:center;">🏆 Top Dev Bubbles</h3>
-        <div id="leaderboard-list">
-            <p style="text-align:center; opacity:0.5;">Calculating circle power...</p>
-        </div>
-    </div>
-
-    <div id="request-panel">
-        <h3 style="margin-top:0; color:var(--accent);">🛡️ Creator Dashboard: Access Requests</h3>
-        <div id="request-list"></div>
-    </div>
-
-    <div class="chat-controls">
-        <div class="chat-input-group">
-            <label>Identity & Color</label>
-            <div style="display: flex; gap: 5px;">
-                <input type="text" id="nickname-input" class="chat-nick" placeholder="Nickname...">
-                <input type="color" id="user-color" value="#00d4ff" title="Pick your name color">
-            </div>
-        </div>
-
-        <div class="chat-input-group">
-            <label>Rooms & Bubbles</label>
-            <div style="display: flex; gap: 5px;">
-                <select id="room-select" class="chat-select">
-                    <option value="global">🌍 Global Chat</option>
-                    <optgroup label="Language Rooms">
-                        <option value="python">🐍 Python</option>
-                        <option value="javascript">📜 JavaScript</option>
-                        <option value="cpp">👾 C++</option>
-                        <option value="java">☕ Java</option>
-                        <option value="csharp">🎯 C#</option>
-                        <option value="go">🐹 Go</option>
-                    </optgroup>
-                    <optgroup label="Dev Bubbles" id="bubble-list"></optgroup>
-                </select>
-                <button id="create-bubble" class="copy-btn" title="Create a Personal Bubble" style="padding: 5px 12px;">+</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="join-bar" style="display:none; margin-bottom:10px;">
-        <p id="join-msg">This bubble is private. Request access to join the conversation.</p>
-        <button id="ask-join-btn" class="copy-btn" style="width:100%">⚔️ Request Access to Bubble</button>
-    </div>
-
-    <div id="chat-window"></div>
-
-    <form id="chat-form">
-        <button type="button" id="upload-btn" class="attach-btn" title="Upload Meme or Screenshot">📎</button>
-        <input type="file" id="file-input" accept="image/*" style="display: none;">
+    <div class="main-wrapper">
         
-        <input type="text" id="msg-input" placeholder="Type a message (use `code` for snippets)..." required autocomplete="off">
-        <button type="submit" class="copy-btn">Send</button>
-    </form>
+        <div class="chat-section">
+            
+            <div class="leaderboard-card">
+                <h4 class="section-title">Top Bubble Clusters</h4>
+                <div id="leaderboard-list"></div>
+            </div>
 
-    <div class="admin-area">
-        <button id="clear-chat" class="clear-btn" style="padding: 8px 20px;">🗑️ Clear Console History</button>
+            <div id="request-panel">
+                <h4 class="admin-title">Root Admin: Pending Access</h4>
+                <div id="request-list"></div>
+            </div>
+
+            <div class="chat-controls">
+                <div class="control-box">
+                    <label class="control-label">USER_IDENTITY</label>
+                    <div class="control-group">
+                        <input type="text" id="nickname-input" class="chat-nick" placeholder="Awaiting Handshake..." readonly>
+                        <input type="color" id="user-color" value="#00d4ff">
+                    </div>
+                </div>
+
+                <div class="control-box">
+                    <label class="control-label">TARGET_BUFFER</label>
+                    <div class="control-group">
+                        <select id="room-select" class="chat-select">
+                            <option value="global">🌍 GLOBAL_STREAM</option>
+                            <optgroup label="Dev Bubbles" id="bubble-list"></optgroup>
+                        </select>
+                        <button id="create-bubble" class="copy-btn" title="Spawn New Bubble">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="join-bar" class="join-area">
+                <p class="join-msg">[!] Access Denied: Bubble is Encrypted.</p>
+                <button id="ask-join-btn" class="copy-btn">REQUEST_DECRYPTION_KEY</button>
+            </div>
+
+            <div class="chat-wrap">
+                <div id="chat-gate">
+                    <div class="gate-card">
+                        <h2 class="gate-title">SYSTEM_LOGIN</h2>
+                        <p class="gate-label">Establish a secure developer handle to join the cluster.</p>
+                        <input type="text" id="gate-nick" placeholder="Enter Nickname..." maxlength="15">
+                        <button id="join-chat-btn" class="copy-btn">INITIALIZE_SESSION</button>
+                    </div>
+                </div>
+                
+                <div id="chat-window"></div>
+            </div>
+
+            <form id="chat-form">
+                <button type="button" id="upload-btn" class="attach-btn">📎</button>
+                <input type="file" id="file-input" accept="image/*" class="hidden-input">
+                <input type="text" id="msg-input" placeholder="Broadcast message (use `code` for snippets)..." required autocomplete="off">
+                <button type="submit" class="copy-btn">SEND</button>
+            </form>
+
+            <div class="footer-actions">
+                <span class="system-id">ENCRYPTED_ID: 2026-CP-ALPHA</span>
+                <button id="clear-chat">WIPE_CONSOLE_HISTORY</button>
+            </div>
+        </div>
+
+        <div id="preview-container">
+            <div class="preview-header">
+                <span><span class="status-dot">●</span> LIVE_EXECUTION_STDOUT</span>
+                <button onclick="document.getElementById('preview-container').style.display='none'" class="close-preview">&times;</button>
+            </div>
+            
+            <iframe id="live-preview"></iframe>
+            
+            <div id="admin-preview-controls">
+                <button class="copy-btn" id="approve-download-btn">VALIDATE & EXPORT SOURCE_CODE</button>
+                <p class="auth-note">AUTHORIZED_CREATOR_ONLY</p>
+            </div>
+        </div>
+
     </div>
 </div>
 

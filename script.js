@@ -106,6 +106,7 @@ if (document.getElementById('chat-window')) {
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     
+    // UI Elements
     const chatWindow = document.getElementById('chat-window');
     const chatForm = document.getElementById('chat-form');
     const msgInput = document.getElementById('msg-input');
@@ -119,13 +120,43 @@ if (document.getElementById('chat-window')) {
     const askJoinBtn = document.getElementById('ask-join-btn');
     const leaderboardList = document.getElementById('leaderboard-list');
     const clearBtn = document.getElementById('clear-chat');
-    const uploadBtn = document.getElementById('upload-btn'); // Paperclip
-    const fileInput = document.getElementById('file-input'); // Hidden Input
+    const uploadBtn = document.getElementById('upload-btn'); 
+    const fileInput = document.getElementById('file-input'); 
+
+    // GATE Elements
+    const chatGate = document.getElementById('chat-gate');
+    const gateNickInput = document.getElementById('gate-nick');
+    const joinChatBtn = document.getElementById('join-chat-btn');
 
     let currentRoom = 'global';
     let messagesRef;
     let myId = localStorage.getItem('cp-userid') || "dev-" + Math.random().toString(36).substring(7);
     localStorage.setItem('cp-userid', myId);
+
+    // --- 1. THE NICKNAME GATE ---
+    joinChatBtn.onclick = () => {
+        const name = gateNickInput.value.trim();
+        if (name.length < 2) return alert("Handle too short!");
+        
+        nickInput.value = name;
+        localStorage.setItem('cp-nickname', name);
+        chatGate.style.display = 'none'; // Reveal chat
+        
+        // Notify connection
+        if (messagesRef) {
+            push(messagesRef, {
+                username: "SYSTEM",
+                text: `📡 ${name} initialized a connection.`,
+                color: "var(--accent)",
+                rank: "sys",
+                timestamp: serverTimestamp()
+            });
+        }
+    };
+
+    if(localStorage.getItem('cp-nickname')) {
+        gateNickInput.value = localStorage.getItem('cp-nickname');
+    }
 
     function formatCode(text) {
         return text.replace(/`([^`]+)`/g, '<code class="chat-code">$1</code>');
@@ -204,7 +235,6 @@ if (document.getElementById('chat-window')) {
             const div = document.createElement('div');
             div.className = 'message';
             
-            // Image/File/Meme detection logic
             const imageRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/i;
             const isBase64 = data.text && data.text.startsWith('data:image');
             
@@ -285,11 +315,20 @@ if (document.getElementById('chat-window')) {
         }
     };
 
+    // --- FIXED: ADMIN-ONLY CLEAR HISTORY ---
     clearBtn.onclick = () => {
         const myToken = localStorage.getItem(`leader_${currentRoom}`);
-        if (!myToken && currentRoom !== 'global') return alert("Unauthorized.");
-        if (confirm("Clear Bubble History?")) {
-            set(ref(db, 'rooms/' + currentRoom), null).then(() => location.reload());
+        
+        // Strictly check for the presence of the leader token
+        if (!myToken) {
+            return alert("🚫 Unauthorized: Only the Bubble Creator can wipe console history.");
+        }
+        
+        if (confirm("⚠️ WIPE HISTORY: Are you sure? This cannot be undone.")) {
+            set(ref(db, 'rooms/' + currentRoom), null)
+                .then(() => {
+                    chatWindow.innerHTML = `<div class="message" style="opacity:0.5;">🧹 Console history wiped by Creator.</div>`;
+                });
         }
     };
 
