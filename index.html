@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodePedia | Home</title>
+    
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+
+<header>
+    <h1>CodePedia</h1>
+    <p>The Universal Code Encyclopedia for the Big 6 Languages</p>
+</header>
+
+<div class="container">
+    <input type="text" class="search-box" id="mainSearch" placeholder="Search categories or snippets...">
+
+    <section id="featured">
+        <h2>Featured Snippet</h2>
+        <div class="card">
+            <h3>Prime Number Check</h3>
+            <p>Determine if a number is prime using the efficient $O(\sqrt{n})$ method.</p>
+            
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'prime-py', 'featured-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-js', 'featured-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-cpp', 'featured-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-java', 'featured-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-cs', 'featured-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-go', 'featured-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('featured-box')">Copy Code</button>
+            </div>
+            <pre id="featured-box" class="code-display">Loading featured code...</pre>
+        </div>
+    </section>
+
+    <h2>Categories</h2>
+    <div class="category-grid">
+        <div class="card content-card">
+            <div>
+                <h3>Mathematics</h3>
+                <p>Prime numbers, Factorials, Fibonacci sequences, and Geometry logic.</p>
+            </div>
+            <a href="Math.html" class="browse-link">Browse Math &rarr;</a>
+        </div>
+
+        <div class="card content-card">
+            <div>
+                <h3>Sorting</h3>
+                <p>Quick sort, Merge sort, and basic Bubble sort implementations.</p>
+            </div>
+            <a href="Sorting.html" class="browse-link">Browse Sorting &rarr;</a>
+        </div>
+
+        <div class="card content-card">
+            <div>
+                <h3>Strings</h3>
+                <p>Palindrome checks, Reversing strings, and Pattern matching.</p>
+            </div>
+            <a href="Strings.html" class="browse-link">Browse Strings &rarr;</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    &copy; 2026 CodePedia Encyclopedia | Hosted on GitHub Pages
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
