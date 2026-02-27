@@ -1,0 +1,15 @@
+long long lcm(int a, int b) {
+    if (a == 0 || b == 0) return 0;
+    return abs((long long)a * b) / gcd(a, b);
+}
+
+
+long long lcm(int a, int b) {
+    if (a == 0 || b == 0) return 0;
+    int x = abs(a), y = abs(b);
+    while (y) {
+        x %= y;
+        int temp = x; x = y; y = temp;
+    }
+    return abs((long long)(a / x) * b);
+}

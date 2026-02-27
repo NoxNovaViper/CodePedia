@@ -1,0 +1,15 @@
+function lcm(a, b) {//If u wanna write gcd code
+    if (a === 0 || b === 0) return 0;
+    return Math.abs(a * b) / gcd(a, b);
+}
+
+
+function lcm(a, b) {//if u don't
+    if (a === 0 || b === 0) return 0;
+    let x = Math.abs(a), y = Math.abs(b);
+    while (y) {
+        x %= y;
+        [x, y] = [y, x];
+    }
+    return Math.abs((a / x) * b);
+}

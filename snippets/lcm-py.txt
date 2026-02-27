@@ -1,0 +1,14 @@
+def lcm(a, b):
+    if a == 0 or b == 0: return 0
+    return abs(a * b) // gcd(a, b)
+
+
+def lcm(a, b):
+    if a == 0 or b == 0: return 0
+    # Internal GCD logic to stay standalone
+    temp_a, temp_b = abs(a), abs(b)
+    while temp_b:
+        temp_a, temp_b = temp_b, temp_a % temp_b
+    
+    # temp_a is now the GCD
+    return abs(a // temp_a * b)

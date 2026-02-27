@@ -1,0 +1,8 @@
+func factorial(n int) int64 {
+    if n < 0 { return -1 }
+    var res int64 = 1
+    for i := 2; i <= n; i++ {
+        res *= int64(i)
+    }
+    return res
+}

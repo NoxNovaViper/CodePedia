@@ -1,0 +1,16 @@
+public static long lcm(int a, int b) {
+    if (a == 0 || b == 0) return 0;
+    return Math.abs((long)a * b) / gcd(a, b);
+}
+
+
+public static long lcm(int a, int b) {
+    if (a == 0 || b == 0) return 0;
+    int x = Math.abs(a), y = Math.abs(b);
+    while (y != 0) {
+        int temp = y;
+        y = x % y;
+        x = temp;
+    }
+    return Math.abs((long)(a / x) * b);
+}

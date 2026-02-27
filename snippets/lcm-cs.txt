@@ -1,0 +1,16 @@
+public static long Lcm(int a, int b) {
+    if (a == 0 || b == 0) return 0;
+    return Math.Abs((long)a * b) / Gcd(a, b);
+}
+
+
+public static long Lcm(int a, int b) {
+    if (a == 0 || b == 0) return 0;
+    int x = Math.Abs(a), y = Math.Abs(b);
+    while (y != 0) {
+        int temp = y;
+        y = x % y;
+        x = temp;
+    }
+    return Math.Abs((long)(a / x) * b);
+}

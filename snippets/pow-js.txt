@@ -1,0 +1,6 @@
+function power(base, exp) {//For positive integer exponents only
+    let res = 1;
+    for (let i = 0; i < exp; i++) 
+        res = res * base;
+    return res;
+}

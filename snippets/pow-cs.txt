@@ -1,0 +1,6 @@
+public static long Power(int base, int exp) {
+    long res = 1;
+    for (int i = 0; i < exp; i++) 
+        res =  res * base;
+    return res;
+}

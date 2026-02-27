@@ -1,0 +1,7 @@
+func power(base, exp int) int64 {
+    var res int64 = 1
+    for i := 0; i < exp; i++ {
+        res = res * int64(base)
+    }
+    return res
+}
