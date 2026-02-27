@@ -5,143 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Chat | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
-    <style>
-        #chat-window {
-            height: 450px;
-            overflow-y: auto;
-            background: #0d1117;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .message { 
-            padding: 10px 15px; 
-            border-radius: 8px; 
-            background: var(--card); 
-            border-left: 4px solid var(--accent);
-            max-width: 85%;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .msg-user { color: var(--accent); font-weight: bold; display: block; font-size: 0.8rem; margin-bottom: 4px; }
-        .msg-text { color: var(--text); word-wrap: break-word; }
-        
-        #chat-form { display: flex; gap: 10px; }
-        #msg-input { 
-            flex-grow: 1; 
-            padding: 12px; 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            border-radius: 6px;
-            color: white; 
-            outline: none;
-        }
-        #msg-input:focus { border-color: var(--accent); }
-        
-        .admin-controls { margin-top: 10px; display: flex; justify-content: flex-end; }
-        .clear-btn { background: #da3633; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; opacity: 0.6; }
-        .clear-btn:hover { opacity: 1; }
-    </style>
 </head>
 <body>
 
 <header>
     <nav><a href="index.html">&larr; Back to Home</a></nav>
     <h1>Global Dev Chat</h1>
-    <p>Real-time discussion with the CodePedia community.</p>
 </header>
 
 <div class="container">
-    <div id="chat-window">
-        <div class="message" style="border-left-color: #555;">
-            <span class="msg-user">System</span>
-            <span class="msg-text">Welcome to CodePedia Chat! Start typing below to join the conversation.</span>
+    <div class="chat-controls">
+        <div class="chat-input-group">
+            <label>Your Nickname</label>
+            <input type="text" id="nickname-input" class="chat-nick" placeholder="Enter name...">
+        </div>
+        <div class="chat-input-group">
+            <label>Discussion Group</label>
+            <select id="room-select" class="chat-select">
+                <option value="global">🌍 Global Chat</option>
+                <option value="python">🐍 Python Group</option>
+                <option value="web-dev">💻 Web Dev</option>
+                <option value="math-logic">🧮 Math Logic</option>
+            </select>
         </div>
     </div>
 
+    <div id="chat-window"></div>
+
     <form id="chat-form">
-        <input type="text" id="msg-input" placeholder="Type your message..." required autocomplete="off">
-        <button type="submit" class="copy-btn" style="padding: 0 25px;">Send</button>
+        <input type="text" id="msg-input" placeholder="Type a message..." required autocomplete="off">
+        <button type="submit" class="copy-btn">Send</button>
     </form>
 
-    <div class="admin-controls" id="admin-panel" style="display:none;">
-        <button id="clear-chat" class="clear-btn">Clear History (Admin Only)</button>
+    <div class="admin-area" id="admin-panel">
+        <button id="clear-chat" class="clear-btn">Clear Room History</button>
     </div>
 </div>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded, serverTimestamp, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCIMbWOjtAyx-YOEqAYfPJ5ul_7M2iARIw",
-        authDomain: "codepedia-e2bcb.firebaseapp.com",
-        projectId: "codepedia-e2bcb",
-        storageBucket: "codepedia-e2bcb.firebasestorage.app",
-        messagingSenderId: "1003347138801",
-        appId: "1:1003347138801:web:b58a0e5595f790d74ff150",
-        measurementId: "G-2W6S6DNDV2",
-        databaseURL: "https://codepedia-e2bcb-default-rtdb.firebaseio.com"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const messagesRef = ref(db, 'messages');
-
-    const chatWindow = document.getElementById('chat-window');
-    const chatForm = document.getElementById('chat-form');
-    const msgInput = document.getElementById('msg-input');
-    const clearBtn = document.getElementById('clear-chat');
-
-    // 🕵️ ADMIN CHECK: To see the clear button, add ?admin=true to your URL
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('admin') === 'true') {
-        document.getElementById('admin-panel').style.display = 'block';
-    }
-
-    const username = "Dev-" + Math.floor(Math.random() * 9999);
-
-    chatForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const text = msgInput.value.trim();
-        if (text) {
-            push(messagesRef, {
-                username: username,
-                text: text,
-                timestamp: serverTimestamp()
-            });
-            msgInput.value = "";
-        }
-    });
-
-    // Handle incoming messages
-    onChildAdded(messagesRef, (snapshot) => {
-        const data = snapshot.val();
-        if(!data) return;
-        
-        const messageEl = document.createElement('div');
-        messageEl.classList.add('message');
-        messageEl.innerHTML = `
-            <span class="msg-user">${data.username}</span>
-            <span class="msg-text">${data.text}</span>
-        `;
-        chatWindow.appendChild(messageEl);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    });
-
-    // Admin Clear Chat functionality
-    clearBtn.addEventListener('click', () => {
-        if(confirm("Are you sure you want to delete all messages?")) {
-            set(messagesRef, null);
-            location.reload(); // Refresh to clear the screen
-        }
-    });
-</script>
-
+<script type="module" src="script.js"></script>
 </body>
 </html>

@@ -98,3 +98,86 @@ window.onload = () => {
     });
     console.log("CodePedia Logic Loaded Successfully!");
 };
+/* --- CHAT ENGINE --- */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getDatabase, ref, push, onChildAdded, serverTimestamp, set, off } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCIMbWOjtAyx-YOEqAYfPJ5ul_7M2iARIw",
+    authDomain: "codepedia-e2bcb.firebaseapp.com",
+    projectId: "codepedia-e2bcb",
+    storageBucket: "codepedia-e2bcb.firebasestorage.app",
+    messagingSenderId: "1003347138801",
+    appId: "1:1003347138801:web:b58a0e5595f790d74ff150",
+    measurementId: "G-2W6S6DNDV2",
+    databaseURL: "https://codepedia-e2bcb-default-rtdb.firebaseio.com"
+};
+
+// Only initialize if we are on the Chat page
+if (document.getElementById('chat-window')) {
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    
+    const chatWindow = document.getElementById('chat-window');
+    const chatForm = document.getElementById('chat-form');
+    const msgInput = document.getElementById('msg-input');
+    const roomSelect = document.getElementById('room-select');
+    const nickInput = document.getElementById('nickname-input');
+    const clearBtn = document.getElementById('clear-chat');
+
+    // 1. Setup User Identity
+    nickInput.value = localStorage.getItem('cp-nickname') || "Dev-" + Math.floor(Math.random() * 9999);
+    nickInput.onchange = () => localStorage.setItem('cp-nickname', nickInput.value);
+
+    // 2. Room Management
+    let currentRoom = 'global';
+    let messagesRef;
+
+    function connectToRoom(roomName) {
+        if (messagesRef) off(messagesRef); // Stop listening to old room
+        currentRoom = roomName;
+        chatWindow.innerHTML = `<div class="message"><span class="msg-text">Joined ${roomName}...</span></div>`;
+        messagesRef = ref(db, 'rooms/' + currentRoom);
+
+        onChildAdded(messagesRef, (snapshot) => {
+            const data = snapshot.val();
+            if(!data) return;
+            displayMessage(data.username, data.text);
+        });
+    }
+
+    function displayMessage(user, text) {
+        const div = document.createElement('div');
+        div.className = 'message';
+        div.innerHTML = `<span class="msg-user">${user}</span><span class="msg-text">${text}</span>`;
+        chatWindow.appendChild(div);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    }
+
+    // 3. Events
+    chatForm.onsubmit = (e) => {
+        e.preventDefault();
+        if (msgInput.value.trim()) {
+            push(messagesRef, {
+                username: nickInput.value,
+                text: msgInput.value,
+                timestamp: serverTimestamp()
+            });
+            msgInput.value = "";
+        }
+    };
+
+    roomSelect.onchange = (e) => connectToRoom(e.target.value);
+
+    // 4. Admin Trick
+    if (new URLSearchParams(window.location.search).get('admin') === 'true') {
+        document.getElementById('admin-panel').style.display = 'flex';
+    }
+
+    clearBtn.onclick = () => {
+        if(confirm("Clear this group's history?")) set(messagesRef, null).then(() => location.reload());
+    };
+
+    // Initial Connect
+    connectToRoom('global');
+}

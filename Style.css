@@ -172,3 +172,76 @@ footer {
 .browse-link:hover {
     text-decoration: underline;
 }
+/* --- Global Chat Enhancements --- */
+.chat-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.chat-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+}
+
+.chat-input-group label {
+    font-size: 0.75rem;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.chat-select, .chat-nick {
+    padding: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: white;
+    outline: none;
+}
+
+#chat-window {
+    height: 450px;
+    overflow-y: auto;
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.message { 
+    padding: 10px 15px; 
+    border-radius: 8px; 
+    background: var(--card); 
+    border-left: 4px solid var(--accent);
+    max-width: 85%;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+.msg-user { color: var(--accent); font-weight: bold; display: block; font-size: 0.8rem; margin-bottom: 4px; }
+.msg-text { color: var(--text); word-wrap: break-word; }
+
+/* Admin Controls */
+.admin-area {
+    margin-top: 10px;
+    display: none; /* Hidden by default */
+    justify-content: flex-end;
+}
+
+.clear-btn {
+    background: #da3633;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.7rem;
+}
