@@ -1,0 +1,17 @@
+static int[] MergeSort(int[] arr) {
+    if (arr.Length <= 1) return arr;
+    int mid = arr.Length / 2;
+    int[] left = MergeSort(arr[..mid]);
+    int[] right = MergeSort(arr[mid..]);
+    return Merge(left, right);
+}
+
+static int[] Merge(int[] left, int[] right) {
+    int[] result = new int[left.Length + right.Length];
+    int i = 0, j = 0, k = 0;
+    while (i < left.Length && j < right.Length)
+        result[k++] = (left[i] <= right[j]) ? left[i++] : right[j++];
+    while (i < left.Length) result[k++] = left[i++];
+    while (j < right.Length) result[k++] = right[j++];
+    return result;
+}
