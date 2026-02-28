@@ -1,4 +1,0 @@
-for r in range(rows):
-    for c in range(cols):
-        print(matrix[r][c], end=" ")
-    print() # New line after each row
