@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Page Not Found | CodePedia</title>
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        .error-container {
+            text-align: center;
+            padding: 6rem 1.5rem;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: bold;
+            color: var(--accent);
+            line-height: 1;
+            margin: 0;
+            opacity: 0.15;
+            letter-spacing: -4px;
+        }
+
+        .error-title {
+            font-size: 1.6rem;
+            margin: 0.5rem 0;
+            color: var(--text);
+        }
+
+        .error-sub {
+            color: #555;
+            margin-bottom: 2.5rem;
+            font-size: 0.95rem;
+        }
+
+        .error-code-block {
+            display: inline-block;
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem 2rem;
+            font-family: 'Courier New', monospace;
+            color: #79c0ff;
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
+            text-align: left;
+        }
+
+        .error-links {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .error-links a {
+            color: var(--accent);
+            text-decoration: none;
+            border: 1px solid var(--border);
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .error-links a:hover {
+            border-color: var(--accent);
+            background: rgba(88, 166, 255, 0.08);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html">&larr; Home</a>
+        <a href="Math.html">Math</a>
+        <a href="Sorting.html">Sorting</a>
+        <a href="Strings.html">Strings</a>
+        <a href="Searching.html">Searching</a>
+        <a href="Traversal.html">2D Traversal</a>
+        <a href="Chat.html">💬 Live Chat</a>
+    </nav>
+    <h1>CodePedia</h1>
+    <p>The Universal Code Encyclopedia for the Big 6 Languages</p>
+</header>
+
+<div class="container">
+    <div class="error-container">
+
+        <p class="error-code">404</p>
+        <h2 class="error-title">Page Not Found</h2>
+        <p class="error-sub">Looks like this page doesn't exist or was moved.</p>
+
+        <div class="error-code-block">
+            <span style="color:#ff7b72;">Error</span>: Cannot GET <span style="color:#79c0ff;" id="bad-url"></span><br>
+            <span style="color:#3fb950;">Hint</span>: Try one of the links below 👇
+        </div>
+
+        <div class="error-links">
+            <a href="index.html">🏠 Home</a>
+            <a href="Math.html">Math</a>
+            <a href="Sorting.html">Sorting</a>
+            <a href="Strings.html">Strings</a>
+            <a href="Searching.html">Searching</a>
+            <a href="Traversal.html">2D Traversal</a>
+            <a href="Chat.html">💬 Chat</a>
+        </div>
+
+    </div>
+</div>
+
+<footer>&copy; 2026 CodePedia Encyclopedia | Hosted on GitHub Pages</footer>
+
+<script>
+    // Show the bad URL they tried to visit
+    document.getElementById('bad-url').textContent =
+        window.location.pathname.replace('/CodePedia', '') || '/unknown';
+</script>
+
+</body>
+</html>
