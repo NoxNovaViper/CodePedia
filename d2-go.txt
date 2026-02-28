@@ -1,6 +1,0 @@
-// Move Diagonally Left-Down from a point (r, c)
-for r < rows && c >= 0 {
-    fmt.Printf("%d ", matrix[r][c])
-    r++
-    c--
-}
