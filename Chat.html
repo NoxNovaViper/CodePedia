@@ -1,10 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="description" content="Live Chat on CodePedia — a free community for developers to discuss algorithms and code.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Chat | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
+    <style>
+        /* ── Chat layout ── */
+        .chat-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+            background: var(--card);
+        }
+
+        /* ── Online bar ── */
+        .chat-topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: var(--tab-bg);
+            border-bottom: 1px solid var(--border);
+            font-size: 0.8rem;
+        }
+        .online-dot {
+            width: 8px; height: 8px;
+            background: #3fb950;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.4; }
+        }
+        .chat-username-tag {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.78rem;
+        }
+
+        /* ── Message window ── */
+        #chat-window {
+            height: 480px;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #0d1117;
+            scroll-behavior: smooth;
+        }
+
+        /* ── Messages ── */
+        .message {
+            padding: 10px 14px;
+            border-radius: 8px;
+            background: var(--card);
+            border-left: 4px solid var(--accent);
+            max-width: 80%;
+            animation: fadeIn 0.25s ease;
+            word-break: break-word;
+        }
+        .message.own {
+            align-self: flex-end;
+            border-left: none;
+            border-right: 4px solid #3fb950;
+        }
+        .message.system-msg {
+            align-self: center;
+            border-left: none;
+            border: 1px dashed #555;
+            background: transparent;
+            font-size: 0.8rem;
+            color: #555;
+            max-width: 100%;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .msg-user {
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 0.78rem;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        .message.own .msg-user { color: #3fb950; }
+        .msg-time { color: #555; font-size: 0.7rem; font-weight: normal; }
+        .msg-text { color: var(--text); font-size: 0.92rem; }
+
+        /* ── Input area ── */
+        .chat-inputbar {
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            background: var(--tab-bg);
+            border-top: 1px solid var(--border);
+        }
+        #msg-input {
+            flex-grow: 1;
+            padding: 10px 14px;
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: white;
+            outline: none;
+            font-size: 0.92rem;
+        }
+        #msg-input:focus { border-color: var(--accent); }
+
+        .send-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
+        }
+        .send-btn:hover { opacity: 0.85; }
+
+        /* ── Cooldown hint ── */
+        #cooldown-hint {
+            font-size: 0.72rem;
+            color: #da3633;
+            padding: 4px 12px;
+            min-height: 1.2em;
+            background: var(--tab-bg);
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── Admin panel ── */
+        #admin-panel {
+            display: none;
+            padding: 10px 12px;
+            background: rgba(218, 54, 51, 0.08);
+            border-top: 1px solid #da3633;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            color: #da3633;
+        }
+        .clear-btn {
+            background: #da3633;
+            color: white;
+            border: none;
+            padding: 5px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+        .clear-btn:hover { opacity: 0.8; }
+    </style>
 </head>
 <body>
 
@@ -15,23 +178,44 @@
         <a href="Sorting.html">Sorting</a>
         <a href="Strings.html">Strings</a>
         <a href="Searching.html">Searching</a>
+        <a href="Traversal.html">2D Traversal</a>
     </nav>
     <h1>Global Dev Chat</h1>
     <p>Real-time discussion with the CodePedia community.</p>
 </header>
 
 <div class="container">
-    <div id="chat-window">
-        <div class="message" style="border-left-color: #555;">
-            <span class="msg-user">System</span>
-            <span class="msg-text">Welcome to CodePedia Chat! Start typing below to join the conversation.</span>
+    <div class="chat-wrapper">
+
+        <!-- Top bar: live indicator + your username -->
+        <div class="chat-topbar">
+            <span><span class="online-dot"></span>Live Chat</span>
+            <span class="chat-username-tag" id="username-display">Connecting...</span>
         </div>
+
+        <!-- Message window -->
+        <div id="chat-window">
+            <div class="message system-msg">
+                Welcome to CodePedia Chat — be respectful 👋
+            </div>
+        </div>
+
+        <!-- Input bar -->
+        <div class="chat-inputbar">
+            <input type="text" id="msg-input" placeholder="Type a message..." autocomplete="off" maxlength="500">
+            <button class="send-btn" id="send-btn">Send</button>
+        </div>
+
+        <!-- Cooldown hint -->
+        <div id="cooldown-hint"></div>
+
+        <!-- Admin panel — hidden unless ?admin=true -->
+        <div id="admin-panel">
+            <span>⚠️ Admin Mode</span>
+            <button class="clear-btn" id="clear-btn">🗑 Clear All Messages</button>
+        </div>
+
     </div>
-    <form id="chat-form">
-        <input type="text" id="msg-input" placeholder="Type your message..." required autocomplete="off" maxlength="500">
-        <button type="submit" class="copy-btn" style="padding: 0 25px;">Send</button>
-    </form>
-    <div id="cooldown-hint"></div>
 </div>
 
 <script type="module" src="script.js"></script>
