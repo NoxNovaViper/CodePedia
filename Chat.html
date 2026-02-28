@@ -57,7 +57,12 @@
 <body>
 
 <header>
-    <nav><a href="index.html">&larr; Back to Home</a></nav>
+    <nav>
+        <a href="index.html">&larr; Home</a>
+        <a href="Math.html">Math</a>
+        <a href="Sorting.html">Sorting</a>
+        <a href="Strings.html">Strings</a>
+    </nav>
     <h1>Global Dev Chat</h1>
     <p>Real-time discussion with the CodePedia community.</p>
 </header>
@@ -76,89 +81,7 @@
     </form>
     <div id="cooldown-hint"></div>
 </div>
-
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, onChildAdded, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyCIMbWOjtAyx-YOEqAYfPJ5ul_7M2iARIw",
-        authDomain: "codepedia-e2bcb.firebaseapp.com",
-        projectId: "codepedia-e2bcb",
-        storageBucket: "codepedia-e2bcb.firebasestorage.app",
-        messagingSenderId: "1003347138801",
-        appId: "1:1003347138801:web:b58a0e5595f790d74ff150",
-        databaseURL: "https://codepedia-e2bcb-default-rtdb.firebaseio.com"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const messagesRef = ref(db, 'messages');
-
-    const chatWindow = document.getElementById('chat-window');
-    const chatForm = document.getElementById('chat-form');
-    const msgInput = document.getElementById('msg-input');
-    const cooldownHint = document.getElementById('cooldown-hint');
-
-    const username = "Dev-" + Math.floor(Math.random() * 9999);
-
-    // Spam cooldown: 3 seconds between messages
-    let lastSent = 0;
-    const COOLDOWN_MS = 3000;
-
-    chatForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const now = Date.now();
-        const remaining = COOLDOWN_MS - (now - lastSent);
-        if (remaining > 0) {
-            cooldownHint.textContent = `Please wait ${(remaining / 1000).toFixed(1)}s before sending again.`;
-            return;
-        }
-
-        const text = msgInput.value.trim();
-        if (text) {
-            push(messagesRef, {
-                username: username,
-                text: text,
-                timestamp: serverTimestamp()
-            });
-            msgInput.value = "";
-            lastSent = Date.now();
-            cooldownHint.textContent = "";
-        }
-    });
-
-    // FIX: Use textContent instead of innerHTML to prevent XSS
-    onChildAdded(messagesRef, (snapshot) => {
-        const data = snapshot.val();
-        if (!data) return;
-        
-        const messageEl = document.createElement('div');
-        messageEl.classList.add('message');
-
-        const userEl = document.createElement('span');
-        userEl.className = 'msg-user';
-        userEl.textContent = data.username; // Safe — no HTML injection
-
-        const textEl = document.createElement('span');
-        textEl.className = 'msg-text';
-        textEl.textContent = data.text; // Safe — no HTML injection
-
-        // Show timestamp if available
-        if (data.timestamp) {
-            const timeEl = document.createElement('span');
-            timeEl.className = 'msg-time';
-            const d = new Date(data.timestamp);
-            timeEl.textContent = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            userEl.appendChild(timeEl);
-        }
-
-        messageEl.append(userEl, textEl);
-        chatWindow.appendChild(messageEl);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
-    });
-</script>
-
+<script type="module" src="script.js"></script>
+<script type="module" src="extra.js"></script>
 </body>
 </html>

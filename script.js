@@ -1,6 +1,7 @@
 /**
  * CODEPEDIA CORE LOGIC 2026
- * Handles: Snippet Fetching, Multi-level Search, Visualizers, and Clipboard
+ * Handles: Snippet Fetching, Multi-level Search, and Clipboard
+ * Page-specific logic (visualizer, chat) lives in extra.js
  */
 
 // 1. Snippet Loader
@@ -41,28 +42,7 @@ document.addEventListener('input', function(e) {
     }
 });
 
-// 3. Math Visualizer Logic
-const slider = document.getElementById('mathSlider');
-if (slider) {
-    slider.oninput = function() {
-        const output = document.getElementById('visualizer-output');
-        const explanation = document.getElementById('logic-explanation');
-        const val = parseInt(this.value);
-        const pair = (36 / val).toFixed(1);
-        
-        output.innerHTML = `Factor Pair: ${val} × ${pair}`;
-        
-        if (val < 6) {
-            explanation.innerHTML = `Checking <strong>${val}</strong>: Since it's less than √36 (6), we find its partner ${pair} above 6.`;
-        } else if (val === 6) {
-            explanation.innerHTML = `<strong>At √36</strong>: Factors meet at 6 × 6! Checking further is redundant.`;
-        } else {
-            explanation.innerHTML = `Checking <strong>${val}</strong>: Already found ${pair} earlier. No need to keep checking!`;
-        }
-    };
-}
-
-// 4. Copy to Clipboard
+// 3. Copy to Clipboard
 async function copyCode(targetId) {
     const code = document.getElementById(targetId).textContent;
     const btn = document.querySelector(`button[onclick="copyCode('${targetId}')"]`);
@@ -81,15 +61,15 @@ async function copyCode(targetId) {
     }
 }
 
-// 5. Initial Setup — use DOMContentLoaded instead of window.onload
+// 4. Initial Setup
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.tabs').forEach(tabContainer => {
         const firstBtn = tabContainer.querySelector('.tab-btn');
         if (firstBtn) firstBtn.click();
     });
-    console.log("CodePedia Logic Loaded Successfully!");
+    console.log("CodePedia Core Loaded.");
 });
 
-// FIX: Expose functions globally so inline onclick attributes work with type="module"
+// Expose to global scope for inline onclick attributes (required with type="module")
 window.openLang = openLang;
 window.copyCode = copyCode;
