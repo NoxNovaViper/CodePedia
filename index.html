@@ -6,6 +6,26 @@
     <title>CodePedia | Home</title>
     <link rel="stylesheet" href="Style.css">
     
+    <style>
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+            border-color: var(--accent);
+        }
+        .featured-card {
+            border-left: 4px solid var(--accent);
+        }
+        .chat-highlight {
+            background: linear-gradient(145deg, rgba(0, 212, 255, 0.1), rgba(0, 0, 0, 0));
+        }
+    </style>
+
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -14,43 +34,43 @@
 <header>
     <div class="glow-effect"></div>
     <h1>CodePedia <span class="accent-text">2026</span></h1>
-    <p class="subtitle">The Universal Code Encyclopedia for the Big 6 Languages</p>
+    <p class="subtitle">The Modern Encyclopedia for the World's Top 6 Languages</p>
 </header>
 
 <div class="container">
     <div class="search-wrapper">
-        <input type="text" class="search-box" id="mainSearch" placeholder="Search categories, logic, or keywords..." onkeyup="filterCategories()">
+        <input type="text" class="search-box" id="mainSearch" placeholder="Search by language, logic, or keyword..." onkeyup="filterCategories()">
     </div>
 
     <section id="featured">
-        <h2 class="section-title">⚡ FEATURED_SNIPPET</h2>
+        <h2 class="section-title">⭐ Featured Snippet</h2>
         <div class="card featured-card">
             <div class="featured-info">
                 <h3>Prime Number Check</h3>
-                <p>Determine primality using the efficient \(O(\sqrt{n})\) method.</p>
+                <p>Efficiently determine primality using the \(O(\sqrt{n})\) approach.</p>
             </div>
             
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'prime-py', 'featured-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'prime-js', 'featured-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-js', 'featured-box')">JavaScript</button>
                 <button class="tab-btn" onclick="openLang(event, 'prime-cpp', 'featured-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'prime-java', 'featured-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'prime-cs', 'featured-box')">C#</button>
                 <button class="tab-btn" onclick="openLang(event, 'prime-go', 'featured-box')">Go</button>
             </div>
 
-            <pre id="featured-box" class="code-display">Initializing repository...</pre>
+            <pre id="featured-box" class="code-display">Select a language to view the code...</pre>
         </div>
     </section>
 
-    <h2 class="section-title">📂 CATEGORIES</h2>
+    <h2 class="section-title">📂 Explore Categories</h2>
     <div class="category-grid" id="categoryGrid">
         
         <div class="card content-card" onclick="location.href='Math.html'">
             <div class="card-info">
                 <div class="icon">∑</div>
                 <h3>Mathematics</h3>
-                <p>Prime numbers, Factorials, Fibonacci, and Geometry.</p>
+                <p>Formulas, Prime Logic, and Geometric Algorithms.</p>
             </div>
             <span class="browse-arrow">&rarr;</span>
         </div>
@@ -59,7 +79,7 @@
             <div class="card-info">
                 <div class="icon">⇅</div>
                 <h3>Sorting</h3>
-                <p>Quick sort, Merge sort, and optimized Bubble sort.</p>
+                <p>Organize data with Quick, Merge, and Bubble sort.</p>
             </div>
             <span class="browse-arrow">&rarr;</span>
         </div>
@@ -68,16 +88,16 @@
             <div class="card-info">
                 <div class="icon">" "</div>
                 <h3>Strings</h3>
-                <p>Palindrome checks, Reversals, and Pattern matching.</p>
+                <p>Text processing, Palindromes, and Reversals.</p>
             </div>
             <span class="browse-arrow">&rarr;</span>
         </div>
 
         <div class="card content-card chat-highlight" onclick="location.href='Chat.html'">
             <div class="card-info">
-                <div class="icon">●</div>
-                <h3>Community Chat</h3>
-                <p>Live discussion, peer review, and shared IDE streams.</p>
+                <div class="icon" style="color: var(--accent);">●</div>
+                <h3>Live Dev Chat</h3>
+                <p>Join the community to collaborate and share code live.</p>
             </div>
             <span class="browse-arrow">&rarr;</span>
         </div>
@@ -85,30 +105,9 @@
 </div>
 
 <footer>
-    <p>&copy; 2026 CodePedia Encyclopedia | Multi-Language Dev Hub</p>
+    <p>&copy; 2026 CodePedia | Built for the Developer Community</p>
 </footer>
 
 <script type="module" src="script.js"></script>
-
-<script type="module">
-    // Logic for instant filtering
-    window.filterCategories = function() {
-        let input = document.getElementById('mainSearch').value.toLowerCase();
-        let cards = document.querySelectorAll('.content-card');
-
-        cards.forEach(card => {
-            let title = card.querySelector('h3').innerText.toLowerCase();
-            let desc = card.querySelector('p').innerText.toLowerCase();
-            card.style.display = (title.includes(input) || desc.includes(input)) ? "" : "none";
-        });
-    }
-
-    // Auto-load default tab
-    window.addEventListener('DOMContentLoaded', () => {
-        const firstTab = document.querySelector('.tab-btn.active');
-        if (firstTab) firstTab.click();
-    });
-</script>
-
 </body>
 </html>

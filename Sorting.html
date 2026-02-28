@@ -8,67 +8,100 @@
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        .sort-section { 
+            margin-bottom: 4rem; 
+            padding: 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+
+        .complexity {
+            font-family: 'Fira Code', monospace;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .algorithm-desc {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 
 <header>
-    <nav><a href="index.html" class="back-link">&larr; BACK_TO_ROOT</a></nav>
-    <h1 class="main-title">SORTING_ALGORITHMS</h1>
-    <p>Efficient ways to organize and optimize data structures.</p>
+    <nav><a href="index.html" class="back-link">&larr; Home</a></nav>
+    <h1 class="main-title">Sorting Algorithms</h1>
+    <p>Efficient ways to organize data for better performance and searchability.</p>
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Filter algorithms (e.g., 'Quick')..." onkeyup="filterSorting()">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Filter algorithms (e.g., 'Quick', 'Bubble')..." onkeyup="filterSorting()">
 
     <section class="sort-section" data-name="bubble">
         <div class="section-header">
-            <h2>Bubble Sort</h2>
-            <span class="complexity">\(O(n^2)\)</span>
+            <h2 class="section-title">Bubble Sort</h2>
+            <span class="complexity">Time: \(O(n^2)\)</span>
         </div>
-        <p>A simple comparison sort that repeatedly swaps adjacent elements if they are in the wrong order. Best used for small datasets or educational purposes.</p>
-        
-        
+        <p class="algorithm-desc">A straightforward comparison sort that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. Best for educational purposes or nearly-sorted data.</p>
         
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'bubble-py', 'bubble-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'bubble-js', 'bubble-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'bubble-js', 'bubble-box')">JavaScript</button>
                 <button class="tab-btn" onclick="openLang(event, 'bubble-cpp', 'bubble-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'bubble-java', 'bubble-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'bubble-go', 'bubble-box')">Go</button>
             </div>
-            <pre id="bubble-box" class="code-display">Accessing sorting buffer...</pre>
+            <pre id="bubble-box" class="code-display">Select a language to view the sorting logic...</pre>
         </div>
     </section>
 
+    
+
     <section class="sort-section" data-name="quick">
         <div class="section-header">
-            <h2>Quick Sort</h2>
-            <span class="complexity">\(O(n \log n)\)</span>
+            <h2 class="section-title">Quick Sort</h2>
+            <span class="complexity">Avg: \(O(n \log n)\)</span>
         </div>
-        <p>A highly efficient divide-and-conquer algorithm. It partitions an array into two sub-arrays around a 'pivot' and sorts them recursively.</p>
-        
-        
+        <p class="algorithm-desc">A high-performance divide-and-conquer algorithm. It picks a 'pivot' element and partitions the array into two sub-arrays, sorting them recursively. It is the standard for most modern sorting libraries.</p>
         
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'quick-py', 'quick-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'quick-js', 'quick-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'quick-js', 'quick-box')">JavaScript</button>
                 <button class="tab-btn" onclick="openLang(event, 'quick-cpp', 'quick-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'quick-java', 'quick-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'quick-go', 'quick-box')">Go</button>
             </div>
-            <pre id="quick-box" class="code-display">Accessing sorting buffer...</pre>
+            <pre id="quick-box" class="code-display">Select a language to view the sorting logic...</pre>
         </div>
     </section>
 </div>
 
-<footer>&copy; 2026 CodePedia Sorting | Logic_Stream_Active</footer>
+<footer>
+    <p>&copy; 2026 CodePedia | Sorting & Optimization Hub</p>
+</footer>
 
 <script type="module" src="script.js"></script>
 
 <script>
-    // INSTANT FILTER LOGIC
     window.filterSorting = function() {
         let input = document.getElementById('pageSearch').value.toLowerCase();
         let sections = document.querySelectorAll('.sort-section');

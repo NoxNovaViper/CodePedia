@@ -3,117 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Math Encyclopedia | CodePedia</title>
+    <title>Math Guide | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
     
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <style>
+        /* Modernized Visualizer */
         .visualizer-card {
-            background: #0a0a0f;
-            border: 1px solid var(--border);
-            padding: 2rem;
-            border-radius: 8px;
+            background: rgba(15, 15, 25, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 2.5rem;
+            border-radius: 16px;
             position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
+        
+        /* Removed the robotic ID tag and replaced with a clean label */
         .visualizer-card::before {
-            content: "ALGO_VISUAL_01";
+            content: "Interactive Tool";
             position: absolute;
-            top: 5px; right: 10px;
-            font-size: 10px; color: var(--accent); opacity: 0.5;
+            top: 12px; right: 20px;
+            font-size: 11px; 
+            letter-spacing: 1px;
+            color: var(--accent); 
+            text-transform: uppercase;
+            font-weight: bold;
         }
+
         .math-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px; align-items: center;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 30px; 
+            align-items: center;
         }
+
         #visualizer-output {
             font-family: 'Fira Code', monospace;
-            color: var(--accent);
-            font-size: 1.8rem;
-            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+            color: #ffffff;
+            font-size: 2.2rem;
+            text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
         }
-        .math-section { margin-bottom: 4rem; }
+
+        .math-section { margin-bottom: 5rem; }
+        
+        .status-label {
+            font-size: 11px;
+            color: var(--accent);
+            letter-spacing: 0.5px;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    <nav><a href="index.html" class="back-link">&larr; BACK_TO_ROOT</a></nav>
-    <h1 class="main-title">MATH_ALGORITHMS</h1>
-    <p>Essential mathematical logic and efficiency visualizers.</p>
+    <nav><a href="index.html" class="back-link">&larr; Home</a></nav>
+    <h1 class="main-title">Mathematical Algorithms</h1>
+    <p>Explore the logic and efficiency behind essential math functions.</p>
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Search math algorithms..." onkeyup="filterMath()">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Search by name or logic (e.g., GCD, Factorial)..." onkeyup="filterMath()">
 
     <section class="math-section" id="prime-visualizer">
-        <h2>Prime Efficiency Visualizer</h2>
-        <p>Mathematical proof for \(O(\sqrt{n})\) factor search.</p>
-        
-        
+        <h2 class="section-title">Prime Efficiency Tool</h2>
+        <p>This visualizer demonstrates why we only need to check factors up to the square root of a number (\(O(\sqrt{n})\)).</p>
         
         <div class="visualizer-card">
             <div class="math-grid">
                 <div class="controls">
+                    <label style="display:block; margin-bottom:10px; font-weight:600;">Test number: 36</label>
                     <input type="range" id="mathSlider" min="1" max="36" value="1" style="width: 100%; accent-color: var(--accent);">
-                    <p id="logic-explanation" style="margin-top: 15px; font-size: 0.9rem;">
-                        Slide to calculate factor pairs for \(n = 36\).
+                    <p id="logic-explanation" style="margin-top: 15px; font-size: 0.95rem; line-height: 1.5; color: #ccc;">
+                        Slide to see how factors are paired.
                     </p>
                 </div>
                 <div style="text-align: right;">
                     <div id="visualizer-output">1 &times; 36.0</div>
-                    <div style="font-size: 10px; opacity: 0.5;">REAL_TIME_COMPUTATION</div>
+                    <div class="status-label">LIVE CALCULATION</div>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="math-section" data-name="factorial">
-        <h2>Factorial (\(n!\))</h2>
-        <p>Product of all positive integers up to \(n\). Time: \(O(n)\).</p>
-        
-        
+        <h2 class="section-title">Factorial (\(n!\))</h2>
+        <p>The product of all positive integers up to \(n\). Total time complexity: \(O(n)\).</p>
 
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'fact-py', 'fact-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'fact-js', 'fact-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'fact-js', 'fact-box')">JavaScript</button>
                 <button class="tab-btn" onclick="openLang(event, 'fact-cpp', 'fact-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'fact-java', 'fact-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'fact-go', 'fact-box')">Go</button>
             </div>
             <div class="code-header">
-                <button class="copy-btn" onclick="copyCode('fact-box')">Copy Code</button>
+                <button class="copy-btn" onclick="copyCode('fact-box')">Copy Snippet</button>
             </div>
-            <pre id="fact-box" class="code-display">Initializing sector...</pre>
+            <pre id="fact-box" class="code-display">Select a language to view the implementation...</pre>
         </div>
     </section>
 
     <section class="math-section" data-name="gcd">
-        <h2>Greatest Common Divisor (GCD)</h2>
-        <p>Euclidean Algorithm: \(\text{gcd}(a, b) = \text{gcd}(b, a \pmod b)\).</p>
-
-        
+        <h2 class="section-title">Greatest Common Divisor (GCD)</h2>
+        <p>Based on the Euclidean Algorithm: \(\text{gcd}(a, b) = \text{gcd}(b, a \pmod b)\).</p>
 
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'gcd-py', 'gcd-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'gcd-js', 'gcd-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'gcd-js', 'gcd-box')">JavaScript</button>
                 <button class="tab-btn" onclick="openLang(event, 'gcd-cpp', 'gcd-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'gcd-java', 'gcd-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'gcd-go', 'gcd-box')">Go</button>
             </div>
             <div class="code-header">
-                <button class="copy-btn" onclick="copyCode('gcd-box')">Copy Code</button>
+                <button class="copy-btn" onclick="copyCode('gcd-box')">Copy Snippet</button>
             </div>
-            <pre id="gcd-box" class="code-display">Initializing sector...</pre>
+            <pre id="gcd-box" class="code-display">Select a language to view the implementation...</pre>
         </div>
     </section>
 </div>
 
-<footer>&copy; 2026 CodePedia Math | Logic_Stream_Active</footer>
+<footer>
+    <p>&copy; 2026 CodePedia | Mathematical Algorithms Guide</p>
+</footer>
 
 <script type="module" src="script.js"></script>
 
@@ -129,11 +145,11 @@
             output.innerHTML = `${val} &times; ${pair}`;
             
             if (val > 6) {
-                explain.innerHTML = `<span style="color:var(--accent)">// REDUNDANT:</span> Pair already identified.`;
+                explain.innerHTML = `<span style="color:var(--accent)">Note:</span> This factor pair was already found (e.g., ${pair} × ${val}).`;
             } else if (val == 6) {
-                explain.innerHTML = `<span style="color:#00ff88">// LIMIT:</span> Square root reached. Search complete.`;
+                explain.innerHTML = `<span style="color:#00ff88">Efficiency Peak:</span> We have reached the square root. Any factors after this point are just repeats!`;
             } else {
-                explain.innerHTML = `// SCANNING: Analyzing factor boundaries...`;
+                explain.innerHTML = `Calculating factor boundaries for 36...`;
             }
         };
     }

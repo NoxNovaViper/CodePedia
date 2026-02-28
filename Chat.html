@@ -124,94 +124,94 @@
 </head>
 <body>
 
-<header>
-    <nav><a href="index.html" class="back-link">&lt;/&gt; BACK_TO_ROOT</a></nav>
-    <h1 class="main-title">CODEPEDIA <span class="accent-text">STREAM</span></h1>
-</header>
-
-<div class="container">
-    <div class="main-wrapper">
-        
-        <div class="chat-section">
+    <header>
+        <nav><a href="index.html" class="back-link">&lt;/&gt; Home</a></nav>
+        <h1 class="main-title">CODEPEDIA <span class="accent-text">STREAM</span></h1>
+    </header>
+    
+    <div class="container">
+        <div class="main-wrapper">
             
-            <div class="leaderboard-card">
-                <h4 class="section-title">Top Bubble Clusters</h4>
-                <div id="leaderboard-list"></div>
-            </div>
-
-            <div id="request-panel">
-                <h4 class="admin-title">Root Admin: Pending Access</h4>
-                <div id="request-list"></div>
-            </div>
-
-            <div class="chat-controls">
-                <div class="control-box">
-                    <label class="control-label">USER_IDENTITY</label>
-                    <div class="control-group">
-                        <input type="text" id="nickname-input" class="chat-nick" placeholder="Awaiting Handshake..." readonly>
-                        <input type="color" id="user-color" value="#00d4ff">
+            <div class="chat-section">
+                
+                <div class="leaderboard-card">
+                    <h4 class="section-title">Top Coding Groups</h4>
+                    <div id="leaderboard-list"></div>
+                </div>
+    
+                <div id="request-panel">
+                    <h4 class="admin-title">Admin: Pending Access</h4>
+                    <div id="request-list"></div>
+                </div>
+    
+                <div class="chat-controls">
+                    <div class="control-box">
+                        <label class="control-label">Your Profile</label>
+                        <div class="control-group">
+                            <input type="text" id="nickname-input" class="chat-nick" placeholder="Connecting..." readonly>
+                            <input type="color" id="user-color" value="#00d4ff">
+                        </div>
+                    </div>
+    
+                    <div class="control-box">
+                        <label class="control-label">Switch Room</label>
+                        <div class="control-group">
+                            <select id="room-select" class="chat-select">
+                                <option value="global">🌍 Global Chat</option>
+                                <optgroup label="Private Groups" id="bubble-list"></optgroup>
+                            </select>
+                            <button id="create-bubble" class="copy-btn" title="Create New Room">+</button>
+                        </div>
                     </div>
                 </div>
-
-                <div class="control-box">
-                    <label class="control-label">TARGET_BUFFER</label>
-                    <div class="control-group">
-                        <select id="room-select" class="chat-select">
-                            <option value="global">🌍 GLOBAL_STREAM</option>
-                            <optgroup label="Dev Bubbles" id="bubble-list"></optgroup>
-                        </select>
-                        <button id="create-bubble" class="copy-btn" title="Spawn New Bubble">+</button>
+    
+                <div id="join-bar" class="join-area" style="display:none;">
+                    <p class="join-msg">[!] Access Denied: This room is private.</p>
+                    <button id="ask-join-btn" class="copy-btn">Request Access</button>
+                </div>
+    
+                <div class="chat-wrap">
+                    <div id="chat-gate">
+                        <div class="gate-card">
+                            <h2 class="gate-title">Login</h2>
+                            <p class="gate-label">Choose a nickname to start chatting and coding.</p>
+                            <input type="text" id="gate-nick" placeholder="Enter Username..." maxlength="15">
+                            <button id="join-chat-btn" class="copy-btn">Join Chat</button>
+                        </div>
                     </div>
+                    
+                    <div id="chat-window"></div>
+                </div>
+    
+                <form id="chat-form">
+                    <button type="button" id="upload-btn" class="attach-btn" onclick="document.getElementById('file-input').click()">📎</button>
+                    <input type="file" id="file-input" accept="image/*" class="hidden-input">
+                    <input type="text" id="msg-input" placeholder="Type a message (use `code` for snippets)..." required autocomplete="off">
+                    <button type="submit" class="copy-btn">Send</button>
+                </form>
+    
+                <div class="footer-actions">
+                    <span class="system-id">Session ID: 2026-CP-ALPHA</span>
+                    <button id="clear-chat">Clear History</button>
                 </div>
             </div>
-
-            <div id="join-bar" class="join-area" style="display:none;">
-                <p class="join-msg">[!] Access Denied: Bubble is Encrypted.</p>
-                <button id="ask-join-btn" class="copy-btn">REQUEST_DECRYPTION_KEY</button>
-            </div>
-
-            <div class="chat-wrap">
-                <div id="chat-gate">
-                    <div class="gate-card">
-                        <h2 class="gate-title">SYSTEM_LOGIN</h2>
-                        <p class="gate-label">Establish a secure developer handle to join the cluster.</p>
-                        <input type="text" id="gate-nick" placeholder="Enter Nickname..." maxlength="15">
-                        <button id="join-chat-btn" class="copy-btn">INITIALIZE_SESSION</button>
-                    </div>
+    
+            <div id="preview-container">
+                <div class="preview-header">
+                    <span><span class="status-dot">●</span> Live Preview</span>
+                    <button onclick="document.getElementById('preview-container').style.display='none'" class="close-preview">&times;</button>
                 </div>
                 
-                <div id="chat-window"></div>
+                <iframe id="live-preview"></iframe>
+                
+                <div id="admin-preview-controls">
+                    <button class="copy-btn" id="approve-download-btn">Download Source Code</button>
+                    <p class="auth-note">Owner Access Only</p>
+                </div>
             </div>
-
-            <form id="chat-form">
-                <button type="button" id="upload-btn" class="attach-btn" onclick="document.getElementById('file-input').click()">📎</button>
-                <input type="file" id="file-input" accept="image/*" class="hidden-input">
-                <input type="text" id="msg-input" placeholder="Broadcast message (use `code` for snippets)..." required autocomplete="off">
-                <button type="submit" class="copy-btn">SEND</button>
-            </form>
-
-            <div class="footer-actions">
-                <span class="system-id">ENCRYPTED_ID: 2026-CP-ALPHA</span>
-                <button id="clear-chat">WIPE_CONSOLE_HISTORY</button>
-            </div>
+    
         </div>
-
-        <div id="preview-container">
-            <div class="preview-header">
-                <span><span class="status-dot">●</span> LIVE_EXECUTION_STDOUT</span>
-                <button onclick="document.getElementById('preview-container').style.display='none'" class="close-preview">&times;</button>
-            </div>
-            
-            <iframe id="live-preview"></iframe>
-            
-            <div id="admin-preview-controls">
-                <button class="copy-btn" id="approve-download-btn">VALIDATE & EXPORT SOURCE_CODE</button>
-                <p class="auth-note">AUTHORIZED_CREATOR_ONLY</p>
-            </div>
-        </div>
-
     </div>
-</div>
 
 <script type="module" src="script.js"></script>
 </body>

@@ -6,38 +6,68 @@
     <title>String Algorithms | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
 
+    <style>
+        .string-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 3rem;
+            backdrop-filter: blur(5px);
+            transition: border-color 0.3s ease;
+        }
+        .string-section:hover {
+            border-color: var(--accent);
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .complexity {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            border: 1px solid var(--accent);
+        }
+    </style>
+
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
 <header>
-    <nav><a href="index.html" class="back-link">&larr; BACK_TO_ROOT</a></nav>
-    <h1 class="main-title">STRING_ALGORITHMS</h1>
+    <nav><a href="index.html" class="back-link">&larr; Home</a></nav>
+    <h1 class="main-title">String Algorithms</h1>
     <p>Advanced manipulation, searching, and pattern matching logic.</p>
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Filter algorithms (e.g., 'Palindrome')..." onkeyup="filterStrings()">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Search strings (e.g., 'Palindrome')..." onkeyup="filterStrings()">
 
     <section class="string-section" data-name="reverse">
         <div class="section-header">
-            <h2>Reverse a String</h2>
+            <h2>String Reversal</h2>
             <span class="complexity">\(O(n)\) Time</span>
         </div>
-        <p>Inverts the order of characters. Efficient implementations use in-place swapping to achieve \(O(1)\) auxiliary space.</p>
+        <p>Inverts the order of characters. Efficient implementations use in-place swapping to minimize memory usage.</p>
         
         
         
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'rev-py', 'rev-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'rev-js', 'rev-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'rev-js', 'rev-box')">JavaScript</button>
                 <button class="tab-btn" onclick="openLang(event, 'rev-cpp', 'rev-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'rev-java', 'rev-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'rev-go', 'rev-box')">Go</button>
             </div>
-            <pre id="rev-box" class="code-display">Accessing character buffer...</pre>
+            <pre id="rev-box" class="code-display">Select a language to view code...</pre>
         </div>
     </section>
 
@@ -46,29 +76,30 @@
             <h2>Palindrome Check</h2>
             <span class="complexity">Two-Pointer Logic</span>
         </div>
-        <p>Determines if a string is a palindrome. The most efficient approach compares characters from the start and end simultaneously moving inward.</p>
+        <p>Determines if a string reads the same forwards and backwards by comparing characters from the outside moving in.</p>
         
         
-        
+
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'pal-py', 'pal-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'pal-js', 'pal-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'pal-js', 'pal-box')">JavaScript</button>
                 <button class="tab-btn" onclick="openLang(event, 'pal-cpp', 'pal-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'pal-java', 'pal-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'pal-go', 'pal-box')">Go</button>
             </div>
-            <pre id="pal-box" class="code-display">Accessing character buffer...</pre>
+            <pre id="pal-box" class="code-display">Select a language to view code...</pre>
         </div>
     </section>
 </div>
 
-<footer>&copy; 2026 CodePedia | String_Buffer_Active</footer>
+<footer>
+    <p>&copy; 2026 CodePedia | Built for Developers</p>
+</footer>
 
 <script type="module" src="script.js"></script>
 
 <script>
-    // INSTANT FILTER LOGIC
     window.filterStrings = function() {
         let input = document.getElementById('pageSearch').value.toLowerCase();
         let sections = document.querySelectorAll('.string-section');
