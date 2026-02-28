@@ -1,7 +1,7 @@
 /**
  * CODEPEDIA EXTRA LOGIC 2026
- * Handles:Firebase Chat
- * Load only on Math.html and Chat.html
+ * Handles: Firebase Chat
+ * Load on Chat.html
  */
 // --- FIREBASE CHAT ---
 if (document.getElementById('chat-window')) {
