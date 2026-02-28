@@ -1,0 +1,5 @@
+# Move Diagonally Left-Up from a point (r, c)
+while r >= 0 and c >= 0:
+    print(matrix[r][c])
+    r -= 1
+    c -= 1

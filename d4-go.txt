@@ -1,0 +1,6 @@
+// Move Diagonally Right-Down from a point (r, c)
+for r < rows && c < cols {
+    fmt.Printf("%d ", matrix[r][c])
+    r++
+    c++
+}

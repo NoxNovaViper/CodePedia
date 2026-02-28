@@ -1,0 +1,261 @@
+
+Traversal · HTML
+Copy
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Traversal | CodePedia</title>
+    <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Language selector bar at top */
+        .lang-selector {
+            display: flex;
+            background: var(--tab-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 2.5rem;
+        }
+
+        .lang-btn {
+            flex: 1;
+            padding: 14px 10px;
+            border: none;
+            background: none;
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: background 0.2s, color 0.2s;
+            border-right: 1px solid var(--border);
+        }
+        .lang-btn:last-child { border-right: none; }
+        .lang-btn.active { background: var(--accent); color: white; }
+        .lang-btn:hover:not(.active) { background: rgba(88,166,255,0.1); }
+
+        /* Traversal direction grid */
+        .traversal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+        }
+
+        .traversal-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .traversal-card:hover { transform: translateY(-2px); }
+
+        .traversal-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 14px;
+            background: var(--tab-bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .traversal-card-header h3 {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--accent);
+        }
+
+        .direction-icon {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+
+        .traversal-card pre {
+            margin: 0;
+            border-radius: 0;
+            border: none;
+            min-height: 120px;
+            font-size: 0.82rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html">&larr; Home</a>
+        <a href="Math.html">Math</a>
+        <a href="Sorting.html">Sorting</a>
+        <a href="Strings.html">Strings</a>
+        <a href="Searching.html">Searching</a>
+        <a href="Chat.html">💬 Live Chat</a>
+    </nav>
+    <h1>2D Array Traversal</h1>
+    <p>Navigate grids and matrices in every direction across all 6 languages.</p>
+</header>
+
+<div class="container">
+
+    <!-- Single language selector controls everything below -->
+    <div class="lang-selector" id="langSelector">
+        <button class="lang-btn active" data-lang="py">Python</button>
+        <button class="lang-btn" data-lang="js">JS</button>
+        <button class="lang-btn" data-lang="cpp">C++</button>
+        <button class="lang-btn" data-lang="java">Java</button>
+        <button class="lang-btn" data-lang="cs">C#</button>
+        <button class="lang-btn" data-lang="go">Go</button>
+    </div>
+
+    <!-- Base Skeleton -->
+    <section>
+        <h2>Array Skeleton</h2>
+        <p>The basic structure for declaring and accessing a 2D array in the selected language.</p>
+        <div class="card" style="padding: 0; overflow: hidden;">
+            <div class="traversal-card-header">
+                <h3 id="base-label">Python — 2D Array Base</h3>
+                <button class="copy-btn" style="font-size:0.75rem; padding: 3px 10px;" onclick="copyCode('base-box')">Copy</button>
+            </div>
+            <pre id="base-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <!-- Traversal Directions -->
+    <section>
+        <h2>Traversal Directions</h2>
+        <p>All six directional traversal patterns for 2D arrays — language updates all at once.</p>
+        <div class="traversal-grid">
+
+            <div class="traversal-card">
+                <div class="traversal-card-header">
+                    <h3>Horizontal →</h3>
+                    <span class="direction-icon">➡️</span>
+                </div>
+                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                    <button class="copy-btn" onclick="copyCode('h-box')">Copy</button>
+                </div>
+                <pre id="h-box" class="code-display">Loading...</pre>
+            </div>
+
+            <div class="traversal-card">
+                <div class="traversal-card-header">
+                    <h3>Vertical ↓</h3>
+                    <span class="direction-icon">⬇️</span>
+                </div>
+                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                    <button class="copy-btn" onclick="copyCode('v-box')">Copy</button>
+                </div>
+                <pre id="v-box" class="code-display">Loading...</pre>
+            </div>
+
+            <div class="traversal-card">
+                <div class="traversal-card-header">
+                    <h3>Diagonal ↖ (Left-Up)</h3>
+                    <span class="direction-icon">↖️</span>
+                </div>
+                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                    <button class="copy-btn" onclick="copyCode('d1-box')">Copy</button>
+                </div>
+                <pre id="d1-box" class="code-display">Loading...</pre>
+            </div>
+
+            <div class="traversal-card">
+                <div class="traversal-card-header">
+                    <h3>Diagonal ↙ (Left-Down)</h3>
+                    <span class="direction-icon">↙️</span>
+                </div>
+                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                    <button class="copy-btn" onclick="copyCode('d2-box')">Copy</button>
+                </div>
+                <pre id="d2-box" class="code-display">Loading...</pre>
+            </div>
+
+            <div class="traversal-card">
+                <div class="traversal-card-header">
+                    <h3>Diagonal ↗ (Right-Up)</h3>
+                    <span class="direction-icon">↗️</span>
+                </div>
+                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                    <button class="copy-btn" onclick="copyCode('d3-box')">Copy</button>
+                </div>
+                <pre id="d3-box" class="code-display">Loading...</pre>
+            </div>
+
+            <div class="traversal-card">
+                <div class="traversal-card-header">
+                    <h3>Diagonal ↘ (Right-Down)</h3>
+                    <span class="direction-icon">↘️</span>
+                </div>
+                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                    <button class="copy-btn" onclick="copyCode('d4-box')">Copy</button>
+                </div>
+                <pre id="d4-box" class="code-display">Loading...</pre>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<footer>&copy; 2026 CodePedia | 2D Traversal Encyclopedia</footer>
+
+<script type="module" src="script.js"></script>
+<script type="module">
+    // All snippet boxes and their filename prefixes
+    const snippets = [
+        { prefix: 'base', boxId: 'base-box' },
+        { prefix: 'h',    boxId: 'h-box'    },
+        { prefix: 'v',    boxId: 'v-box'    },
+        { prefix: 'd1',   boxId: 'd1-box'   },
+        { prefix: 'd2',   boxId: 'd2-box'   },
+        { prefix: 'd3',   boxId: 'd3-box'   },
+        { prefix: 'd4',   boxId: 'd4-box'   },
+    ];
+
+    const langNames = {
+        py: 'Python', js: 'JavaScript', cpp: 'C++',
+        java: 'Java', cs: 'C#', go: 'Go'
+    };
+
+    async function loadSnippet(prefix, lang, boxId) {
+        const box = document.getElementById(boxId);
+        box.textContent = '// Loading...';
+        try {
+            const res = await fetch(`./snippets/${prefix}-${lang}.txt`);
+            if (!res.ok) throw new Error('Not found');
+            box.textContent = await res.text();
+        } catch {
+            box.textContent = `// Error: ${prefix}-${lang}.txt not found in /snippets/`;
+        }
+    }
+
+    function loadAllSnippets(lang) {
+        // Update base label
+        document.getElementById('base-label').textContent =
+            `${langNames[lang]} — 2D Array Base`;
+
+        // Load every snippet for the selected language
+        snippets.forEach(({ prefix, boxId }) => {
+            loadSnippet(prefix, lang, boxId);
+        });
+    }
+
+    // Language selector click handler
+    document.getElementById('langSelector').addEventListener('click', (e) => {
+        const btn = e.target.closest('.lang-btn');
+        if (!btn) return;
+
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        loadAllSnippets(btn.dataset.lang);
+    });
+
+    // Load Python by default on page load
+    document.addEventListener('DOMContentLoaded', () => {
+        loadAllSnippets('py');
+    });
+</script>
+
+</body>
+</html>

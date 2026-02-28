@@ -1,0 +1,6 @@
+// Move Diagonally Left-Up from a point (r, c)
+while (r >= 0 && c >= 0) {
+    System.out.print(matrix[r][c] + " ");
+    r--;
+    c--;
+}

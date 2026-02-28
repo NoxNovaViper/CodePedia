@@ -1,0 +1,6 @@
+// Move Diagonally Right-Up from a point (r, c)
+while (r >= 0 && c < cols) {
+    console.log(matrix[r][c]);
+    r--;
+    c++;
+}
