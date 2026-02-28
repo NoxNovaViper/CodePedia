@@ -1,5 +1,0 @@
-# Move Diagonally Right-Down from a point (r, c)
-while r < rows and c < cols:
-    print(matrix[r][c])
-    r += 1
-    c += 1
