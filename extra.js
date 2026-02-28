@@ -1,30 +1,8 @@
 /**
  * CODEPEDIA EXTRA LOGIC 2026
- * Handles: Math Visualizer + Firebase Chat
+ * Handles:Firebase Chat
  * Load only on Math.html and Chat.html
  */
-
-// --- MATH VISUALIZER ---
-const slider = document.getElementById('mathSlider');
-if (slider) {
-    slider.oninput = function () {
-        const output      = document.getElementById('visualizer-output');
-        const explanation = document.getElementById('logic-explanation');
-        const val  = parseInt(this.value);
-        const pair = (36 / val).toFixed(1);
-
-        output.innerHTML = `Factor Pair: ${val} × ${pair}`;
-
-        if (val < 6) {
-            explanation.innerHTML = `Checking <strong>${val}</strong>: Since it's less than √36 (6), we find its partner ${pair} above 6.`;
-        } else if (val === 6) {
-            explanation.innerHTML = `<strong>At √36</strong>: Factors meet at 6 × 6! Checking further is redundant.`;
-        } else {
-            explanation.innerHTML = `Checking <strong>${val}</strong>: Already found ${pair} earlier. No need to keep checking!`;
-        }
-    };
-}
-
 // --- FIREBASE CHAT ---
 if (document.getElementById('chat-window')) {
     const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
