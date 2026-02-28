@@ -5,24 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodePedia | Home</title>
     <link rel="stylesheet" href="Style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
 <header>
+    <div class="glow-effect"></div>
     <h1>CodePedia <span class="accent-text">2026</span></h1>
-    <p>The Universal Code Encyclopedia for the Big 6 Languages</p>
+    <p class="subtitle">The Universal Code Encyclopedia for the Big 6 Languages</p>
 </header>
 
 <div class="container">
-    <div class="search-container">
-        <input type="text" class="search-box" id="mainSearch" placeholder="Search categories (e.g. 'Math', 'Chat')..." onkeyup="filterCategories()">
+    <div class="search-wrapper">
+        <input type="text" class="search-box" id="mainSearch" placeholder="Search categories, logic, or keywords..." onkeyup="filterCategories()">
     </div>
 
     <section id="featured">
-        <h2 class="section-title">⚡ Featured Snippet</h2>
+        <h2 class="section-title">⚡ FEATURED_SNIPPET</h2>
         <div class="card featured-card">
-            <h3>Prime Number Check</h3>
-            <p>Determine if a number is prime using the efficient $O(\sqrt{n})$ method.</p>
+            <div class="featured-info">
+                <h3>Prime Number Check</h3>
+                <p>Determine primality using the efficient \(O(\sqrt{n})\) method.</p>
+            </div>
             
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'prime-py', 'featured-box')">Python</button>
@@ -32,59 +38,60 @@
                 <button class="tab-btn" onclick="openLang(event, 'prime-cs', 'featured-box')">C#</button>
                 <button class="tab-btn" onclick="openLang(event, 'prime-go', 'featured-box')">Go</button>
             </div>
-            <div class="code-header">
-                <span class="lang-label">Source Code</span>
-                <button class="copy-btn" onclick="copyCode('featured-box')">Copy Code</button>
-            </div>
+
             <pre id="featured-box" class="code-display">Initializing repository...</pre>
         </div>
     </section>
 
-    <h2 class="section-title">📂 Categories</h2>
+    <h2 class="section-title">📂 CATEGORIES</h2>
     <div class="category-grid" id="categoryGrid">
         
-        <div class="card content-card">
+        <div class="card content-card" onclick="location.href='Math.html'">
             <div class="card-info">
+                <div class="icon">∑</div>
                 <h3>Mathematics</h3>
-                <p>Prime numbers, Factorials, Fibonacci sequences, and Geometry logic.</p>
+                <p>Prime numbers, Factorials, Fibonacci, and Geometry.</p>
             </div>
-            <a href="Math.html" class="browse-link">Browse Math &rarr;</a>
+            <span class="browse-arrow">&rarr;</span>
         </div>
 
-        <div class="card content-card">
+        <div class="card content-card" onclick="location.href='Sorting.html'">
             <div class="card-info">
+                <div class="icon">⇅</div>
                 <h3>Sorting</h3>
-                <p>Quick sort, Merge sort, and basic Bubble sort implementations.</p>
+                <p>Quick sort, Merge sort, and optimized Bubble sort.</p>
             </div>
-            <a href="Sorting.html" class="browse-link">Browse Sorting &rarr;</a>
+            <span class="browse-arrow">&rarr;</span>
         </div>
 
-        <div class="card content-card">
+        <div class="card content-card" onclick="location.href='Strings.html'">
             <div class="card-info">
+                <div class="icon">" "</div>
                 <h3>Strings</h3>
-                <p>Palindrome checks, Reversing strings, and Pattern matching.</p>
+                <p>Palindrome checks, Reversals, and Pattern matching.</p>
             </div>
-            <a href="Strings.html" class="browse-link">Browse Strings &rarr;</a>
+            <span class="browse-arrow">&rarr;</span>
         </div>
 
-        <div class="card content-card chat-highlight">
+        <div class="card content-card chat-highlight" onclick="location.href='Chat.html'">
             <div class="card-info">
-                <h3>Community Chat & IDE</h3>
-                <p>Discuss code, ask questions, and run snippets in a live shared environment.</p>
+                <div class="icon">●</div>
+                <h3>Community Chat</h3>
+                <p>Live discussion, peer review, and shared IDE streams.</p>
             </div>
-            <a href="Chat.html" class="browse-link highlight-link">Open Live Stream &rarr;</a>
+            <span class="browse-arrow">&rarr;</span>
         </div>
     </div>
 </div>
 
 <footer>
-    &copy; 2026 CodePedia Encyclopedia | Multi-Language Dev Hub
+    <p>&copy; 2026 CodePedia Encyclopedia | Multi-Language Dev Hub</p>
 </footer>
 
 <script type="module" src="script.js"></script>
 
 <script type="module">
-    // Attach search logic to window for HTML access
+    // Logic for instant filtering
     window.filterCategories = function() {
         let input = document.getElementById('mainSearch').value.toLowerCase();
         let cards = document.querySelectorAll('.content-card');
@@ -96,9 +103,8 @@
         });
     }
 
-    // Initialize Featured Snippet on load
+    // Auto-load default tab
     window.addEventListener('DOMContentLoaded', () => {
-        // Automatically trigger the first tab's content
         const firstTab = document.querySelector('.tab-btn.active');
         if (firstTab) firstTab.click();
     });

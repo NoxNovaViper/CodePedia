@@ -1,440 +1,303 @@
 /* =========================================
-   1. VARIABLES & ADMIN ENGINE
+   1. CORE VARIABLES & UTILITIES
    ========================================= */
    :root {
     --bg: #0d1117;
+    --card: #161b22;
     --text: #c9d1d9;
     --accent: #58a6ff;
-    --card: #161b22;
     --border: #30363d;
     --tab-bg: #21262d;
-    --glass: rgba(255, 255, 255, 0.03);
+    --code-bg: #010409;
+    --success: #afff94;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
 }
 
-/* Hide admin elements by default. Show only when <body> has .admin-mode */
-.admin-only, #clear-chat, .admin-area {
-    display: none !important;
-}
+/* Global resets to stop the bloat */
+* { box-sizing: border-box; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
 
-body.admin-mode .admin-only, 
-body.admin-mode #clear-chat, 
-body.admin-mode .admin-area {
-    display: flex !important; /* Toggles visibility via URL ?admin=true */
-}
-
-/* =========================================
-   2. BASE STYLES
-   ========================================= */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    background-color: var(--bg);
+    font-family: var(--font);
+    background: var(--bg);
     color: var(--text);
     line-height: 1.6;
     margin: 0;
-    padding: 0;
-    scroll-behavior: smooth;
+    overflow-x: hidden;
 }
+
+/* Administrative Visibility Engine */
+.admin-only, #clear-chat, .admin-area { display: none !important; }
+body.admin-mode .admin-only, 
+body.admin-mode #clear-chat, 
+body.admin-mode .admin-area { display: flex !important; }
+
+/* =========================================
+   2. REUSABLE COMPONENTS
+   ========================================= */
+.container { max-width: 850px; margin: 2rem auto; padding: 0 1.5rem; }
 
 header {
     background: #010409;
-    padding: 2.5rem 1rem;
+    padding: 3rem 1rem;
     text-align: center;
     border-bottom: 1px solid var(--border);
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); /* Modern 2026 edge */
 }
 
-nav a {
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: bold;
-    margin: 0 15px;
-}
-
-nav a:hover { text-decoration: underline; }
-
-.container {
-    max-width: 850px;
-    margin: 2rem auto;
-    padding: 0 1.5rem;
-}
-
+/* Search Engine Styling */
 .search-box {
     width: 100%;
-    padding: 14px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
+    padding: 1rem;
     background: var(--card);
-    color: white;
-    margin-bottom: 2.5rem;
-    box-sizing: border-box;
+    border: 1px solid var(--border);
+    color: #fff;
+    border-radius: 8px;
+    margin-bottom: 2rem;
     outline: none;
-    transition: 0.2s;
 }
+.search-box:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(88, 166, 255, 0.15); }
 
-.search-box:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(88, 166, 255, 0.2); }
-
-.card {
+/* Unified Card System (Strings, Math, Sorting all use this) */
+.card, .string-section, .sort-section {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 1.5rem;
     margin-bottom: 2rem;
-    position: relative;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.card:hover { transform: translateY(-4px); border-color: var(--accent); }
 
-.card:hover { 
-    transform: translateY(-4px); 
-    border-color: var(--accent);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-}
 /* =========================================
-   3. TAB SYSTEM STYLES
+   3. TAB & CODE SYSTEM (Optimized)
    ========================================= */
-   .tabs {
+.tabs {
     display: flex;
     background: var(--tab-bg);
+    border: 1px solid var(--border);
     border-radius: 8px 8px 0 0;
     overflow: hidden;
-    border: 1px solid var(--border);
-    border-bottom: none;
     margin-top: 1rem;
 }
 
 .tab-btn {
     flex: 1;
-    padding: 10px;
-    border: none;
+    padding: 12px;
     background: transparent;
     color: var(--text);
+    border: none;
     cursor: pointer;
     font-size: 0.75rem;
-    transition: background 0.2s, color 0.2s;
     border-right: 1px solid var(--border);
-    outline: none;
 }
 
-.tab-btn:hover:not(.active) {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.tab-btn:last-child { border-right: none; }
-
-.tab-btn.active { 
-    background: var(--accent); 
-    color: #0d1117; /* Dark text on bright accent looks sharper */
-    font-weight: bold; 
-}
-
-/* =========================================
-   4. CODE ENGINE & DISPLAY
-   ========================================= */
-.code-header {
-    display: flex;
-    justify-content: flex-end;
-    background: var(--tab-bg);
-    border-left: 1px solid var(--border);
-    border-right: 1px solid var(--border);
-    padding: 6px 12px;
-}
-
-.copy-btn {
-    background: rgba(88, 166, 255, 0.1);
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    border-radius: 4px;
-    padding: 3px 10px;
-    font-size: 0.65rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: 0.2s;
-    text-transform: uppercase;
-}
-
-.copy-btn:hover { 
-    background: var(--accent); 
-    color: #0d1117; 
-}
+.tab-btn.active { background: var(--accent); color: #000; font-weight: 800; }
 
 .code-display, pre {
-    background: #010409; /* Deeper black for code focus */
-    padding: 1.2rem;
-    border-radius: 0 0 8px 8px;
+    background: var(--code-bg);
+    padding: 1.5rem;
+    border-radius: 0 0 12px 12px;
     border: 1px solid var(--border);
     color: #79c0ff;
-    font-family: 'Fira Code', 'Courier New', monospace; /* Fira Code is more modern */
+    font-family: 'Fira Code', monospace;
+    font-size: 0.85rem;
     overflow-x: auto;
-    margin: 0;
-    min-height: 100px;
-    white-space: pre;
-    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+    box-shadow: inset 0 4px 12px rgba(0,0,0,0.5);
 }
 
-/* Custom Scrollbar for Code Blocks */
-.code-display::-webkit-scrollbar, pre::-webkit-scrollbar {
-    height: 6px;
-}
-
-.code-display::-webkit-scrollbar-thumb, pre::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 10px;
-}
-
-.code-display::-webkit-scrollbar-thumb:hover, pre::-webkit-scrollbar-thumb:hover {
-    background: var(--accent);
-}
+/* Scrollbar Utility (One definition for all) */
+::-webkit-scrollbar { height: 6px; width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 /* =========================================
-   5. MATH & VISUALIZATION BLOCKS
+   4. VISUALIZATION & GRID SYSTEM
    ========================================= */
    .visualizer {
-    background: #010409;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin: 1.5rem 0;
+    background: var(--code-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    margin: 2rem 0;
     border: 1px solid var(--accent);
     text-align: center;
-    box-shadow: 0 0 20px rgba(88, 166, 255, 0.1);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 0 25px rgba(88, 166, 255, 0.1);
 }
 
-/* Subtle "scanline" effect for math visualizers */
+/* Unified Scanline Effect */
 .visualizer::before {
     content: "";
     position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
-    background-size: 100% 2px, 3px 100%;
+    inset: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+    background-size: 100% 4px;
     pointer-events: none;
+    opacity: 0.3;
 }
 
-/* =========================================
-   6. CATEGORY GRID SYSTEM
-   ========================================= */
+/* High-Performance Category Grid */
 .category-grid {
     display: grid;
-    /* auto-fill keeps card sizes consistent even with few items */
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 25px;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2.5rem;
 }
 
-/* Container for category cards */
 .content-card {
+    background: var(--card);
+    padding: 1.8rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 200px;
-    background: var(--card);
-    padding: 1.5rem;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    transition: all 0.3s ease;
+    min-height: 220px;
 }
 
 .content-card:hover {
     border-color: var(--accent);
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
 }
 
+/* Compact Buttons */
 .browse-link {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 8px 16px;
+    padding: 10px 20px;
     color: var(--accent);
     border: 1px solid var(--accent);
     border-radius: 6px;
-    text-decoration: none;
     font-size: 0.8rem;
-    font-weight: bold;
+    font-weight: 800;
     text-align: center;
-    transition: all 0.2s;
+    text-transform: uppercase;
     background: transparent;
 }
 
 .browse-link:hover {
     background: var(--accent);
-    color: #0d1117;
-    text-decoration: none;
-    box-shadow: 0 0 10px var(--accent);
+    color: var(--bg);
+    box-shadow: 0 0 15px var(--accent);
 }
 
 /* =========================================
-   7. FOOTER
+   5. CHAT ENGINE LAYOUT
    ========================================= */
-footer { 
-    text-align: center; 
-    padding: 4rem 0; 
-    opacity: 0.5; 
-    font-size: 0.75rem; 
-    border-top: 1px solid var(--border); 
-    margin-top: 5rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-/* =========================================
-   8. CHAT INTERFACE & CONTROLS
-   ========================================= */
-   .chat-controls {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
+.chat-controls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
     background: rgba(255, 255, 255, 0.02);
-    padding: 15px;
+    padding: 1.2rem;
     border-radius: 8px;
     border: 1px solid var(--border);
+    margin-bottom: 1.5rem;
 }
 
-.chat-input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    flex: 1;
-    min-width: 140px;
-}
+.chat-input-group { display: flex; flex-direction: column; gap: 0.5rem; }
 
 .chat-input-group label {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--accent);
-    font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
-.chat-select, .chat-nick {
-    padding: 10px;
+.chat-select, .chat-nick, .chat-box {
+    padding: 12px;
     background: var(--bg);
     border: 1px solid var(--border);
     border-radius: 6px;
-    color: white;
+    color: #fff;
     outline: none;
-    transition: all 0.2s;
 }
 
-.chat-select:focus, .chat-nick:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
-}
+.chat-select:focus, .chat-nick:focus { border-color: var(--accent); }
 
 /* =========================================
-   9. THE CHAT WINDOW (Glassmorphism)
+   6. FOOTER (Minimalist)
    ========================================= */
-#chat-window {
-    height: 480px;
-    overflow-y: auto;
-    background: linear-gradient(to bottom, #0d1117, #010409);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 25px;
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    position: relative;
-}
-
-/* Modern Message Bubbles */
-.message { 
-    padding: 12px 18px; 
-    border-radius: 15px; 
-    background: rgba(255, 255, 255, 0.04); 
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px); /* The Glass Effect */
-    max-width: 85%;
-    align-self: flex-start;
-    animation: fadeIn 0.3s ease-out;
-    position: relative;
-}
-
-/* Message Hover Effect */
-.message:hover {
-    border-color: rgba(88, 166, 255, 0.4);
-    background: rgba(255, 255, 255, 0.06);
-}
-
-/* Custom Chat Scrollbar */
-#chat-window::-webkit-scrollbar {
-    width: 5px;
-}
-
-#chat-window::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-#chat-window::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 10px;
-}
-
-#chat-window:hover::-webkit-scrollbar-thumb {
-    background: var(--accent);
+footer { 
+    text-align: center; 
+    padding: 5rem 0 3rem; 
+    opacity: 0.4; 
+    font-size: 0.7rem; 
+    border-top: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 /* =========================================
-   10. CHAT LAYOUT & SIDEBAR
+   7. UNIFIED CHAT & SIDEBAR (Glass/Flex)
    ========================================= */
    .chat-layout {
     display: flex;
-    gap: 20px;
-    align-items: flex-start;
+    gap: 1.5rem;
+    align-items: stretch; /* Ensures height match without manual px */
 }
 
-.main-chat { 
-    flex: 3; 
-    min-width: 0; /* Prevents flexbox overflow */
-}
-
-.clan-sidebar {
-    flex: 1;
-    background: var(--card);
+#chat-window, .clan-sidebar {
+    background: linear-gradient(180deg, var(--card), #010409);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 20px;
-    height: 550px; /* Adjusted to match window + form */
+    overflow-y: auto;
+    /* Shared Scrollbar Logic inherited from Part 1 */
+}
+
+#chat-window {
+    flex: 3;
+    height: 480px;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    gap: 1rem;
 }
 
-/* Sidebar Scrollbar */
-.clan-sidebar::-webkit-scrollbar { width: 4px; }
-.clan-sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+/* Glassmorphism Logic - Single Class */
+.message {
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    max-width: 85%;
+    align-self: flex-start;
+    font-size: 0.9rem;
 
-.member-item {
-    padding: 10px 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    cursor: pointer;
-    font-size: 0.85rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.2s;
-    border-left: 2px solid transparent;
-}
-
-.member-item:hover { 
-    background: rgba(88, 166, 255, 0.05); 
-    border-left-color: var(--accent);
-    padding-left: 15px;
-}
-
-.rank-badge { 
-    font-size: 0.6rem; 
-    padding: 2px 6px; 
-    border-radius: 4px; 
-    background: var(--tab-bg);
-    color: var(--accent);
-    border: 1px solid var(--border);
-    text-transform: uppercase;
+    &:hover {
+        border-color: rgba(88, 166, 255, 0.3);
+        background: rgba(255, 255, 255, 0.05);
+    }
 }
 
 /* =========================================
-   11. ADMIN CONTROLS (The Wipe Button)
+   8. SIDEBAR & MEMBER LIST
+   ========================================= */
+.clan-sidebar {
+    flex: 1;
+    min-width: 220px;
+    padding: 1.2rem;
+}
+
+.member-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.7rem;
+    font-size: 0.8rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    border-left: 2px solid transparent;
+
+    &:hover {
+        background: rgba(88, 166, 255, 0.04);
+        border-left-color: var(--accent);
+        padding-left: 1rem;
+    }
+}
+
+/* =========================================
+   9. ADMIN & SYSTEM UI
    ========================================= */
 .admin-area {
-    margin-top: 12px;
-    display: none; /* Controlled by body.admin-mode in Part 1 */
+    margin-top: 1rem;
+    display: flex;
     justify-content: flex-end;
 }
 
@@ -442,407 +305,329 @@ footer {
     background: rgba(218, 54, 51, 0.1);
     color: #ff6b6b;
     border: 1px solid #da3633;
-    padding: 6px 14px;
+    padding: 8px 16px;
     border-radius: 6px;
-    cursor: pointer;
     font-size: 0.65rem;
-    font-weight: bold;
+    font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.2s;
+    
+    &:hover {
+        background: #da3633;
+        color: #fff;
+        box-shadow: 0 0 15px rgba(218, 54, 51, 0.4);
+    }
 }
 
-.clear-btn:hover {
-    background: #da3633;
-    color: white;
-    box-shadow: 0 0 12px rgba(218, 54, 51, 0.4);
+/* responsive logic in 5 lines */
+@media (max-width: 850px) {
+    .chat-layout { flex-direction: column; }
+    .clan-sidebar { height: 300px; width: 100%; }
 }
-
 /* =========================================
-   12. INPUT FORM AREA
+   10. CHAT INPUT & MESSAGE MEDIA
    ========================================= */
-#chat-form {
+   #chat-form {
     display: flex;
-    gap: 12px;
-    padding: 18px;
+    gap: 0.8rem;
+    padding: 1.2rem;
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
-    margin-top: 10px;
 }
 
-/* Inline code tags within chat messages */
-.chat-code {
-    background: #1e1e1e;
-    color: #ce9178; /* Classic VS Code String color */
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.85rem;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-/* =========================================
-   13. INPUT BAR & FIELD FOCUS
-   ========================================= */
-   #msg-input {
-    flex-grow: 1;
-    padding: 12px 16px;
-    background: rgba(0, 0, 0, 0.2);
+#msg-input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border);
     color: #fff;
     border-radius: 8px;
     outline: none;
-    font-size: 0.95rem;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &:focus {
+        border-color: var(--accent);
+        background: rgba(255, 255, 255, 0.02);
+        box-shadow: 0 0 15px rgba(88, 166, 255, 0.1);
+    }
 }
 
-#msg-input:focus {
-    border-color: var(--accent);
-    background: rgba(255, 255, 255, 0.03);
-    box-shadow: 0 0 15px rgba(88, 166, 255, 0.15);
+/* Inline Code & Media */
+.chat-code {
+    background: #1e1e1e;
+    color: #ce9178;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Fira Code', monospace;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
-#msg-input::placeholder {
-    color: rgba(201, 209, 217, 0.3);
-}
-
-/* =========================================
-   14. MEME & IMAGE DISPLAY
-   ========================================= */
 .meme-container {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 8px;
-    border-radius: 12px;
-    display: inline-block;
-    margin-top: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(4px);
-}
-
-.chat-meme {
-    max-width: 100%; /* Better for mobile/small sidebars */
-    max-height: 350px;
-    border-radius: 6px;
-    display: block;
-    cursor: zoom-in;
+    margin-top: 0.5rem;
+    border-radius: 8px;
+    overflow: hidden;
     border: 1px solid var(--border);
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-.chat-meme:hover {
-    transform: scale(1.01);
-    border-color: var(--accent);
-    box-shadow: 0 0 20px rgba(88, 166, 255, 0.2);
-}
-
-/* Fix for broken images or slow loading */
-.chat-meme:not([src]) {
-    visibility: hidden;
-}
-/* =========================================
-   15. IDE WRAPPER & SPLIT-VIEW
-   ========================================= */
-   .main-wrapper {
-    display: flex;
-    gap: 25px;
-    align-items: flex-start;
-    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    width: 100%;
-    margin-top: 20px;
-    will-change: transform, gap;
-}
-
-.chat-section {
-    flex: 1.4; /* Slightly wider for the code editor area */
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: inline-block;
+    
+    img {
+        max-width: 100%;
+        max-height: 300px;
+        display: block;
+        cursor: zoom-in;
+        &:hover { transform: scale(1.02); }
+    }
 }
 
 /* =========================================
-   16. THE LIVE PREVIEW (Virtual Monitor)
+   11. THE LIVE PREVIEW ENGINE (Sticky Monitor)
    ========================================= */
+.main-wrapper {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
 #preview-container {
     flex: 1;
+    position: sticky;
+    top: 1rem;
+    height: calc(100vh - 2rem);
     background: #010409;
     border: 1px solid var(--accent);
     border-radius: 12px;
     overflow: hidden;
-    display: none; /* Controlled by JS Run Button */
-    position: sticky;
-    top: 20px;
-    height: calc(100vh - 60px);
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6), 
-                inset 0 0 20px rgba(88, 166, 255, 0.05);
-    z-index: 10;
+    display: none; /* Injected via JS .active class */
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    
+    &.active {
+        display: block;
+        animation: slideIn 0.3s ease;
+    }
 }
 
 #live-preview {
     width: 100%;
-    height: calc(100% - 60px); /* Leave room for the header/footer */
-    background: #fdfdfd; /* Soft white to avoid eye strain */
-    border: none;
-    transition: opacity 0.3s ease;
-}
-
-/* Add a "Power-On" animation when preview opens */
-#preview-container.active {
-    display: block;
-    animation: slideInRight 0.4s ease-out;
-}
-
-@keyframes slideInRight {
-    from { opacity: 0; transform: translateX(50px); }
-    to { opacity: 1; transform: translateX(0); }
+    height: 100%;
+    background: #fff;
 }
 
 /* =========================================
-   17. NICKNAME GATE (Login Shield)
+   12. LOGIN SHIELD (Gate)
    ========================================= */
-   #chat-gate {
-    position: fixed; /* Locked to screen */
-    top: 0; left: 0; 
-    width: 100vw; height: 100vh;
-    background: rgba(8, 8, 12, 0.95);
+#chat-gate {
+    position: fixed;
+    inset: 0;
     z-index: 9999;
-    display: flex; 
-    align-items: center; 
+    background: rgba(8, 8, 12, 0.98);
+    backdrop-filter: blur(20px);
+    display: flex;
+    align-items: center;
     justify-content: center;
-    backdrop-filter: blur(15px);
 }
 
 .gate-card {
-    text-align: center;
-    padding: 60px 40px;
-    border: 1px solid var(--accent);
-    background: #0d1117;
-    box-shadow: 0 0 50px rgba(88, 166, 255, 0.2);
-    max-width: 400px;
     width: 90%;
-    border-radius: 12px;
-    animation: pulseBorder 3s infinite;
+    max-width: 380px;
+    padding: 3rem;
+    background: var(--card);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    text-align: center;
+    animation: pulse 4s infinite;
 }
 
-@keyframes pulseBorder {
-    0% { border-color: var(--accent); box-shadow: 0 0 20px rgba(88, 166, 255, 0.2); }
-    50% { border-color: #fff; box-shadow: 0 0 40px rgba(88, 166, 255, 0.4); }
-    100% { border-color: var(--accent); box-shadow: 0 0 20px rgba(88, 166, 255, 0.2); }
+/* --- KEYFRAMES --- */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { border-color: var(--accent); box-shadow: 0 0 20px rgba(88, 166, 255, 0.1); }
+    50% { border-color: #fff; box-shadow: 0 0 40px rgba(88, 166, 255, 0.2); }
+}
+
+/* --- MOBILE RESPONSIVENESS (The Final Cut) --- */
+@media (max-width: 1100px) {
+    .main-wrapper { flex-direction: column; }
+    #preview-container { position: relative; height: 500px; width: 100%; top: 0; }
 }
 
 /* =========================================
-   18. UTILITY & FOOTER ACTIONS
+   13. UTILITY & FOOTER ACTIONS
    ========================================= */
-.footer-actions {
+   .footer-actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 5px;
+    padding: 1rem 0.5rem;
     border-top: 1px solid var(--border);
-    margin-top: 10px;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
 }
 
-.control-group {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
+.control-group { display: flex; gap: 0.8rem; align-items: center; }
 
 /* =========================================
-   19. MOBILE ADAPTATION
-   ========================================= */
-@media (max-width: 1150px) {
-    .main-wrapper { 
-        flex-direction: column; 
-        gap: 15px;
-    }
-    
-    .chat-layout {
-        flex-direction: column;
-    }
-
-    .clan-sidebar {
-        width: 100%;
-        height: 300px; /* Shorter on mobile */
-        order: 2; /* Moves sidebar below chat */
-    }
-
-    #preview-container { 
-        position: relative; 
-        top: 0; 
-        height: 60vh; 
-        width: 100%; 
-        flex: none;
-    }
-}
-
-/* =========================================
-   20. CODE SNIPPET BUBBLES (Special Case)
+   14. CODE EXECUTION ENGINE (The Snippet UI)
    ========================================= */
 .code-snippet-msg {
-    background: #010409;
+    background: var(--code-bg);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 10px;
-    font-family: 'Fira Code', monospace;
+    border-radius: 12px;
+    padding: 1.2rem;
+    margin-top: 0.8rem;
     position: relative;
-    overflow: hidden;
-    box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+    box-shadow: inset 0 4px 20px rgba(0,0,0,0.4);
+
+    &::after {
+        content: "EXECUTABLE_MODULE";
+        position: absolute;
+        top: 0.8rem; right: 1rem;
+        font-size: 0.55rem;
+        color: var(--accent);
+        letter-spacing: 1px;
+        opacity: 0.4;
+    }
 }
 
-.code-snippet-msg::after {
-    content: "CODE_EXECUTABLE";
-    position: absolute;
-    top: 5px;
-    right: 10px;
-    font-size: 0.5rem;
-    color: var(--accent);
-    opacity: 0.5;
-}
-
-/* =========================================
-   21. SNIPPET EXECUTION (The Engine)
-   ========================================= */
-   .chat-code {
+.chat-code {
     display: block;
     color: #79c0ff;
+    font-family: 'Fira Code', monospace;
     font-size: 0.85rem;
-    line-height: 1.5;
     white-space: pre-wrap;
-    word-break: break-all;
-    margin-bottom: 12px;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 0.8rem;
     border-radius: 6px;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 1rem;
 }
 
 .run-btn {
     background: var(--accent);
-    color: #0d1117;
+    color: #000;
     border: none;
-    padding: 6px 14px;
+    padding: 0.5rem 1rem;
     border-radius: 4px;
     font-size: 0.65rem;
-    font-weight: 800;
-    cursor: pointer;
+    font-weight: 900;
     text-transform: uppercase;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    letter-spacing: 0.5px;
-}
+    gap: 0.5rem;
 
-.run-btn:hover {
-    box-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
-    transform: scale(1.05) translateY(-1px);
-}
-
-.run-btn:active {
-    transform: scale(0.98);
+    &:hover {
+        box-shadow: 0 0 20px rgba(88, 166, 255, 0.4);
+        transform: translateY(-1px);
+    }
 }
 
 /* =========================================
-   22. PREVIEW HEADER & STATUS
+   15. PREVIEW INTERFACE (Virtual Monitor)
    ========================================= */
 .preview-header {
     background: var(--tab-bg);
-    padding: 12px 18px;
+    padding: 0.8rem 1.2rem;
     border-bottom: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.7rem;
-    font-weight: bold;
+    font-size: 0.65rem;
     color: var(--accent);
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
 .status-dot {
-    display: inline-block;
-    width: 8px;
-    height: 8px;
-    background-color: var(--accent);
+    width: 8px; height: 8px;
+    background: var(--accent);
     border-radius: 50%;
-    margin-right: 8px;
-    box-shadow: 0 0 8px var(--accent);
-    animation: statusPulse 1.5s infinite;
+    box-shadow: 0 0 10px var(--accent);
+    animation: statusPulse 2s infinite;
 }
 
 @keyframes statusPulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.3); opacity: 0.5; box-shadow: 0 0 15px var(--accent); }
-    100% { transform: scale(1); opacity: 1; }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.3); }
 }
 
-/* Ensure the code display in preview is legible */
 .preview-footer {
-    background: #010409;
-    padding: 8px 15px;
+    background: var(--code-bg);
+    padding: 0.5rem 1rem;
+    font-size: 0.6rem;
+    color: #333;
     border-top: 1px solid var(--border);
-    font-size: 0.65rem;
-    color: #444;
 }
 
 /* =========================================
-   23. PREVIEW DISMISSAL & CLOSE
+   16. THE FINAL RESPONSIVE OVERRIDE
+   ========================================= */
+@media (max-width: 1150px) {
+    .main-wrapper, .chat-layout { flex-direction: column; }
+    
+    .clan-sidebar { 
+        order: 2; 
+        height: 250px; 
+    }
+    
+    #preview-container {
+        position: relative;
+        top: 0;
+        height: 50vh;
+        width: 100%;
+        flex: none;
+    }
+}
+/* =========================================
+   17. PREVIEW DISMISSAL (Close UI)
    ========================================= */
    .close-preview {
-    background: rgba(255, 68, 68, 0.1);
-    border: 1px solid transparent;
-    color: #ff4444;
     width: 32px;
     height: 32px;
+    background: rgba(255, 68, 68, 0.1);
+    color: #ff4444;
+    border: 1px solid transparent;
     border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 1.2rem;
-    line-height: 1;
-    transition: all 0.2s ease;
-}
+    font-weight: 900;
 
-.close-preview:hover {
-    background: #ff4444;
-    color: #fff;
-    box-shadow: 0 0 15px rgba(255, 68, 68, 0.4);
+    &:hover {
+        background: #ff4444;
+        color: #fff;
+        box-shadow: 0 0 15px rgba(255, 68, 68, 0.4);
+    }
 }
 
 /* =========================================
-   24. ADMIN PANEL (CREATOR TOOLS)
+   18. ADMIN ENGINE (Power Toggles)
    ========================================= */
 #admin-preview-controls {
-    padding: 25px;
+    display: none; /* JS toggles this */
+    padding: 1.5rem;
     background: #09090b;
-    border-top: 1px solid #da3633; /* Red border to signal Admin Power */
-    display: none; /* Controlled by JS via 'admin-mode' class */
+    border-top: 2px solid #da3633;
     text-align: center;
-    box-shadow: inset 0 10px 20px rgba(0,0,0,0.5);
+    box-shadow: inset 0 10px 30px rgba(0,0,0,0.8);
 }
 
-/* Shows panel only when body is in admin-mode */
-body.admin-mode #admin-preview-controls {
-    display: block !important;
+/* One selector to rule them all */
+body.admin-mode {
+    #admin-preview-controls { display: block !important; }
+    
+    /* Dynamic Theme Swap: Turns the UI "Danger Red" */
+    --accent: #da3633; 
+    --border: #4a1211;
 }
 
 .auth-note {
-    font-size: 10px;
-    color: #da3633;
-    opacity: 0.6;
-    margin-top: 12px;
+    font-size: 0.6rem;
+    color: var(--accent);
+    opacity: 0.7;
+    margin-top: 1rem;
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-weight: bold;
-}
-
-/* Animation for System Pulse */
-@keyframes pulse {
-    0% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.3; transform: scale(0.95); }
-    100% { opacity: 1; transform: scale(1); }
+    /* Reuse the pulse from Part 3 to save 10 lines */
+    animation: statusPulse 3s infinite; 
 }

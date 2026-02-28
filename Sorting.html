@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorting Algorithms | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
@@ -15,14 +18,14 @@
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Filter sorting algorithms (e.g., 'Quick')..." onkeyup="filterSorting()">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Filter algorithms (e.g., 'Quick')..." onkeyup="filterSorting()">
 
     <section class="sort-section" data-name="bubble">
         <div class="section-header">
             <h2>Bubble Sort</h2>
-            <span class="badge badge-slow">O(n²) Average</span>
+            <span class="complexity">\(O(n^2)\)</span>
         </div>
-        <p>A simple comparison sort that repeatedly steps through the list, swapping adjacent elements if they are in the wrong order.</p>
+        <p>A simple comparison sort that repeatedly swaps adjacent elements if they are in the wrong order. Best used for small datasets or educational purposes.</p>
         
         
         
@@ -34,19 +37,16 @@
                 <button class="tab-btn" onclick="openLang(event, 'bubble-java', 'bubble-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'bubble-go', 'bubble-box')">Go</button>
             </div>
-            <div class="code-header">
-                <button class="copy-btn" onclick="copyCode('bubble-box')">Copy Code</button>
-            </div>
-            <pre id="bubble-box" class="code-display">Loading algorithm...</pre>
+            <pre id="bubble-box" class="code-display">Accessing sorting buffer...</pre>
         </div>
     </section>
 
     <section class="sort-section" data-name="quick">
         <div class="section-header">
             <h2>Quick Sort</h2>
-            <span class="badge badge-fast">O(n log n) Average</span>
+            <span class="complexity">\(O(n \log n)\)</span>
         </div>
-        <p>A highly efficient divide-and-conquer algorithm that picks a 'pivot' element and partitions the array into sub-arrays.</p>
+        <p>A highly efficient divide-and-conquer algorithm. It partitions an array into two sub-arrays around a 'pivot' and sorts them recursively.</p>
         
         
         
@@ -58,22 +58,17 @@
                 <button class="tab-btn" onclick="openLang(event, 'quick-java', 'quick-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'quick-go', 'quick-box')">Go</button>
             </div>
-            <div class="code-header">
-                <button class="copy-btn" onclick="copyCode('quick-box')">Copy Code</button>
-            </div>
-            <pre id="quick-box" class="code-display">Loading algorithm...</pre>
+            <pre id="quick-box" class="code-display">Accessing sorting buffer...</pre>
         </div>
     </section>
 </div>
 
-<footer>
-    &copy; 2026 CodePedia Sorting | Logic and Order
-</footer>
+<footer>&copy; 2026 CodePedia Sorting | Logic_Stream_Active</footer>
 
 <script type="module" src="script.js"></script>
 
 <script>
-    // SORTING PAGE SEARCH
+    // INSTANT FILTER LOGIC
     window.filterSorting = function() {
         let input = document.getElementById('pageSearch').value.toLowerCase();
         let sections = document.querySelectorAll('.sort-section');

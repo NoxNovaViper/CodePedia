@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Encyclopedia | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
+    
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <style>
+        .visualizer-card {
+            background: #0a0a0f;
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 8px;
+            position: relative;
+        }
+        .visualizer-card::before {
+            content: "ALGO_VISUAL_01";
+            position: absolute;
+            top: 5px; right: 10px;
+            font-size: 10px; color: var(--accent); opacity: 0.5;
+        }
+        .math-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px; align-items: center;
+        }
+        #visualizer-output {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent);
+            font-size: 1.8rem;
+            text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+        .math-section { margin-bottom: 4rem; }
+    </style>
 </head>
 <body>
 
@@ -15,28 +46,36 @@
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Search math algorithms (e.g. 'Factorial')..." onkeyup="filterMath()">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Search math algorithms..." onkeyup="filterMath()">
 
-    <section class="card math-section" id="prime-visualizer">
+    <section class="math-section" id="prime-visualizer">
         <h2>Prime Efficiency Visualizer</h2>
-        <p>Why we only check factors up to $\sqrt{n}$:</p>
+        <p>Mathematical proof for \(O(\sqrt{n})\) factor search.</p>
         
         
         
-        <div class="visualizer-area" style="text-align: center; padding: 20px;">
-            <input type="range" id="mathSlider" min="1" max="36" value="1" style="width: 100%; accent-color: var(--accent);">
-            <div class="visualizer-output-box" style="margin-top: 20px; font-family: 'Fira Code', monospace;">
-                <h3 id="visualizer-output">Factor Pair: 1 × 36.0</h3>
-                <p id="logic-explanation" style="font-size: 0.8rem; opacity: 0.7;">
-                    Notice how pairs repeat after 6 ($\sqrt{36}$).
-                </p>
+        <div class="visualizer-card">
+            <div class="math-grid">
+                <div class="controls">
+                    <input type="range" id="mathSlider" min="1" max="36" value="1" style="width: 100%; accent-color: var(--accent);">
+                    <p id="logic-explanation" style="margin-top: 15px; font-size: 0.9rem;">
+                        Slide to calculate factor pairs for \(n = 36\).
+                    </p>
+                </div>
+                <div style="text-align: right;">
+                    <div id="visualizer-output">1 &times; 36.0</div>
+                    <div style="font-size: 10px; opacity: 0.5;">REAL_TIME_COMPUTATION</div>
+                </div>
             </div>
         </div>
     </section>
 
     <section class="math-section" data-name="factorial">
-        <h2>Factorial (n!)</h2>
-        <p>Calculates the product of all positive integers up to $n$. Efficiency: $O(n)$.</p>
+        <h2>Factorial (\(n!\))</h2>
+        <p>Product of all positive integers up to \(n\). Time: \(O(n)\).</p>
+        
+        
+
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'fact-py', 'fact-box')">Python</button>
@@ -54,10 +93,10 @@
 
     <section class="math-section" data-name="gcd">
         <h2>Greatest Common Divisor (GCD)</h2>
-        <p>The Euclidean Algorithm: $\text{gcd}(a, b) = \text{gcd}(b, a \pmod b)$.</p>
+        <p>Euclidean Algorithm: \(\text{gcd}(a, b) = \text{gcd}(b, a \pmod b)\).</p>
+
         
-        
-        
+
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'gcd-py', 'gcd-box')">Python</button>
@@ -74,12 +113,11 @@
     </section>
 </div>
 
-<footer>&copy; 2026 CodePedia Math | Structured for Efficiency</footer>
+<footer>&copy; 2026 CodePedia Math | Logic_Stream_Active</footer>
 
 <script type="module" src="script.js"></script>
 
 <script>
-    // 1. PRIME VISUALIZER LOGIC
     const slider = document.getElementById('mathSlider');
     const output = document.getElementById('visualizer-output');
     const explain = document.getElementById('logic-explanation');
@@ -88,23 +126,21 @@
         slider.oninput = function() {
             let val = parseFloat(this.value);
             let pair = (36 / val).toFixed(1);
-            output.innerHTML = `Factor Pair: ${val} × ${pair}`;
+            output.innerHTML = `${val} &times; ${pair}`;
             
             if (val > 6) {
-                explain.innerHTML = `<span style="color:var(--accent)">Redundant!</span> This pair was already found as ${pair} × ${val}.`;
+                explain.innerHTML = `<span style="color:var(--accent)">// REDUNDANT:</span> Pair already identified.`;
             } else if (val == 6) {
-                explain.innerHTML = `<strong>Perfect Square!</strong> This is the $\\sqrt{n}$ limit.`;
+                explain.innerHTML = `<span style="color:#00ff88">// LIMIT:</span> Square root reached. Search complete.`;
             } else {
-                explain.innerHTML = `Searching for new factors...`;
+                explain.innerHTML = `// SCANNING: Analyzing factor boundaries...`;
             }
         };
     }
 
-    // 2. MATH PAGE SEARCH
     window.filterMath = function() {
         let input = document.getElementById('pageSearch').value.toLowerCase();
         let sections = document.querySelectorAll('.math-section');
-
         sections.forEach(sec => {
             let text = sec.innerText.toLowerCase();
             sec.style.display = text.includes(input) ? "" : "none";
