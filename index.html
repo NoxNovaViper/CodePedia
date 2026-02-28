@@ -4,22 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodePedia | Home</title>
-    
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
 
 <header>
-    <h1>CodePedia</h1>
+    <h1>CodePedia <span class="accent-text">2026</span></h1>
     <p>The Universal Code Encyclopedia for the Big 6 Languages</p>
 </header>
 
 <div class="container">
-    <input type="text" class="search-box" id="mainSearch" placeholder="Search categories (e.g. 'Math', 'Chat')..." onkeyup="filterCategories()">
+    <div class="search-container">
+        <input type="text" class="search-box" id="mainSearch" placeholder="Search categories (e.g. 'Math', 'Chat')..." onkeyup="filterCategories()">
+    </div>
 
     <section id="featured">
-        <h2>Featured Snippet</h2>
-        <div class="card">
+        <h2 class="section-title">⚡ Featured Snippet</h2>
+        <div class="card featured-card">
             <h3>Prime Number Check</h3>
             <p>Determine if a number is prime using the efficient $O(\sqrt{n})$ method.</p>
             
@@ -32,16 +33,18 @@
                 <button class="tab-btn" onclick="openLang(event, 'prime-go', 'featured-box')">Go</button>
             </div>
             <div class="code-header">
+                <span class="lang-label">Source Code</span>
                 <button class="copy-btn" onclick="copyCode('featured-box')">Copy Code</button>
             </div>
-            <pre id="featured-box" class="code-display">Loading featured code...</pre>
+            <pre id="featured-box" class="code-display">Initializing repository...</pre>
         </div>
     </section>
 
-    <h2>Categories</h2>
+    <h2 class="section-title">📂 Categories</h2>
     <div class="category-grid" id="categoryGrid">
+        
         <div class="card content-card">
-            <div>
+            <div class="card-info">
                 <h3>Mathematics</h3>
                 <p>Prime numbers, Factorials, Fibonacci sequences, and Geometry logic.</p>
             </div>
@@ -49,7 +52,7 @@
         </div>
 
         <div class="card content-card">
-            <div>
+            <div class="card-info">
                 <h3>Sorting</h3>
                 <p>Quick sort, Merge sort, and basic Bubble sort implementations.</p>
             </div>
@@ -57,46 +60,48 @@
         </div>
 
         <div class="card content-card">
-            <div>
+            <div class="card-info">
                 <h3>Strings</h3>
                 <p>Palindrome checks, Reversing strings, and Pattern matching.</p>
             </div>
             <a href="Strings.html" class="browse-link">Browse Strings &rarr;</a>
         </div>
 
-        <div class="card content-card" style="border-top: 4px solid var(--accent);">
-            <div>
-                <h3>Community Chat</h3>
-                <p>Discuss code, ask questions, and hang out with other developers in real-time.</p>
+        <div class="card content-card chat-highlight">
+            <div class="card-info">
+                <h3>Community Chat & IDE</h3>
+                <p>Discuss code, ask questions, and run snippets in a live shared environment.</p>
             </div>
-            <a href="Chat.html" class="browse-link" style="color: var(--accent);">Open Live Chat &rarr;</a>
+            <a href="Chat.html" class="browse-link highlight-link">Open Live Stream &rarr;</a>
         </div>
     </div>
 </div>
 
 <footer>
-    &copy; 2026 CodePedia Encyclopedia | Hosted on GitHub Pages
+    &copy; 2026 CodePedia Encyclopedia | Multi-Language Dev Hub
 </footer>
 
 <script type="module" src="script.js"></script>
 
 <script type="module">
-    // We attach the function to 'window' so the HTML buttons can still find it
+    // Attach search logic to window for HTML access
     window.filterCategories = function() {
         let input = document.getElementById('mainSearch').value.toLowerCase();
-        let cards = document.getElementsByClassName('content-card');
+        let cards = document.querySelectorAll('.content-card');
 
-        for (let i = 0; i < cards.length; i++) {
-            let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
-            let desc = cards[i].getElementsByTagName('p')[0].innerText.toLowerCase();
-            
-            if (title.includes(input) || desc.includes(input)) {
-                cards[i].style.display = "";
-            } else {
-                cards[i].style.display = "none";
-            }
-        }
+        cards.forEach(card => {
+            let title = card.querySelector('h3').innerText.toLowerCase();
+            let desc = card.querySelector('p').innerText.toLowerCase();
+            card.style.display = (title.includes(input) || desc.includes(input)) ? "" : "none";
+        });
     }
+
+    // Initialize Featured Snippet on load
+    window.addEventListener('DOMContentLoaded', () => {
+        // Automatically trigger the first tab's content
+        const firstTab = document.querySelector('.tab-btn.active');
+        if (firstTab) firstTab.click();
+    });
 </script>
 
 </body>

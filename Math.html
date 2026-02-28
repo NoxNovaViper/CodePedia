@@ -4,65 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Encyclopedia | CodePedia</title>
-    
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
 
 <header>
-    <nav><a href="index.html">&larr; Back to Home</a></nav>
-    <h1>Math Encyclopedia</h1>
-    <p>Essential mathematical algorithms and efficiency logic.</p>
+    <nav><a href="index.html" class="back-link">&larr; BACK_TO_ROOT</a></nav>
+    <h1 class="main-title">MATH_ALGORITHMS</h1>
+    <p>Essential mathematical logic and efficiency visualizers.</p>
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Search math algorithms (e.g. 'Factorial')...">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Search math algorithms (e.g. 'Factorial')..." onkeyup="filterMath()">
 
-    <section class="card">
+    <section class="card math-section" id="prime-visualizer">
         <h2>Prime Efficiency Visualizer</h2>
-        <p>Why we only check factors up to $\sqrt{n}$ to determine primality:</p>
-        <div class="visualizer">
-            <input type="range" id="mathSlider" min="1" max="36" value="1" style="width: 80%;">
-            <h3 id="visualizer-output">Factor Pair: 1 × 36.0</h3>
-            <p id="logic-explanation">Move the slider to see factor pairs of 36.</p>
+        <p>Why we only check factors up to $\sqrt{n}$:</p>
+        
+        
+        
+        <div class="visualizer-area" style="text-align: center; padding: 20px;">
+            <input type="range" id="mathSlider" min="1" max="36" value="1" style="width: 100%; accent-color: var(--accent);">
+            <div class="visualizer-output-box" style="margin-top: 20px; font-family: 'Fira Code', monospace;">
+                <h3 id="visualizer-output">Factor Pair: 1 × 36.0</h3>
+                <p id="logic-explanation" style="font-size: 0.8rem; opacity: 0.7;">
+                    Notice how pairs repeat after 6 ($\sqrt{36}$).
+                </p>
+            </div>
         </div>
     </section>
 
-    <section>
+    <section class="math-section" data-name="factorial">
         <h2>Factorial (n!)</h2>
-        <p>Calculates the product of all positive integers up to $n$ using iteration or recursion.</p>
+        <p>Calculates the product of all positive integers up to $n$. Efficiency: $O(n)$.</p>
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'fact-py', 'fact-box')">Python</button>
                 <button class="tab-btn" onclick="openLang(event, 'fact-js', 'fact-box')">JS</button>
                 <button class="tab-btn" onclick="openLang(event, 'fact-cpp', 'fact-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'fact-java', 'fact-box')">Java</button>
-                <button class="tab-btn" onclick="openLang(event, 'fact-cs', 'fact-box')">C#</button>
                 <button class="tab-btn" onclick="openLang(event, 'fact-go', 'fact-box')">Go</button>
             </div>
             <div class="code-header">
                 <button class="copy-btn" onclick="copyCode('fact-box')">Copy Code</button>
             </div>
-            <pre id="fact-box" class="code-display">Loading...</pre>
+            <pre id="fact-box" class="code-display">Initializing sector...</pre>
         </div>
     </section>
 
-    <section>
+    <section class="math-section" data-name="gcd">
         <h2>Greatest Common Divisor (GCD)</h2>
-        <p>Finding the largest shared factor using the Euclidean Algorithm.</p>
+        <p>The Euclidean Algorithm: $\text{gcd}(a, b) = \text{gcd}(b, a \pmod b)$.</p>
+        
+        
+        
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'gcd-py', 'gcd-box')">Python</button>
                 <button class="tab-btn" onclick="openLang(event, 'gcd-js', 'gcd-box')">JS</button>
                 <button class="tab-btn" onclick="openLang(event, 'gcd-cpp', 'gcd-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'gcd-java', 'gcd-box')">Java</button>
-                <button class="tab-btn" onclick="openLang(event, 'gcd-cs', 'gcd-box')">C#</button>
                 <button class="tab-btn" onclick="openLang(event, 'gcd-go', 'gcd-box')">Go</button>
             </div>
             <div class="code-header">
                 <button class="copy-btn" onclick="copyCode('gcd-box')">Copy Code</button>
             </div>
-            <pre id="gcd-box" class="code-display">Loading...</pre>
+            <pre id="gcd-box" class="code-display">Initializing sector...</pre>
         </div>
     </section>
 </div>
@@ -70,5 +77,40 @@
 <footer>&copy; 2026 CodePedia Math | Structured for Efficiency</footer>
 
 <script type="module" src="script.js"></script>
+
+<script>
+    // 1. PRIME VISUALIZER LOGIC
+    const slider = document.getElementById('mathSlider');
+    const output = document.getElementById('visualizer-output');
+    const explain = document.getElementById('logic-explanation');
+
+    if(slider) {
+        slider.oninput = function() {
+            let val = parseFloat(this.value);
+            let pair = (36 / val).toFixed(1);
+            output.innerHTML = `Factor Pair: ${val} × ${pair}`;
+            
+            if (val > 6) {
+                explain.innerHTML = `<span style="color:var(--accent)">Redundant!</span> This pair was already found as ${pair} × ${val}.`;
+            } else if (val == 6) {
+                explain.innerHTML = `<strong>Perfect Square!</strong> This is the $\\sqrt{n}$ limit.`;
+            } else {
+                explain.innerHTML = `Searching for new factors...`;
+            }
+        };
+    }
+
+    // 2. MATH PAGE SEARCH
+    window.filterMath = function() {
+        let input = document.getElementById('pageSearch').value.toLowerCase();
+        let sections = document.querySelectorAll('.math-section');
+
+        sections.forEach(sec => {
+            let text = sec.innerText.toLowerCase();
+            sec.style.display = text.includes(input) ? "" : "none";
+        });
+    }
+</script>
+
 </body>
 </html>

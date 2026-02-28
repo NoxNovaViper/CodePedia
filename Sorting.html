@@ -4,23 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sorting Algorithms | CodePedia</title>
-    
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
 
 <header>
-    <nav><a href="index.html">&larr; Back to Home</a></nav>
-    <h1>Sorting Algorithms</h1>
-    <p>Efficient ways to organize data structures.</p>
+    <nav><a href="index.html" class="back-link">&larr; BACK_TO_ROOT</a></nav>
+    <h1 class="main-title">SORTING_ALGORITHMS</h1>
+    <p>Efficient ways to organize and optimize data structures.</p>
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Filter sorting algorithms (e.g., 'Quick')...">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Filter sorting algorithms (e.g., 'Quick')..." onkeyup="filterSorting()">
 
-    <section>
-        <h2>Bubble Sort</h2>
-        <p>A simple comparison sort that repeatedly steps through the list ($O(n^2)$).</p>
+    <section class="sort-section" data-name="bubble">
+        <div class="section-header">
+            <h2>Bubble Sort</h2>
+            <span class="badge badge-slow">O(n²) Average</span>
+        </div>
+        <p>A simple comparison sort that repeatedly steps through the list, swapping adjacent elements if they are in the wrong order.</p>
+        
+        
         
         <div class="card">
             <div class="tabs">
@@ -28,19 +32,23 @@
                 <button class="tab-btn" onclick="openLang(event, 'bubble-js', 'bubble-box')">JS</button>
                 <button class="tab-btn" onclick="openLang(event, 'bubble-cpp', 'bubble-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'bubble-java', 'bubble-box')">Java</button>
-                <button class="tab-btn" onclick="openLang(event, 'bubble-cs', 'bubble-box')">C#</button>
                 <button class="tab-btn" onclick="openLang(event, 'bubble-go', 'bubble-box')">Go</button>
             </div>
             <div class="code-header">
                 <button class="copy-btn" onclick="copyCode('bubble-box')">Copy Code</button>
             </div>
-            <pre id="bubble-box" class="code-display">Loading...</pre>
+            <pre id="bubble-box" class="code-display">Loading algorithm...</pre>
         </div>
     </section>
 
-    <section>
-        <h2>Quick Sort</h2>
-        <p>A divide-and-conquer algorithm that picks a 'pivot' ($O(n \log n)$ average).</p>
+    <section class="sort-section" data-name="quick">
+        <div class="section-header">
+            <h2>Quick Sort</h2>
+            <span class="badge badge-fast">O(n log n) Average</span>
+        </div>
+        <p>A highly efficient divide-and-conquer algorithm that picks a 'pivot' element and partitions the array into sub-arrays.</p>
+        
+        
         
         <div class="card">
             <div class="tabs">
@@ -48,13 +56,12 @@
                 <button class="tab-btn" onclick="openLang(event, 'quick-js', 'quick-box')">JS</button>
                 <button class="tab-btn" onclick="openLang(event, 'quick-cpp', 'quick-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'quick-java', 'quick-box')">Java</button>
-                <button class="tab-btn" onclick="openLang(event, 'quick-cs', 'quick-box')">C#</button>
                 <button class="tab-btn" onclick="openLang(event, 'quick-go', 'quick-box')">Go</button>
             </div>
             <div class="code-header">
                 <button class="copy-btn" onclick="copyCode('quick-box')">Copy Code</button>
             </div>
-            <pre id="quick-box" class="code-display">Loading...</pre>
+            <pre id="quick-box" class="code-display">Loading algorithm...</pre>
         </div>
     </section>
 </div>
@@ -64,5 +71,19 @@
 </footer>
 
 <script type="module" src="script.js"></script>
+
+<script>
+    // SORTING PAGE SEARCH
+    window.filterSorting = function() {
+        let input = document.getElementById('pageSearch').value.toLowerCase();
+        let sections = document.querySelectorAll('.sort-section');
+
+        sections.forEach(sec => {
+            let text = sec.innerText.toLowerCase();
+            sec.style.display = text.includes(input) ? "" : "none";
+        });
+    }
+</script>
+
 </body>
 </html>
