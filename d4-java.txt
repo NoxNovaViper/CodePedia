@@ -1,6 +1,0 @@
-// Move Diagonally Right-Down from a point (r, c)
-while (r < rows && c < cols) {
-    System.out.print(matrix[r][c] + " ");
-    r++;
-    c++;
-}
