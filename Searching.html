@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searching Algorithms | CodePedia</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html">&larr; Home</a>
+        <a href="Math.html">Math</a>
+        <a href="Sorting.html">Sorting</a>
+        <a href="Strings.html">Strings</a>
+        <a href="Chat.html">💬 Live Chat</a>
+    </nav>
+    <h1>Searching Algorithms</h1>
+    <p>Efficient techniques for finding elements in data structures.</p>
+</header>
+
+<div class="container">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Filter searching algorithms (e.g., 'Binary')...">
+
+    <section>
+        <h2>Binary Search</h2>
+        <p>Finds an element in a sorted array by repeatedly halving the search space (O(log n)). Far faster than linear search for large datasets.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'bi_s-py', 'bis-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'bi_s-js', 'bis-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'bi_s-cpp', 'bis-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'bi_s-java', 'bis-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'bi_s-cs', 'bis-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'bi_s-go', 'bis-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('bis-box')">Copy Code</button>
+            </div>
+            <pre id="bis-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+</div>
+
+<footer>&copy; 2026 CodePedia | Searching Encyclopedia</footer>
+<script type="module" src="script.js"></script>
+</body>
+</html>

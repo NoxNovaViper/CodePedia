@@ -5,54 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Live Chat | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
-    <style>
-        #chat-window {
-            height: 450px;
-            overflow-y: auto;
-            background: #0d1117;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .message { 
-            padding: 10px 15px; 
-            border-radius: 8px; 
-            background: var(--card); 
-            border-left: 4px solid var(--accent);
-            max-width: 85%;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .msg-user { color: var(--accent); font-weight: bold; display: block; font-size: 0.8rem; margin-bottom: 4px; }
-        .msg-time { color: #555; font-size: 0.7rem; float: right; }
-        .msg-text { color: var(--text); word-wrap: break-word; display: block; }
-        
-        #chat-form { display: flex; gap: 10px; }
-        #msg-input { 
-            flex-grow: 1; 
-            padding: 12px; 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            border-radius: 6px;
-            color: white; 
-            outline: none;
-        }
-        #msg-input:focus { border-color: var(--accent); }
-        #msg-input:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        #cooldown-hint {
-            font-size: 0.75rem;
-            color: #555;
-            text-align: right;
-            margin-top: 6px;
-            min-height: 1em;
-        }
-    </style>
 </head>
 <body>
 
@@ -62,6 +14,7 @@
         <a href="Math.html">Math</a>
         <a href="Sorting.html">Sorting</a>
         <a href="Strings.html">Strings</a>
+        <a href="Searching.html">Searching</a>
     </nav>
     <h1>Global Dev Chat</h1>
     <p>Real-time discussion with the CodePedia community.</p>
@@ -74,13 +27,13 @@
             <span class="msg-text">Welcome to CodePedia Chat! Start typing below to join the conversation.</span>
         </div>
     </div>
-
     <form id="chat-form">
         <input type="text" id="msg-input" placeholder="Type your message..." required autocomplete="off" maxlength="500">
         <button type="submit" class="copy-btn" style="padding: 0 25px;">Send</button>
     </form>
     <div id="cooldown-hint"></div>
 </div>
+
 <script type="module" src="script.js"></script>
 <script type="module" src="extra.js"></script>
 </body>

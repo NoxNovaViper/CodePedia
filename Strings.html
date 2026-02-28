@@ -13,6 +13,7 @@
         <a href="index.html">&larr; Home</a>
         <a href="Math.html">Math</a>
         <a href="Sorting.html">Sorting</a>
+        <a href="Searching.html">Searching</a>
         <a href="Chat.html">💬 Live Chat</a>
     </nav>
     <h1>String Algorithms</h1>
@@ -43,15 +44,15 @@
 
     <section>
         <h2>Palindrome Check</h2>
-        <p>Checks if a string reads the same forwards and backwards by comparing characters.</p>
+        <p>Checks if a string reads the same forwards and backwards by comparing characters (O(n)).</p>
         <div class="card">
             <div class="tabs">
-                <button class="tab-btn active" onclick="openLang(event, 'pal-py', 'pal-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'pal-js', 'pal-box')">JS</button>
-                <button class="tab-btn" onclick="openLang(event, 'pal-cpp', 'pal-box')">C++</button>
-                <button class="tab-btn" onclick="openLang(event, 'pal-java', 'pal-box')">Java</button>
-                <button class="tab-btn" onclick="openLang(event, 'pal-cs', 'pal-box')">C#</button>
-                <button class="tab-btn" onclick="openLang(event, 'pal-go', 'pal-box')">Go</button>
+                <button class="tab-btn active" onclick="openLang(event, 'palindrome-py', 'pal-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'palindrome-js', 'pal-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'palindrome-cpp', 'pal-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'palindrome-java', 'pal-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'palindrome-cs', 'pal-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'palindrome-go', 'pal-box')">Go</button>
             </div>
             <div class="code-header">
                 <button class="copy-btn" onclick="copyCode('pal-box')">Copy Code</button>
@@ -59,6 +60,7 @@
             <pre id="pal-box" class="code-display">Loading...</pre>
         </div>
     </section>
+
 </div>
 
 <footer>&copy; 2026 CodePedia | String Encyclopedia</footer>

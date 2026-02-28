@@ -1,0 +1,14 @@
+arr = [10, 20, 30, 40, 50]
+target = 40
+low, high = 0, len(arr) - 1
+found_at = -1
+while low <= high:
+    mid = (low + high) // 2
+    if arr[mid] == target:
+        found_at = mid
+        break
+    elif arr[mid] < target:
+        low = mid + 1
+    else:
+        high = mid - 1
+print(f"Target found at index: {found_at}")

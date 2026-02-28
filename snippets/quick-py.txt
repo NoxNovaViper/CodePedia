@@ -1,0 +1,9 @@
+data = [34, 7, 23, 32, 5, 62]
+pivot = data[len(data) // 2]
+
+left = [x for x in data if x < pivot]
+middle = [x for x in data if x == pivot]
+right = [x for x in data if x > pivot]
+
+sorted_data = left + middle + right
+print(sorted_data)

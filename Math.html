@@ -13,6 +13,7 @@
         <a href="index.html">&larr; Home</a>
         <a href="Sorting.html">Sorting</a>
         <a href="Strings.html">Strings</a>
+        <a href="Searching.html">Searching</a>
         <a href="Chat.html">💬 Live Chat</a>
     </nav>
     <h1>Math Encyclopedia</h1>
@@ -20,7 +21,7 @@
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Search math algorithms (e.g. 'Factorial')...">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Search math algorithms (e.g. 'Fibonacci')...">
 
     <section class="card">
         <h2>Prime Efficiency Visualizer</h2>
@@ -33,8 +34,27 @@
     </section>
 
     <section>
+        <h2>Prime Number Check</h2>
+        <p>Determines if a number is prime by checking divisors only up to √n (O(√n)).</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'prime-py', 'prime-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-js', 'prime-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-cpp', 'prime-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-java', 'prime-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-cs', 'prime-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-go', 'prime-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('prime-box')">Copy Code</button>
+            </div>
+            <pre id="prime-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
         <h2>Factorial (n!)</h2>
-        <p>Calculates the product of all positive integers up to n using iteration or recursion.</p>
+        <p>Calculates the product of all positive integers up to n (O(n)).</p>
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'fact-py', 'fact-box')">Python</button>
@@ -53,7 +73,7 @@
 
     <section>
         <h2>Greatest Common Divisor (GCD)</h2>
-        <p>Finding the largest shared factor using the Euclidean Algorithm.</p>
+        <p>Finds the largest shared factor using the Euclidean Algorithm (O(log min(a,b))).</p>
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'gcd-py', 'gcd-box')">Python</button>
@@ -69,10 +89,67 @@
             <pre id="gcd-box" class="code-display">Loading...</pre>
         </div>
     </section>
+
+    <section>
+        <h2>Least Common Multiple (LCM)</h2>
+        <p>Smallest number divisible by both inputs. Built on GCD: LCM(a,b) = |a×b| / GCD(a,b).</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'lcm-py', 'lcm-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'lcm-js', 'lcm-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'lcm-cpp', 'lcm-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'lcm-java', 'lcm-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'lcm-cs', 'lcm-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'lcm-go', 'lcm-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('lcm-box')">Copy Code</button>
+            </div>
+            <pre id="lcm-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Fibonacci Sequence</h2>
+        <p>Generates the nth Fibonacci number iteratively in O(n) time and O(1) space.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'fibo-py', 'fibo-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'fibo-js', 'fibo-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'fibo-cpp', 'fibo-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'fibo-java', 'fibo-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'fibo-cs', 'fibo-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'fibo-go', 'fibo-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('fibo-box')">Copy Code</button>
+            </div>
+            <pre id="fibo-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Power / Exponentiation</h2>
+        <p>Raises a base to an exponent. Fast exponentiation (O(log n)) handles large exponents efficiently.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'pow-py', 'pow-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'pow-js', 'pow-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'pow-cpp', 'pow-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'pow-java', 'pow-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'pow-cs', 'pow-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'pow-go', 'pow-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('pow-box')">Copy Code</button>
+            </div>
+            <pre id="pow-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
 </div>
 
 <footer>&copy; 2026 CodePedia Math | Structured for Efficiency</footer>
-
 <script type="module" src="script.js"></script>
 <script type="module" src="extra.js"></script>
 </body>

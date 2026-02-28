@@ -1,6 +1,6 @@
 /**
  * CODEPEDIA CORE LOGIC 2026
- * Handles: Snippet Fetching, Multi-level Search, and Clipboard
+ * Handles: Snippet Fetching, Search, Clipboard
  * Page-specific logic (visualizer, chat) lives in extra.js
  */
 
@@ -8,7 +8,7 @@
 async function openLang(evt, filename, targetId) {
     const card = evt.currentTarget.closest('.card');
     const displayBox = document.getElementById(targetId);
-    
+
     card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     evt.currentTarget.classList.add('active');
 
@@ -16,28 +16,26 @@ async function openLang(evt, filename, targetId) {
         displayBox.textContent = "// Loading snippet...";
         const response = await fetch(`./snippets/${filename}.txt`);
         if (!response.ok) throw new Error("File not found");
-        const codeText = await response.text();
-        displayBox.textContent = codeText;
+        displayBox.textContent = await response.text();
     } catch (err) {
         displayBox.textContent = `// Error: Could not find ${filename}.txt in /snippets/`;
         console.error("Snippet Fetch Error:", err);
     }
 }
 
-// 2. Global Search Logic
+// 2. Search Logic
 document.addEventListener('input', function(e) {
     if (e.target.id === 'pageSearch' || e.target.id === 'mainSearch') {
         const term = e.target.value.toLowerCase();
-        
+
         document.querySelectorAll('section').forEach(section => {
             const h2 = section.querySelector('h2')?.innerText.toLowerCase() || "";
-            const p = section.querySelector('p')?.innerText.toLowerCase() || "";
+            const p  = section.querySelector('p')?.innerText.toLowerCase()  || "";
             section.style.display = (h2.includes(term) || p.includes(term)) ? "block" : "none";
         });
 
         document.querySelectorAll('.content-card').forEach(card => {
-            const text = card.innerText.toLowerCase();
-            card.style.display = text.includes(term) ? "flex" : "none";
+            card.style.display = card.innerText.toLowerCase().includes(term) ? "flex" : "none";
         });
     }
 });
@@ -45,23 +43,19 @@ document.addEventListener('input', function(e) {
 // 3. Copy to Clipboard
 async function copyCode(targetId) {
     const code = document.getElementById(targetId).textContent;
-    const btn = document.querySelector(`button[onclick="copyCode('${targetId}')"]`);
-    
+    const btn  = document.querySelector(`button[onclick="copyCode('${targetId}')"]`);
     try {
         await navigator.clipboard.writeText(code);
-        const originalText = btn.innerText;
+        const orig = btn.innerText;
         btn.innerText = "Copied!";
         btn.style.borderColor = "var(--accent)";
-        setTimeout(() => {
-            btn.innerText = originalText;
-            btn.style.borderColor = "var(--border)";
-        }, 2000);
-    } catch (err) {
+        setTimeout(() => { btn.innerText = orig; btn.style.borderColor = "var(--border)"; }, 2000);
+    } catch {
         btn.innerText = "Error!";
     }
 }
 
-// 4. Initial Setup
+// 4. Auto-load first tab on every card
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.tabs').forEach(tabContainer => {
         const firstBtn = tabContainer.querySelector('.tab-btn');
@@ -70,6 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log("CodePedia Core Loaded.");
 });
 
-// Expose to global scope for inline onclick attributes (required with type="module")
+// Expose to global scope for inline onclick with type="module"
 window.openLang = openLang;
 window.copyCode = copyCode;

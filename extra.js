@@ -1,23 +1,16 @@
 /**
  * CODEPEDIA EXTRA LOGIC 2026
  * Handles: Math Visualizer + Firebase Chat
- * Load this file only on pages that need it (Math.html, Chat.html)
- *
- * Math.html  → <script type="module" src="extra.js"></script>
- * Chat.html  → <script type="module" src="extra.js"></script>
+ * Load only on Math.html and Chat.html
  */
 
-// ============================================================
-// SECTION 1: MATH VISUALIZER (Math.html)
-// Only runs if #mathSlider exists on the page
-// ============================================================
-
+// --- MATH VISUALIZER ---
 const slider = document.getElementById('mathSlider');
 if (slider) {
     slider.oninput = function () {
-        const output = document.getElementById('visualizer-output');
+        const output      = document.getElementById('visualizer-output');
         const explanation = document.getElementById('logic-explanation');
-        const val = parseInt(this.value);
+        const val  = parseInt(this.value);
         const pair = (36 / val).toFixed(1);
 
         output.innerHTML = `Factor Pair: ${val} × ${pair}`;
@@ -32,14 +25,11 @@ if (slider) {
     };
 }
 
-// ============================================================
-// SECTION 2: FIREBASE CHAT (Chat.html)
-// Only runs if #chat-window exists on the page
-// ============================================================
-
+// --- FIREBASE CHAT ---
 if (document.getElementById('chat-window')) {
     const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js");
-    const { getDatabase, ref, push, onChildAdded, serverTimestamp, limitToLast, query } = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js");
+    const { getDatabase, ref, push, onChildAdded, serverTimestamp, query, limitToLast }
+        = await import("https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js");
 
     const firebaseConfig = {
         apiKey: "AIzaSyCIMbWOjtAyx-YOEqAYfPJ5ul_7M2iARIw",
@@ -52,49 +42,41 @@ if (document.getElementById('chat-window')) {
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    const db  = getDatabase(app);
     const messagesRef = ref(db, 'messages');
 
-    const chatWindow = document.getElementById('chat-window');
-    const chatForm = document.getElementById('chat-form');
-    const msgInput = document.getElementById('msg-input');
+    const chatWindow   = document.getElementById('chat-window');
+    const chatForm     = document.getElementById('chat-form');
+    const msgInput     = document.getElementById('msg-input');
     const cooldownHint = document.getElementById('cooldown-hint');
 
-    // Persist username for the whole session so refreshing keeps your name
+    // Persist username across refreshes
     let username = sessionStorage.getItem('cp-username');
     if (!username) {
         username = "Dev-" + Math.floor(Math.random() * 9999);
         sessionStorage.setItem('cp-username', username);
     }
 
-    // Spam cooldown: 3 seconds between messages
     let lastSent = 0;
     const COOLDOWN_MS = 3000;
 
     chatForm.addEventListener('submit', (e) => {
         e.preventDefault();
-
         const now = Date.now();
         const remaining = COOLDOWN_MS - (now - lastSent);
         if (remaining > 0) {
             cooldownHint.textContent = `Please wait ${(remaining / 1000).toFixed(1)}s before sending again.`;
             return;
         }
-
         const text = msgInput.value.trim();
         if (text) {
-            push(messagesRef, {
-                username: username,
-                text: text,
-                timestamp: serverTimestamp()
-            });
+            push(messagesRef, { username, text, timestamp: serverTimestamp() });
             msgInput.value = "";
             lastSent = Date.now();
             cooldownHint.textContent = "";
         }
     });
 
-    // Only load the last 50 messages — prevents slow load if chat grows large
     const recentMessages = query(messagesRef, limitToLast(50));
 
     onChildAdded(recentMessages, (snapshot) => {
@@ -106,18 +88,16 @@ if (document.getElementById('chat-window')) {
 
         const userEl = document.createElement('span');
         userEl.className = 'msg-user';
-        userEl.textContent = data.username; // Safe — no innerHTML
+        userEl.textContent = data.username;
 
         const textEl = document.createElement('span');
         textEl.className = 'msg-text';
-        textEl.textContent = data.text; // Safe — no innerHTML
+        textEl.textContent = data.text;
 
         if (data.timestamp) {
             const timeEl = document.createElement('span');
             timeEl.className = 'msg-time';
-            timeEl.textContent = new Date(data.timestamp).toLocaleTimeString([], {
-                hour: '2-digit', minute: '2-digit'
-            });
+            timeEl.textContent = new Date(data.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             userEl.appendChild(timeEl);
         }
 

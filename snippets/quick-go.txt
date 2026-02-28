@@ -1,0 +1,11 @@
+arr := []int{10, 80, 30, 90, 40, 50, 70}
+pivot := arr[6]
+i := -1
+
+for j := 0; j < 6; j++ {
+    if arr[j] < pivot {
+        i++
+        arr[i], arr[j] = arr[j], arr[i]
+    }
+}
+arr[i+1], arr[6] = arr[6], arr[i+1]

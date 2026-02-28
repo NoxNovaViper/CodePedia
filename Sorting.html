@@ -13,6 +13,7 @@
         <a href="index.html">&larr; Home</a>
         <a href="Math.html">Math</a>
         <a href="Strings.html">Strings</a>
+        <a href="Searching.html">Searching</a>
         <a href="Chat.html">💬 Live Chat</a>
     </nav>
     <h1>Sorting Algorithms</h1>
@@ -24,8 +25,7 @@
 
     <section>
         <h2>Bubble Sort</h2>
-        <p>A simple comparison sort that repeatedly steps through the list (O(n²)).</p>
-        
+        <p>Simple comparison sort that repeatedly swaps adjacent elements (O(n²)). Best for small or nearly-sorted data.</p>
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'bubble-py', 'bubble-box')">Python</button>
@@ -44,8 +44,7 @@
 
     <section>
         <h2>Quick Sort</h2>
-        <p>A divide-and-conquer algorithm that picks a 'pivot' (O(n log n) average).</p>
-        
+        <p>Divide-and-conquer algorithm using a pivot element (O(n log n) average). Fast in practice for most datasets.</p>
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'quick-py', 'quick-box')">Python</button>
@@ -61,12 +60,29 @@
             <pre id="quick-box" class="code-display">Loading...</pre>
         </div>
     </section>
+
+    <section>
+        <h2>Merge Sort</h2>
+        <p>Stable divide-and-conquer sort that splits and merges (O(n log n) guaranteed). Great for linked lists and large datasets.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'merge-py', 'merge-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'merge-js', 'merge-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'merge-cpp', 'merge-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'merge-java', 'merge-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'merge-cs', 'merge-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'merge-go', 'merge-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('merge-box')">Copy Code</button>
+            </div>
+            <pre id="merge-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
 </div>
 
-<footer>
-    &copy; 2026 CodePedia Sorting | Logic and Order
-</footer>
-
+<footer>&copy; 2026 CodePedia Sorting | Logic and Order</footer>
 <script type="module" src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,14 @@
+int arr[] = {10, 80, 30, 90, 40, 50, 70};
+int pivot = arr[6];
+int i = -1;
+for (int j = 0; j < 6; j++) {
+    if (arr[j] < pivot) {
+        i++;
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+}
+int temp = arr[i + 1];
+arr[i + 1] = arr[6];
+arr[6] = temp;
