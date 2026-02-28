@@ -1,54 +1,54 @@
 /**
  * CODEPEDIA CORE LOGIC 2026
- * Part 1: Snippet Fetching & Tab Management
+ * Handles: Snippet Fetching, Multi-level Search, Visualizers, and Clipboard
  */
 
-// --- 1. Snippet Loader ---
-window.openLang = async function(evt, filename, targetId) {
-    const card = evt.currentTarget.closest('.card') || evt.currentTarget.closest('.main-wrapper');
+// 1. Snippet Loader (Fetch from /snippets/ folder)
+async function openLang(evt, filename, targetId) {
+    const card = evt.currentTarget.closest('.card');
     const displayBox = document.getElementById(targetId);
     
-    // UI: Update Tab State
-    const tabs = card.querySelectorAll('.tab-btn');
-    tabs.forEach(b => b.classList.remove('active'));
+    // UI Update: Active Button
+    card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     evt.currentTarget.classList.add('active');
 
     try {
-        displayBox.textContent = `// Loading ${filename}.txt...`;
-        
+        displayBox.textContent = "// Loading snippet...";
+        // GitHub Pages likes relative paths like this:
         const response = await fetch(`./snippets/${filename}.txt`);
-        if (!response.ok) throw new Error(`File not found: ${filename}.txt`);
-
+        
+        if (!response.ok) throw new Error("File not found");
+        
         const codeText = await response.text();
         displayBox.textContent = codeText;
-
-        // Refresh MathJax formatting if present
-        if (window.MathJax) {
-            MathJax.typesetPromise([displayBox]);
-        }
-
+        
     } catch (err) {
-        displayBox.textContent = `// Error: Could not load the ${filename} snippet.`;
-        console.error("Fetch Error:", err);
+        displayBox.textContent = `// Error: Could not find ${filename}.txt in /snippets/`;
+        console.error("Snippet Fetch Error:", err);
     }
 }
 
-// --- 2. Optimized Search Logic ---
-document.addEventListener('input', (e) => {
-    if (e.target.classList.contains('search-box')) {
+// 2. Global Search Logic (Handles Sections and Cards)
+document.addEventListener('input', function(e) {
+    if (e.target.id === 'pageSearch' || e.target.id === 'mainSearch') {
         const term = e.target.value.toLowerCase();
-        // Target specific category and math sections
-        const searchTargets = document.querySelectorAll('section, .content-card, .math-section');
         
-        searchTargets.forEach(el => {
-            const isMatch = el.innerText.toLowerCase().includes(term);
-            el.style.display = isMatch ? "" : "none";
-            el.style.opacity = isMatch ? "1" : "0";
+        // Filter Sections (used in Category pages)
+        document.querySelectorAll('section').forEach(section => {
+            const h2 = section.querySelector('h2')?.innerText.toLowerCase() || "";
+            const p = section.querySelector('p')?.innerText.toLowerCase() || "";
+            section.style.display = (h2.includes(term) || p.includes(term)) ? "block" : "none";
+        });
+
+        // Filter standalone Cards (used in Home page)
+        document.querySelectorAll('.content-card').forEach(card => {
+            const text = card.innerText.toLowerCase();
+            // FIX: Use 'flex' instead of 'block' to respect the CSS we wrote
+            card.style.display = text.includes(term) ? "flex" : "none";
         });
     }
 });
-
-// --- 3. Math Visualizer: Square Root Logic ---
+// 3. Math Visualizer Logic
 const slider = document.getElementById('mathSlider');
 if (slider) {
     slider.oninput = function() {
@@ -57,203 +57,44 @@ if (slider) {
         const val = parseInt(this.value);
         const pair = (36 / val).toFixed(1);
         
-        output.innerHTML = `Factor Pair: <strong>${val}</strong> × <strong>${pair}</strong>`;
+        output.innerHTML = `Factor Pair: ${val} × ${pair}`;
         
         if (val < 6) {
-            explanation.innerHTML = `Checking <strong>${val}</strong>: Partner <span style="color:var(--accent)">${pair}</span> is higher than √36.`;
-            output.parentElement.style.boxShadow = "0 0 10px rgba(0, 212, 255, 0.1)";
+            explanation.innerHTML = `Checking <strong>${val}</strong>: Since it's < √36 (6), we find its partner ${pair} above 6.`;
         } else if (val === 6) {
-            explanation.innerHTML = `<span style="color:#afff94">Goal Reached (√36):</span> Factors meet at 6×6!`;
-            output.parentElement.style.boxShadow = "0 0 30px #afff94";
+            explanation.innerHTML = `<strong>At √36</strong>: Factors meet at 6 × 6! Checking further is redundant.`;
         } else {
-            explanation.innerHTML = `Checking <strong>${val}</strong>: Redundant. Found <span style="color:var(--accent)">${pair}</span> earlier. <br><strong>Logic: \(O(\sqrt{n})\) search complete.</strong>`;
-            output.parentElement.style.boxShadow = "0 0 10px rgba(255, 255, 255, 0.1)";
+            explanation.innerHTML = `Checking <strong>${val}</strong>: Already found ${pair} earlier. $O(\sqrt{n})$ efficiency!`;
         }
     };
 }
 
-// --- 4. Clipboard API ---
-window.copyCode = async function(targetId) {
-    const displayBox = document.getElementById(targetId);
-    const btn = document.querySelector(`button[onclick*="'${targetId}'"]`);
-    if (!displayBox || !btn) return;
-
+// 4. NEW & IMPROVED: Copy to Clipboard (No annoying pop-ups)
+async function copyCode(targetId) {
+    const code = document.getElementById(targetId).textContent;
+    const btn = document.querySelector(`button[onclick="copyCode('${targetId}')"]`);
+    
     try {
-        await navigator.clipboard.writeText(displayBox.innerText);
-        const originalText = btn.innerHTML;
-        btn.innerHTML = "✅ Copied";
-        btn.classList.add('copy-success');
+        await navigator.clipboard.writeText(code);
+        const originalText = btn.innerText;
+        btn.innerText = "Copied!";
+        btn.style.borderColor = "var(--accent)";
         
         setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.classList.remove('copy-success');
-        }, 1500);
+            btn.innerText = originalText;
+            btn.style.borderColor = "var(--border)";
+        }, 2000);
     } catch (err) {
-        btn.innerText = "⚠️ Error";
+        btn.innerText = "Error!";
     }
 }
 
-/**
- * Part 2: Firebase & Real-time Collaboration
- */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, push, onChildAdded, serverTimestamp, onValue, off, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyCIMbWOjtAyx-YOEqAYfPJ5ul_7M2iARIw",
-    authDomain: "codepedia-e2bcb.firebaseapp.com",
-    projectId: "codepedia-e2bcb",
-    databaseURL: "https://codepedia-e2bcb-default-rtdb.firebaseio.com"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-// State Management
-let currentRoom = 'global';
-let messagesRef;
-let myId = localStorage.getItem('cp-userid') || `user-${Math.random().toString(36).substring(7)}`;
-localStorage.setItem('cp-userid', myId);
-
-const chatWindow = document.getElementById('chat-window');
-const chatGate = document.getElementById('chat-gate');
-const gateNickInput = document.getElementById('gate-nick');
-const chatForm = document.getElementById('chat-form');
-const msgInput = document.getElementById('msg-input');
-
-// --- 5. Room & Session Logic ---
-window.switchRoom = function(newRoom) {
-    if (messagesRef) off(messagesRef);
-    currentRoom = newRoom;
-    if (chatWindow) chatWindow.innerHTML = `<div class="system-msg">-- Switched to #${newRoom} --</div>`;
-    loadChat();
-};
-
-window.joinChat = function() {
-    const nick = gateNickInput.value.trim();
-    if (nick.length < 2) return;
-    
-    localStorage.setItem('cp-nickname', nick);
-    chatGate.style.opacity = '0';
-    
-    setTimeout(() => {
-        chatGate.style.display = 'none';
-        switchRoom('global');
-        
-        push(ref(db, `rooms/global`), {
-            username: "SYSTEM",
-            text: `${nick} has joined the chat.`,
-            color: "var(--accent)",
-            timestamp: serverTimestamp()
-        });
-    }, 450);
-};
-
-// --- 6. Live Preview Engine ---
-window.launchPreview = function(codeBase64) {
-    const container = document.getElementById('preview-container');
-    const iframe = document.getElementById('live-preview');
-    if (!container || !iframe) return;
-
-    container.style.display = 'block'; 
-    try {
-        const decodedCode = decodeURIComponent(escape(atob(codeBase64)));
-        const blob = new Blob([`
-            <html><body style="background:#0d1117; color:#fff; font-family:sans-serif; padding:20px;">
-                ${decodedCode}
-            </body></html>
-        `], { type: 'text/html' });
-        iframe.src = URL.createObjectURL(blob);
-    } catch(e) {
-        console.error("Preview Error:", e);
-    }
-};
-
-// --- 7. Chat Formatting & Loading ---
-function formatContent(data) {
-    const text = data.text || "";
-    
-    // Image Handling
-    if (/(https?:\/\/.*\.(?:png|jpg|jpeg|gif|webp))/i.test(text)) {
-        return `<img src="${text}" class="chat-meme" onclick="window.open(this.src)">`;
-    }
-
-    // Code Handling
-    if (text.includes('```') || text.startsWith('`')) {
-        const cleanCode = text.replace(/`/g, '').trim();
-        const encoded = btoa(unescape(encodeURIComponent(cleanCode))); 
-        return `
-            <div class="code-snippet-msg">
-                <code class="chat-code">${cleanCode}</code>
-                <button class="run-btn" onclick="launchPreview('${encoded}')">Run Preview</button>
-            </div>`;
-    }
-
-    const sanitizer = document.createElement('div');
-    sanitizer.textContent = text;
-    return `<span class="msg-body">${sanitizer.innerHTML}</span>`;
-}
-
-function loadChat() {
-    messagesRef = ref(db, 'rooms/' + currentRoom);
-    onChildAdded(messagesRef, (snapshot) => {
-        const data = snapshot.val();
-        if(!data || !chatWindow) return;
-
-        const div = document.createElement('div');
-        div.className = `message ${data.username === "SYSTEM" ? 'system-log' : ''}`;
-        div.innerHTML = `
-            <b style="color:${data.color || 'var(--accent)'}">${data.username}</b> 
-            <span class="timestamp">${new Date(data.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})}</span>
-            <div class="msg-content">${formatContent(data)}</div>
-        `;
-        chatWindow.appendChild(div);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
+// 5. Initial Setup
+window.onload = () => {
+    // Auto-click the first tab of every card to load default code
+    document.querySelectorAll('.tabs').forEach(tabContainer => {
+        const firstBtn = tabContainer.querySelector('.tab-btn');
+        if (firstBtn) firstBtn.click();
     });
-}
-
-// --- 8. Message Dispatch & Leaders ---
-if (chatForm) {
-    chatForm.onsubmit = (e) => {
-        e.preventDefault();
-        const rawText = msgInput.value.trim();
-        if (!rawText || !messagesRef) return;
-        
-        push(messagesRef, {
-            username: localStorage.getItem('cp-nickname') || "Anonymous",
-            text: rawText,
-            color: document.getElementById('user-color')?.value || "#00d4ff",
-            timestamp: serverTimestamp()
-        });
-        msgInput.value = "";
-    };
-}
-
-window.initLeaderboard = function() {
-    const leaderboardList = document.getElementById('leaderboard-list');
-    onValue(ref(db, 'members'), async (snapshot) => {
-        if (!leaderboardList || !snapshot.exists()) return;
-        
-        let rankings = [];
-        snapshot.forEach(snap => rankings.push({ id: snap.key, count: Object.keys(snap.val()).length }));
-        rankings.sort((a, b) => b.count - a.count);
-
-        const html = await Promise.all(rankings.slice(0, 5).map(async (item, i) => {
-            const nameSnap = await get(ref(db, `bubbles/${item.id}/name`));
-            return `<div class="member-item">
-                <span>${['🥇','🥈','🥉','🏅','🎖️'][i]} <b>${nameSnap.val() || 'Room'}</b></span>
-                <span class="rank-badge">${item.count} Users</span>
-            </div>`;
-        }));
-        leaderboardList.innerHTML = html.join('');
-    });
+    console.log("CodePedia Logic Loaded Successfully!");
 };
-
-// Initial Boot
-window.addEventListener('DOMContentLoaded', () => {
-    if (localStorage.getItem('cp-nickname') && chatGate) {
-        chatGate.style.display = 'none';
-        switchRoom('global');
-    }
-    document.querySelectorAll('.tabs').forEach(tc => tc.querySelector('.tab-btn')?.click());
-});

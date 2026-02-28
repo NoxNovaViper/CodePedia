@@ -4,144 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodePedia | Home</title>
-    <link rel="stylesheet" href="Style.css">
     
-    <style>
-        /* --- Clean Glassmorphism --- */
-        .card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-            border-color: var(--accent);
-        }
-
-        .featured-card {
-            border-left: 4px solid var(--accent);
-            cursor: default; /* Not a link itself */
-        }
-
-        /* Responsive Grid Logic */
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .browse-arrow {
-            font-size: 1.2rem;
-            opacity: 0.5;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .card:hover .browse-arrow {
-            transform: translateX(5px);
-            opacity: 1;
-            color: var(--accent);
-        }
-    </style>
-
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="Style.css">
 </head>
 <body>
 
 <header>
-    <div class="glow-effect"></div>
-    <h1>CodePedia <span class="accent-text">2026</span></h1>
-    <p class="subtitle">The Modern Encyclopedia for the World's Top 6 Languages</p>
+    <h1>CodePedia</h1>
+    <p>The Universal Code Encyclopedia for the Big 6 Languages</p>
 </header>
 
 <div class="container">
-    <div class="search-wrapper">
-        <input type="text" class="search-box" id="mainSearch" placeholder="Search algorithms, logic, or keywords..." onkeyup="filterCategories()">
-    </div>
+    <input type="text" class="search-box" id="mainSearch" placeholder="Search categories or snippets...">
 
     <section id="featured">
-        <h2 class="section-title">Global Logic: Prime Check</h2>
-        <div class="card featured-card">
-            <div class="featured-info">
-                <p>Efficiency: \(O(\sqrt{n})\). Optimized primality testing across all core languages.</p>
-            </div>
+        <h2>Featured Snippet</h2>
+        <div class="card">
+            <h3>Prime Number Check</h3>
+            <p>Determine if a number is prime using the efficient $O(\sqrt{n})$ method.</p>
             
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'prime-py', 'featured-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'prime-js', 'featured-box')">JavaScript</button>
+                <button class="tab-btn" onclick="openLang(event, 'prime-js', 'featured-box')">JS</button>
                 <button class="tab-btn" onclick="openLang(event, 'prime-cpp', 'featured-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'prime-java', 'featured-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'prime-cs', 'featured-box')">C#</button>
                 <button class="tab-btn" onclick="openLang(event, 'prime-go', 'featured-box')">Go</button>
             </div>
-
-            <pre id="featured-box" class="code-display">Select a language module to begin...</pre>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('featured-box')">Copy Code</button>
+            </div>
+            <pre id="featured-box" class="code-display">Loading featured code...</pre>
         </div>
     </section>
 
-    <h2 class="section-title">Knowledge Clusters</h2>
-    <div class="category-grid" id="categoryGrid">
-        
-        <div class="card content-card" onclick="location.href='Math.html'">
-            <div class="card-info">
+    <h2>Categories</h2>
+    <div class="category-grid">
+        <div class="card content-card">
+            <div>
                 <h3>Mathematics</h3>
-                <p>Core formulas, sequence logic, and geometric computation.</p>
+                <p>Prime numbers, Factorials, Fibonacci sequences, and Geometry logic.</p>
             </div>
-            <span class="browse-arrow">&rarr;</span>
+            <a href="Math.html" class="browse-link">Browse Math &rarr;</a>
         </div>
 
-        <div class="card content-card" onclick="location.href='Sorting.html'">
-            <div class="card-info">
+        <div class="card content-card">
+            <div>
                 <h3>Sorting</h3>
-                <p>Data organization via Quick, Merge, and Heap algorithms.</p>
+                <p>Quick sort, Merge sort, and basic Bubble sort implementations.</p>
             </div>
-            <span class="browse-arrow">&rarr;</span>
+            <a href="Sorting.html" class="browse-link">Browse Sorting &rarr;</a>
         </div>
 
-        <div class="card content-card" onclick="location.href='Strings.html'">
-            <div class="card-info">
+        <div class="card content-card">
+            <div>
                 <h3>Strings</h3>
-                <p>Pattern matching, text reversals, and regex logic.</p>
+                <p>Palindrome checks, Reversing strings, and Pattern matching.</p>
             </div>
-            <span class="browse-arrow">&rarr;</span>
-        </div>
-
-        <div class="card content-card" onclick="location.href='Chat.html'">
-            <div class="card-info">
-                <h3>Community Terminal</h3>
-                <p>Collaborative coding and real-time community sharing.</p>
-            </div>
-            <span class="browse-arrow">&rarr;</span>
+            <a href="Strings.html" class="browse-link">Browse Strings &rarr;</a>
         </div>
     </div>
 </div>
 
 <footer>
-    <p>&copy; 2026 CodePedia | Built for the Developer Community</p>
+    &copy; 2026 CodePedia Encyclopedia | Hosted on GitHub Pages
 </footer>
 
-<script>
-    // Search Filter Logic
-    function filterCategories() {
-        const input = document.getElementById('mainSearch').value.toLowerCase();
-        const cards = document.querySelectorAll('#categoryGrid .card');
-        
-        cards.forEach(card => {
-            const title = card.querySelector('h3').innerText.toLowerCase();
-            const desc = card.querySelector('p').innerText.toLowerCase();
-            if (title.includes(input) || desc.includes(input)) {
-                card.style.display = "flex";
-            } else {
-                card.style.display = "none";
-            }
-        });
-    }
-</script>
 <script type="module" src="script.js"></script>
+
 </body>
 </html>

@@ -1,246 +1,174 @@
-/* =========================================
-   1. CORE VARIABLES & DESIGN SYSTEM
-   ========================================= */
-   :root {
+:root {
     --bg: #0d1117;
-    --card: #161b22;
     --text: #c9d1d9;
     --accent: #58a6ff;
+    --card: #161b22;
     --border: #30363d;
-    --tab-bg: #21262d;
-    --code-bg: #010409;
-    --success: #afff94;
-    --danger: #da3633;
-    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --tab-bg: #21262d; /* Added for the tab bar */
 }
 
-/* Global Reset & Admin visibility */
-* { box-sizing: border-box; transition: var(--transition); }
-
 body {
-    font-family: var(--font);
-    background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
     color: var(--text);
     line-height: 1.6;
     margin: 0;
-    overflow-x: hidden;
+    padding: 0;
+    scroll-behavior: smooth;
 }
-
-.admin-only, #clear-chat, .admin-area, #admin-preview-controls { display: none !important; }
-body.admin-mode .admin-only, 
-body.admin-mode #clear-chat, 
-body.admin-mode .admin-area,
-body.admin-mode #admin-preview-controls { 
-    display: flex !important; 
-}
-body.admin-mode { --accent: var(--danger); --border: #4a1211; }
-
-/* =========================================
-   2. REUSABLE LAYOUT COMPONENTS
-   ========================================= */
-.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
 
 header {
     background: #010409;
-    padding: 4rem 1rem;
+    padding: 2.5rem 1rem;
     text-align: center;
     border-bottom: 1px solid var(--border);
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 }
 
-.search-box, .chat-select, .chat-nick, #msg-input {
+nav a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: bold;
+    margin: 0 15px;
+}
+
+nav a:hover { text-decoration: underline; }
+
+.container {
+    max-width: 850px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.search-box {
     width: 100%;
-    padding: 12px 16px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    color: #fff;
+    padding: 14px;
     border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: white;
+    margin-bottom: 2.5rem;
+    box-sizing: border-box;
     outline: none;
 }
-.search-box:focus, #msg-input:focus { 
-    border-color: var(--accent); 
-    box-shadow: 0 0 15px rgba(88, 166, 255, 0.15); 
-}
+.search-box:focus { border-color: var(--accent); }
 
-/* Unified Card System */
-.card, .string-section, .sort-section, .content-card, .visualizer {
+.card {
     background: var(--card);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 8px;
     padding: 1.5rem;
     margin-bottom: 2rem;
-}
-.card:hover, .content-card:hover { 
-    transform: translateY(-4px); 
-    border-color: var(--accent); 
-    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+    position: relative;
+    transition: transform 0.2s;
 }
 
-/* =========================================
-   3. TAB & CODE SYSTEM
-   ========================================= */
+.card:hover { transform: translateY(-2px); }
+
+/* --- Tab System Styles --- */
 .tabs {
     display: flex;
     background: var(--tab-bg);
-    border: 1px solid var(--border);
     border-radius: 8px 8px 0 0;
     overflow: hidden;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    margin-top: 1rem;
 }
 
 .tab-btn {
     flex: 1;
-    padding: 12px;
-    background: transparent;
-    color: var(--text);
+    padding: 10px;
     border: none;
+    background: none;
+    color: var(--text);
     cursor: pointer;
     font-size: 0.75rem;
+    transition: 0.3s;
     border-right: 1px solid var(--border);
 }
-.tab-btn.active { background: var(--accent); color: #000; font-weight: 800; }
 
-.code-display, pre, .chat-code {
-    background: var(--code-bg);
+.tab-btn:last-child { border-right: none; }
+.tab-btn.active { background: var(--accent); color: white; font-weight: bold; }
+
+/* --- Code Display & Copy Button --- */
+.code-header {
+    display: flex;
+    justify-content: flex-end;
+    background: var(--tab-bg);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    padding: 5px 10px;
+}
+
+.copy-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.copy-btn:hover { background: var(--border); color: white; }
+
+.code-display, pre {
+    background: #000;
     padding: 1.2rem;
-    border-radius: 0 0 12px 12px;
+    border-radius: 0 0 8px 8px;
     border: 1px solid var(--border);
     color: #79c0ff;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.85rem;
+    font-family: 'Courier New', monospace;
     overflow-x: auto;
-    box-shadow: inset 0 4px 12px rgba(0,0,0,0.5);
+    margin: 0;
+    min-height: 100px;
+    white-space: pre;
 }
 
-/* =========================================
-   4. CHAT ENGINE & SIDEBAR
-   ========================================= */
-.chat-layout { display: flex; gap: 1.5rem; margin-top: 1.5rem; }
+/* --- Visualizers (Used in Math.html) --- */
+.visualizer {
+    background: #000;
+    padding: 1rem;
+    border-radius: 8px;
+    margin: 1rem 0;
+    border: 1px solid var(--accent);
+    text-align: center;
+}
 
-#chat-window {
-    flex: 3;
-    height: 500px;
-    background: linear-gradient(180deg, var(--card), #010409);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    overflow-y: auto;
+footer { 
+    text-align: center; 
+    padding: 3rem 0; 
+    opacity: 0.6; 
+    font-size: 0.85rem; 
+    border-top: 1px solid var(--border); 
+    margin-top: 4rem; 
+}
+/* --- Category Layout (The missing piece) --- */
+.category-grid {
+    display: grid;
+    /* This automatically creates as many columns as will fit */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 1rem;
+}
+
+/* Ensures all cards in the grid have the same height */
+.content-card {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-}
-
-.message {
-    padding: 0.8rem 1.2rem;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    max-width: 85%;
-    font-size: 0.9rem;
-}
-.message:hover { border-color: rgba(88, 166, 255, 0.3); background: rgba(255, 255, 255, 0.05); }
-
-.clan-sidebar {
-    flex: 1;
-    min-width: 220px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1rem;
-}
-
-.member-item {
-    display: flex;
     justify-content: space-between;
-    padding: 0.7rem;
-    font-size: 0.8rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    min-height: 180px; 
 }
-.member-item:hover { color: var(--accent); padding-left: 1rem; }
 
-/* =========================================
-   5. LIVE PREVIEW ENGINE (Sticky Monitor)
-   ========================================= */
-.main-wrapper { display: flex; gap: 2rem; align-items: flex-start; }
-
-#preview-container {
-    flex: 1;
-    position: sticky;
-    top: 1rem;
-    height: calc(100vh - 2rem);
-    background: #010409;
-    border: 2px solid var(--accent);
-    border-radius: 12px;
-    overflow: hidden;
-    display: none;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-}
-#preview-container.active { display: block; animation: slideIn 0.3s ease; }
-
-.preview-header {
-    background: var(--tab-bg);
-    padding: 10px 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Style for the link at the bottom of the card */
+.browse-link {
+    display: inline-block;
+    margin-top: 15px;
     color: var(--accent);
-    font-size: 0.7rem;
-    letter-spacing: 1px;
+    text-decoration: none;
+    font-weight: bold;
 }
 
-/* =========================================
-   6. UI ANIMATIONS & UTILITIES
-   ========================================= */
-@keyframes slideIn {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes statusPulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.2); }
-}
-
-.status-dot {
-    width: 8px; height: 8px;
-    background: var(--accent);
-    border-radius: 50%;
-    animation: statusPulse 2s infinite;
-}
-
-.run-btn, .browse-link, .clear-btn {
-    cursor: pointer;
-    text-transform: uppercase;
-    font-weight: 800;
-    font-size: 0.7rem;
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: 1px solid var(--accent);
-    background: transparent;
-    color: var(--accent);
-}
-.run-btn:hover, .browse-link:hover { background: var(--accent); color: #000; }
-
-#chat-gate {
-    position: fixed;
-    inset: 0;
-    z-index: 10000;
-    background: rgba(8, 8, 12, 0.98);
-    backdrop-filter: blur(20px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Scrollbar Utility */
-::-webkit-scrollbar { height: 6px; width: 6px; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-/* RESPONSIVE DESIGN */
-@media (max-width: 1150px) {
-    .main-wrapper, .chat-layout { flex-direction: column; }
-    #preview-container { position: relative; height: 50vh; width: 100%; }
-    .container { padding: 1rem; }
+.browse-link:hover {
+    text-decoration: underline;
 }

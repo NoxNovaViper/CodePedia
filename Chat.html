@@ -3,237 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodePedia | Dev-Stream IDE</title>
+    <title>Live Chat | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
     <style>
-        /* --- 2026 IDE LAYOUT ENGINE --- */
-        :root {
-            --panel-bg: #0d0d12;
-            --header-bg: #1a1a24;
-            --glass: rgba(255, 255, 255, 0.03);
-        }
-
-        .main-wrapper {
-            display: flex;
-            gap: 25px;
-            align-items: flex-start;
-            margin-top: 20px;
-            min-height: 85vh;
-        }
-
-        /* --- NAVIGATION / HOME --- */
-        .back-link {
-            text-decoration: none;
-            color: var(--accent);
-            font-weight: 800;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 8px 16px;
-            border: 1px solid var(--accent);
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .back-link:hover {
-            background: var(--accent);
-            color: #000;
-            box-shadow: 0 0 15px var(--accent);
-        }
-
-        /* --- CHAT SECTION --- */
-        .chat-section {
-            flex: 1.2;
+        #chat-window {
+            height: 450px;
+            overflow-y: auto;
+            background: #0d1117;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 12px;
         }
-
-        .chat-wrap { 
-            position: relative; 
-            height: 550px; 
+        .message { 
+            padding: 10px 15px; 
+            border-radius: 8px; 
+            background: var(--card); 
+            border-left: 4px solid var(--accent);
+            max-width: 85%;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .msg-user { color: var(--accent); font-weight: bold; display: block; font-size: 0.8rem; margin-bottom: 4px; }
+        .msg-text { color: var(--text); word-wrap: break-word; }
+        
+        #chat-form { display: flex; gap: 10px; }
+        #msg-input { 
+            flex-grow: 1; 
+            padding: 12px; 
+            background: var(--card); 
             border: 1px solid var(--border); 
-            border-radius: 12px; 
-            overflow: hidden; 
-            background: var(--card-bg);
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            border-radius: 6px;
+            color: white; 
+            outline: none;
         }
-
-        #chat-window {
-            height: 100%;
-            overflow-y: auto;
-            padding: 20px;
-            scroll-behavior: smooth;
-        }
-
-        /* --- LOGIN GATE (GLASSMORPHISM) --- */
-        #chat-gate {
-            position: absolute;
-            inset: 0;
-            background: rgba(10, 10, 15, 0.9);
-            z-index: 1000;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            backdrop-filter: blur(15px);
-        }
-
-        .gate-card {
-            text-align: center;
-            padding: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 16px;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-        }
-
-        .gate-card input {
-            width: 100%;
-            padding: 12px;
-            margin: 20px 0;
-            background: #000;
-            border: 1px solid var(--border);
-            color: #fff;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        /* --- PREVIEW PANEL --- */
-        #preview-container {
-            flex: 1;
-            background: var(--panel-bg);
-            border: 1px solid var(--accent);
-            border-radius: 12px;
-            overflow: hidden;
-            display: none; 
-            position: sticky;
-            top: 20px;
-            height: calc(100vh - 40px);
-            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
-        }
-
-        #live-preview {
-            width: 100%;
-            height: calc(100% - 110px);
-            background: #fff;
-            border: none;
-        }
-
-        .preview-header {
-            background: var(--header-bg);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-        }
-
-        .status-dot {
-            height: 8px;
-            width: 8px;
-            background: var(--accent);
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 8px;
-            box-shadow: 0 0 8px var(--accent);
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.2); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        .hidden-input { display: none; }
+        #msg-input:focus { border-color: var(--accent); }
+        
+        .admin-controls { margin-top: 10px; display: flex; justify-content: flex-end; }
+        .clear-btn { background: #da3633; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; opacity: 0.6; }
+        .clear-btn:hover { opacity: 1; }
     </style>
 </head>
 <body>
 
-    <header>
-        <nav><a href="index.html" class="back-link">← Return Home</a></nav>
-        <h1 class="main-title">CODEPEDIA <span class="accent-text">STREAM</span></h1>
-        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 5px;">Synchronized Dev Environment v4.0.2</p>
-    </header>
-    
-    <div class="container">
-        <div class="main-wrapper">
-            
-            <div class="chat-section">
-                
-                <div class="leaderboard-card card">
-                    <h4 class="section-title">Active Clusters</h4>
-                    <div id="leaderboard-list"></div>
-                </div>
-    
-                <div class="chat-controls card">
-                    <div class="control-box">
-                        <label class="control-label">Identity</label>
-                        <div class="control-group">
-                            <input type="text" id="nickname-input" class="chat-nick" placeholder="Connecting..." readonly>
-                            <input type="color" id="user-color" value="#00d4ff">
-                        </div>
-                    </div>
-    
-                    <div class="control-box">
-                        <label class="control-label">Virtual Room</label>
-                        <div class="control-group">
-                            <select id="room-select" class="chat-select">
-                                <option value="global">🌍 Global Terminal</option>
-                                <optgroup label="Private Nodes" id="bubble-list"></optgroup>
-                            </select>
-                            <button id="create-bubble" class="copy-btn">+</button>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="chat-wrap">
-                    <div id="chat-gate">
-                        <div class="gate-card">
-                            <h2 style="color: var(--accent); margin-bottom: 10px;">Initialize Link</h2>
-                            <p style="font-size: 0.8rem; opacity: 0.7;">Enter a handle to join the secure dev-stream.</p>
-                            <input type="text" id="gate-nick" placeholder="Username..." maxlength="15">
-                            <button id="join-chat-btn" class="copy-btn" style="width: 100%;">Connect to Stream</button>
-                        </div>
-                    </div>
-                    
-                    <div id="chat-window"></div>
-                </div>
-    
-                <form id="chat-form" class="card">
-                    <button type="button" id="upload-btn" class="attach-btn" onclick="document.getElementById('file-input').click()">📎</button>
-                    <input type="file" id="file-input" accept="image/*" class="hidden-input">
-                    <input type="text" id="msg-input" placeholder="Broadcast a message or `code` snippet..." required autocomplete="off">
-                    <button type="submit" class="copy-btn">Send</button>
-                </form>
-    
-                <div class="footer-actions">
-                    <span class="system-id" style="font-family: monospace;">[NODE_CONNECTED] 2026-CP-ALPHA</span>
-                    <button id="clear-chat" style="background: transparent; border: none; color: var(--danger); cursor: pointer; font-size: 0.7rem;">Wipe History</button>
-                </div>
-            </div>
-    
-            <div id="preview-container">
-                <div class="preview-header">
-                    <span style="font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;">
-                        <span class="status-dot"></span> LIVE_PREVIEW.EXE
-                    </span>
-                    <button onclick="document.getElementById('preview-container').style.display='none'" class="close-preview" style="background:none; border:none; color:#fff; cursor:pointer; font-size: 1.2rem;">&times;</button>
-                </div>
-                
-                <iframe id="live-preview"></iframe>
-                
-                <div id="admin-preview-controls">
-                    <button class="copy-btn" id="approve-download-btn">Pull Source to Local</button>
-                    <p class="auth-note">Encrypted: Developer Level 1 Required</p>
-                </div>
-            </div>
-    
+<header>
+    <nav><a href="index.html">&larr; Back to Home</a></nav>
+    <h1>Global Dev Chat</h1>
+    <p>Real-time discussion with the CodePedia community.</p>
+</header>
+
+<div class="container">
+    <div id="chat-window">
+        <div class="message" style="border-left-color: #555;">
+            <span class="msg-user">System</span>
+            <span class="msg-text">Welcome to CodePedia Chat! Start typing below to join the conversation.</span>
         </div>
     </div>
 
-<script type="module" src="script.js"></script>
+    <form id="chat-form">
+        <input type="text" id="msg-input" placeholder="Type your message..." required autocomplete="off">
+        <button type="submit" class="copy-btn" style="padding: 0 25px;">Send</button>
+    </form>
+
+    <div class="admin-controls" id="admin-panel" style="display:none;">
+        <button id="clear-chat" class="clear-btn">Clear History (Admin Only)</button>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded, serverTimestamp, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCIMbWOjtAyx-YOEqAYfPJ5ul_7M2iARIw",
+        authDomain: "codepedia-e2bcb.firebaseapp.com",
+        projectId: "codepedia-e2bcb",
+        storageBucket: "codepedia-e2bcb.firebasestorage.app",
+        messagingSenderId: "1003347138801",
+        appId: "1:1003347138801:web:b58a0e5595f790d74ff150",
+        measurementId: "G-2W6S6DNDV2",
+        databaseURL: "https://codepedia-e2bcb-default-rtdb.firebaseio.com"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const messagesRef = ref(db, 'messages');
+
+    const chatWindow = document.getElementById('chat-window');
+    const chatForm = document.getElementById('chat-form');
+    const msgInput = document.getElementById('msg-input');
+    const clearBtn = document.getElementById('clear-chat');
+
+    // 🕵️ ADMIN CHECK: To see the clear button, add ?admin=true to your URL
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('admin') === 'true') {
+        document.getElementById('admin-panel').style.display = 'block';
+    }
+
+    const username = "Dev-" + Math.floor(Math.random() * 9999);
+
+    chatForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const text = msgInput.value.trim();
+        if (text) {
+            push(messagesRef, {
+                username: username,
+                text: text,
+                timestamp: serverTimestamp()
+            });
+            msgInput.value = "";
+        }
+    });
+
+    // Handle incoming messages
+    onChildAdded(messagesRef, (snapshot) => {
+        const data = snapshot.val();
+        if(!data) return;
+        
+        const messageEl = document.createElement('div');
+        messageEl.classList.add('message');
+        messageEl.innerHTML = `
+            <span class="msg-user">${data.username}</span>
+            <span class="msg-text">${data.text}</span>
+        `;
+        chatWindow.appendChild(messageEl);
+        chatWindow.scrollTop = chatWindow.scrollHeight;
+    });
+
+    // Admin Clear Chat functionality
+    clearBtn.addEventListener('click', () => {
+        if(confirm("Are you sure you want to delete all messages?")) {
+            set(messagesRef, null);
+            location.reload(); // Refresh to clear the screen
+        }
+    });
+</script>
+
 </body>
 </html>
