@@ -11,92 +11,123 @@
 
     <style>
         .sort-section { 
-            margin-bottom: 4rem; 
-            padding: 20px;
-            border-radius: 12px;
+            margin-bottom: 5rem; 
+            padding: 30px;
+            border-radius: 16px;
             background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: border-color 0.3s ease;
         }
         
+        .sort-section:hover {
+            border-color: rgba(0, 212, 255, 0.2);
+        }
+
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+        }
+
+        .complexity-group {
+            display: flex;
+            gap: 10px;
         }
 
         .complexity {
             font-family: 'Fira Code', monospace;
             background: rgba(0, 212, 255, 0.1);
             color: var(--accent);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 4px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
         }
 
         .algorithm-desc {
-            color: #ccc;
-            line-height: 1.6;
-            margin-bottom: 20px;
+            color: #a0a0a0;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            max-width: 800px;
+        }
+
+        .visual-container {
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #0d1117;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <nav><a href="index.html" class="back-link">&larr; Home</a></nav>
-    <h1 class="main-title">Sorting Algorithms</h1>
-    <p>Efficient ways to organize data for better performance and searchability.</p>
+    <nav><a href="index.html" class="back-link">&larr; Home Terminal</a></nav>
+    <h1 class="main-title">SORTING <span class="accent-text">MODELS</span></h1>
+    <p class="subtitle">Computational patterns for data organization and retrieval.</p>
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Filter algorithms (e.g., 'Quick', 'Bubble')..." onkeyup="filterSorting()">
+    <div class="search-wrapper" style="margin-bottom: 3rem;">
+        <input type="text" id="pageSearch" class="search-box" placeholder="Filter algorithms (Quick, Merge, Heap)..." onkeyup="filterSorting()">
+    </div>
 
     <section class="sort-section" data-name="bubble">
         <div class="section-header">
             <h2 class="section-title">Bubble Sort</h2>
-            <span class="complexity">Time: \(O(n^2)\)</span>
+            <div class="complexity-group">
+                <span class="complexity">Space: \(O(1)\)</span>
+                <span class="complexity">Time: \(O(n^2)\)</span>
+            </div>
         </div>
-        <p class="algorithm-desc">A straightforward comparison sort that repeatedly steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. Best for educational purposes or nearly-sorted data.</p>
+        <p class="algorithm-desc">The simplest comparison-based algorithm. It operates by repeatedly swapping adjacent elements that are out of sequence. While inefficient for large datasets, its <strong>in-place</strong> nature makes it memory efficient.</p>
         
+        <div class="visual-container">
+            
+        </div>
+
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'bubble-py', 'bubble-box')">Python</button>
                 <button class="tab-btn" onclick="openLang(event, 'bubble-js', 'bubble-box')">JavaScript</button>
                 <button class="tab-btn" onclick="openLang(event, 'bubble-cpp', 'bubble-box')">C++</button>
-                <button class="tab-btn" onclick="openLang(event, 'bubble-java', 'bubble-box')">Java</button>
                 <button class="tab-btn" onclick="openLang(event, 'bubble-go', 'bubble-box')">Go</button>
             </div>
-            <pre id="bubble-box" class="code-display">Select a language to view the sorting logic...</pre>
+            <pre id="bubble-box" class="code-display">Initializing sorting module...</pre>
         </div>
     </section>
-
-    
 
     <section class="sort-section" data-name="quick">
         <div class="section-header">
             <h2 class="section-title">Quick Sort</h2>
-            <span class="complexity">Avg: \(O(n \log n)\)</span>
+            <div class="complexity-group">
+                <span class="complexity">Space: \(O(\log n)\)</span>
+                <span class="complexity">Avg: \(O(n \log n)\)</span>
+            </div>
         </div>
-        <p class="algorithm-desc">A high-performance divide-and-conquer algorithm. It picks a 'pivot' element and partitions the array into two sub-arrays, sorting them recursively. It is the standard for most modern sorting libraries.</p>
+        <p class="algorithm-desc">A highly efficient <strong>Divide and Conquer</strong> pattern. By selecting a 'pivot' and partitioning the array, it reduces the sorting problem into smaller sub-problems. It is the backbone of most production-level sorting functions.</p>
         
+        <div class="visual-container">
+            
+        </div>
+
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'quick-py', 'quick-box')">Python</button>
                 <button class="tab-btn" onclick="openLang(event, 'quick-js', 'quick-box')">JavaScript</button>
                 <button class="tab-btn" onclick="openLang(event, 'quick-cpp', 'quick-box')">C++</button>
                 <button class="tab-btn" onclick="openLang(event, 'quick-java', 'quick-box')">Java</button>
-                <button class="tab-btn" onclick="openLang(event, 'quick-go', 'quick-box')">Go</button>
             </div>
-            <pre id="quick-box" class="code-display">Select a language to view the sorting logic...</pre>
+            <pre id="quick-box" class="code-display">Select a language to view the partitioning logic...</pre>
         </div>
     </section>
 </div>
 
 <footer>
-    <p>&copy; 2026 CodePedia | Sorting & Optimization Hub</p>
+    <p>&copy; 2026 CodePedia | Built for the Developer Community</p>
 </footer>
 
 <script type="module" src="script.js"></script>
@@ -107,8 +138,15 @@
         let sections = document.querySelectorAll('.sort-section');
 
         sections.forEach(sec => {
-            let text = sec.innerText.toLowerCase();
-            sec.style.display = text.includes(input) ? "" : "none";
+            let name = sec.getAttribute('data-name');
+            let content = sec.innerText.toLowerCase();
+            
+            if (name.includes(input) || content.includes(input)) {
+                sec.style.display = "block";
+                sec.style.animation = "fadeIn 0.4s ease";
+            } else {
+                sec.style.display = "none";
+            }
         });
     }
 </script>

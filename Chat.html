@@ -6,117 +6,145 @@
     <title>CodePedia | Dev-Stream IDE</title>
     <link rel="stylesheet" href="Style.css">
     <style>
-        /* --- 2026 IDE GRID SYSTEM --- */
+        /* --- 2026 IDE LAYOUT ENGINE --- */
+        :root {
+            --panel-bg: #0d0d12;
+            --header-bg: #1a1a24;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
         .main-wrapper {
             display: flex;
             gap: 25px;
             align-items: flex-start;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            width: 100%;
             margin-top: 20px;
+            min-height: 85vh;
         }
 
+        /* --- NAVIGATION / HOME --- */
+        .back-link {
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 8px 16px;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--accent);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        /* --- CHAT SECTION --- */
         .chat-section {
             flex: 1.2;
-            min-width: 0;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        /* --- PREVIEW PANEL (RIGHT) --- */
+        .chat-wrap { 
+            position: relative; 
+            height: 550px; 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            overflow: hidden; 
+            background: var(--card-bg);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        #chat-window {
+            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
+            scroll-behavior: smooth;
+        }
+
+        /* --- LOGIN GATE (GLASSMORPHISM) --- */
+        #chat-gate {
+            position: absolute;
+            inset: 0;
+            background: rgba(10, 10, 15, 0.9);
+            z-index: 1000;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            backdrop-filter: blur(15px);
+        }
+
+        .gate-card {
+            text-align: center;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+        }
+
+        .gate-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 20px 0;
+            background: #000;
+            border: 1px solid var(--border);
+            color: #fff;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* --- PREVIEW PANEL --- */
         #preview-container {
             flex: 1;
-            background: #0d0d12;
+            background: var(--panel-bg);
             border: 1px solid var(--accent);
             border-radius: 12px;
             overflow: hidden;
             display: none; 
             position: sticky;
             top: 20px;
-            height: calc(100vh - 60px);
-            box-shadow: -15px 0 45px rgba(0, 212, 255, 0.15);
+            height: calc(100vh - 40px);
+            box-shadow: -10px 0 30px rgba(0,0,0,0.5);
         }
 
         #live-preview {
             width: 100%;
-            height: calc(100% - 120px);
-            background: #ffffff;
+            height: calc(100% - 110px);
+            background: #fff;
             border: none;
         }
 
         .preview-header {
-            background: #1a1a24;
-            padding: 15px;
+            background: var(--header-bg);
+            padding: 15px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: var(--accent);
-            font-family: 'Courier New', Courier, monospace;
             border-bottom: 1px solid #333;
         }
 
         .status-dot {
-            color: var(--accent);
+            height: 8px;
+            width: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 8px var(--accent);
             animation: pulse 2s infinite;
-            margin-right: 5px;
-        }
-
-        #admin-preview-controls {
-            padding: 20px;
-            background: #111116;
-            border-top: 1px solid #222;
-            display: none;
-            text-align: center;
-        }
-
-        .auth-note {
-            font-size: 9px;
-            opacity: 0.4;
-            margin-top: 10px;
-            text-transform: uppercase;
-        }
-
-        /* --- CHAT & GATE UI --- */
-        .chat-wrap { 
-            position: relative; 
-            min-height: 550px; 
-            border: 1px solid var(--border); 
-            border-radius: 10px; 
-            overflow: hidden; 
-            background: var(--card-bg);
-        }
-
-        #chat-window {
-            height: 450px;
-            overflow-y: auto;
-            padding: 15px;
-        }
-
-        #chat-gate {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(8, 8, 12, 0.98);
-            z-index: 1000;
-            display: flex; align-items: center; justify-content: center;
-            backdrop-filter: blur(12px);
-        }
-
-        .gate-card {
-            text-align: center;
-            padding: 50px;
-            border: 1px solid var(--accent);
-            background: #111;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-            max-width: 450px;
-            width: 95%;
-            border-radius: 4px;
         }
 
         @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.3; }
-            100% { opacity: 1; }
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.2); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         .hidden-input { display: none; }
@@ -125,8 +153,9 @@
 <body>
 
     <header>
-        <nav><a href="index.html" class="back-link">&lt;/&gt; Home</a></nav>
+        <nav><a href="index.html" class="back-link">← Return Home</a></nav>
         <h1 class="main-title">CODEPEDIA <span class="accent-text">STREAM</span></h1>
+        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 5px;">Synchronized Dev Environment v4.0.2</p>
     </header>
     
     <div class="container">
@@ -134,19 +163,14 @@
             
             <div class="chat-section">
                 
-                <div class="leaderboard-card">
-                    <h4 class="section-title">Top Coding Groups</h4>
+                <div class="leaderboard-card card">
+                    <h4 class="section-title">Active Clusters</h4>
                     <div id="leaderboard-list"></div>
                 </div>
     
-                <div id="request-panel">
-                    <h4 class="admin-title">Admin: Pending Access</h4>
-                    <div id="request-list"></div>
-                </div>
-    
-                <div class="chat-controls">
+                <div class="chat-controls card">
                     <div class="control-box">
-                        <label class="control-label">Your Profile</label>
+                        <label class="control-label">Identity</label>
                         <div class="control-group">
                             <input type="text" id="nickname-input" class="chat-nick" placeholder="Connecting..." readonly>
                             <input type="color" id="user-color" value="#00d4ff">
@@ -154,59 +178,56 @@
                     </div>
     
                     <div class="control-box">
-                        <label class="control-label">Switch Room</label>
+                        <label class="control-label">Virtual Room</label>
                         <div class="control-group">
                             <select id="room-select" class="chat-select">
-                                <option value="global">🌍 Global Chat</option>
-                                <optgroup label="Private Groups" id="bubble-list"></optgroup>
+                                <option value="global">🌍 Global Terminal</option>
+                                <optgroup label="Private Nodes" id="bubble-list"></optgroup>
                             </select>
-                            <button id="create-bubble" class="copy-btn" title="Create New Room">+</button>
+                            <button id="create-bubble" class="copy-btn">+</button>
                         </div>
                     </div>
-                </div>
-    
-                <div id="join-bar" class="join-area" style="display:none;">
-                    <p class="join-msg">[!] Access Denied: This room is private.</p>
-                    <button id="ask-join-btn" class="copy-btn">Request Access</button>
                 </div>
     
                 <div class="chat-wrap">
                     <div id="chat-gate">
                         <div class="gate-card">
-                            <h2 class="gate-title">Login</h2>
-                            <p class="gate-label">Choose a nickname to start chatting and coding.</p>
-                            <input type="text" id="gate-nick" placeholder="Enter Username..." maxlength="15">
-                            <button id="join-chat-btn" class="copy-btn">Join Chat</button>
+                            <h2 style="color: var(--accent); margin-bottom: 10px;">Initialize Link</h2>
+                            <p style="font-size: 0.8rem; opacity: 0.7;">Enter a handle to join the secure dev-stream.</p>
+                            <input type="text" id="gate-nick" placeholder="Username..." maxlength="15">
+                            <button id="join-chat-btn" class="copy-btn" style="width: 100%;">Connect to Stream</button>
                         </div>
                     </div>
                     
                     <div id="chat-window"></div>
                 </div>
     
-                <form id="chat-form">
+                <form id="chat-form" class="card">
                     <button type="button" id="upload-btn" class="attach-btn" onclick="document.getElementById('file-input').click()">📎</button>
                     <input type="file" id="file-input" accept="image/*" class="hidden-input">
-                    <input type="text" id="msg-input" placeholder="Type a message (use `code` for snippets)..." required autocomplete="off">
+                    <input type="text" id="msg-input" placeholder="Broadcast a message or `code` snippet..." required autocomplete="off">
                     <button type="submit" class="copy-btn">Send</button>
                 </form>
     
                 <div class="footer-actions">
-                    <span class="system-id">Session ID: 2026-CP-ALPHA</span>
-                    <button id="clear-chat">Clear History</button>
+                    <span class="system-id" style="font-family: monospace;">[NODE_CONNECTED] 2026-CP-ALPHA</span>
+                    <button id="clear-chat" style="background: transparent; border: none; color: var(--danger); cursor: pointer; font-size: 0.7rem;">Wipe History</button>
                 </div>
             </div>
     
             <div id="preview-container">
                 <div class="preview-header">
-                    <span><span class="status-dot">●</span> Live Preview</span>
-                    <button onclick="document.getElementById('preview-container').style.display='none'" class="close-preview">&times;</button>
+                    <span style="font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;">
+                        <span class="status-dot"></span> LIVE_PREVIEW.EXE
+                    </span>
+                    <button onclick="document.getElementById('preview-container').style.display='none'" class="close-preview" style="background:none; border:none; color:#fff; cursor:pointer; font-size: 1.2rem;">&times;</button>
                 </div>
                 
                 <iframe id="live-preview"></iframe>
                 
                 <div id="admin-preview-controls">
-                    <button class="copy-btn" id="approve-download-btn">Download Source Code</button>
-                    <p class="auth-note">Owner Access Only</p>
+                    <button class="copy-btn" id="approve-download-btn">Pull Source to Local</button>
+                    <p class="auth-note">Encrypted: Developer Level 1 Required</p>
                 </div>
             </div>
     

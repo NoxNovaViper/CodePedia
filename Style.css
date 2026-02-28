@@ -1,5 +1,5 @@
 /* =========================================
-   1. CORE VARIABLES & UTILITIES
+   1. CORE VARIABLES & DESIGN SYSTEM
    ========================================= */
    :root {
     --bg: #0d1117;
@@ -10,11 +10,13 @@
     --tab-bg: #21262d;
     --code-bg: #010409;
     --success: #afff94;
-    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --danger: #da3633;
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Global resets to stop the bloat */
-* { box-sizing: border-box; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+/* Global Reset & Admin visibility */
+* { box-sizing: border-box; transition: var(--transition); }
 
 body {
     font-family: var(--font);
@@ -25,50 +27,58 @@ body {
     overflow-x: hidden;
 }
 
-/* Administrative Visibility Engine */
-.admin-only, #clear-chat, .admin-area { display: none !important; }
+.admin-only, #clear-chat, .admin-area, #admin-preview-controls { display: none !important; }
 body.admin-mode .admin-only, 
 body.admin-mode #clear-chat, 
-body.admin-mode .admin-area { display: flex !important; }
+body.admin-mode .admin-area,
+body.admin-mode #admin-preview-controls { 
+    display: flex !important; 
+}
+body.admin-mode { --accent: var(--danger); --border: #4a1211; }
 
 /* =========================================
-   2. REUSABLE COMPONENTS
+   2. REUSABLE LAYOUT COMPONENTS
    ========================================= */
-.container { max-width: 850px; margin: 2rem auto; padding: 0 1.5rem; }
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
 
 header {
     background: #010409;
-    padding: 3rem 1rem;
+    padding: 4rem 1rem;
     text-align: center;
     border-bottom: 1px solid var(--border);
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); /* Modern 2026 edge */
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 }
 
-/* Search Engine Styling */
-.search-box {
+.search-box, .chat-select, .chat-nick, #msg-input {
     width: 100%;
-    padding: 1rem;
+    padding: 12px 16px;
     background: var(--card);
     border: 1px solid var(--border);
     color: #fff;
     border-radius: 8px;
-    margin-bottom: 2rem;
     outline: none;
 }
-.search-box:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(88, 166, 255, 0.15); }
+.search-box:focus, #msg-input:focus { 
+    border-color: var(--accent); 
+    box-shadow: 0 0 15px rgba(88, 166, 255, 0.15); 
+}
 
-/* Unified Card System (Strings, Math, Sorting all use this) */
-.card, .string-section, .sort-section {
+/* Unified Card System */
+.card, .string-section, .sort-section, .content-card, .visualizer {
     background: var(--card);
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 1.5rem;
     margin-bottom: 2rem;
 }
-.card:hover { transform: translateY(-4px); border-color: var(--accent); }
+.card:hover, .content-card:hover { 
+    transform: translateY(-4px); 
+    border-color: var(--accent); 
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+}
 
 /* =========================================
-   3. TAB & CODE SYSTEM (Optimized)
+   3. TAB & CODE SYSTEM
    ========================================= */
 .tabs {
     display: flex;
@@ -76,7 +86,6 @@ header {
     border: 1px solid var(--border);
     border-radius: 8px 8px 0 0;
     overflow: hidden;
-    margin-top: 1rem;
 }
 
 .tab-btn {
@@ -89,12 +98,11 @@ header {
     font-size: 0.75rem;
     border-right: 1px solid var(--border);
 }
-
 .tab-btn.active { background: var(--accent); color: #000; font-weight: 800; }
 
-.code-display, pre {
+.code-display, pre, .chat-code {
     background: var(--code-bg);
-    padding: 1.5rem;
+    padding: 1.2rem;
     border-radius: 0 0 12px 12px;
     border: 1px solid var(--border);
     color: #79c0ff;
@@ -104,153 +112,24 @@ header {
     box-shadow: inset 0 4px 12px rgba(0,0,0,0.5);
 }
 
-/* Scrollbar Utility (One definition for all) */
-::-webkit-scrollbar { height: 6px; width: 6px; }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 /* =========================================
-   4. VISUALIZATION & GRID SYSTEM
+   4. CHAT ENGINE & SIDEBAR
    ========================================= */
-   .visualizer {
-    background: var(--code-bg);
-    padding: 2rem;
-    border-radius: 12px;
-    margin: 2rem 0;
-    border: 1px solid var(--accent);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 25px rgba(88, 166, 255, 0.1);
-}
-
-/* Unified Scanline Effect */
-.visualizer::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
-    background-size: 100% 4px;
-    pointer-events: none;
-    opacity: 0.3;
-}
-
-/* High-Performance Category Grid */
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2.5rem;
-}
-
-.content-card {
-    background: var(--card);
-    padding: 1.8rem;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 220px;
-}
-
-.content-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-5px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-}
-
-/* Compact Buttons */
-.browse-link {
-    padding: 10px 20px;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 800;
-    text-align: center;
-    text-transform: uppercase;
-    background: transparent;
-}
-
-.browse-link:hover {
-    background: var(--accent);
-    color: var(--bg);
-    box-shadow: 0 0 15px var(--accent);
-}
-
-/* =========================================
-   5. CHAT ENGINE LAYOUT
-   ========================================= */
-.chat-controls {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
-    background: rgba(255, 255, 255, 0.02);
-    padding: 1.2rem;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    margin-bottom: 1.5rem;
-}
-
-.chat-input-group { display: flex; flex-direction: column; gap: 0.5rem; }
-
-.chat-input-group label {
-    font-size: 0.65rem;
-    color: var(--accent);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.chat-select, .chat-nick, .chat-box {
-    padding: 12px;
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    color: #fff;
-    outline: none;
-}
-
-.chat-select:focus, .chat-nick:focus { border-color: var(--accent); }
-
-/* =========================================
-   6. FOOTER (Minimalist)
-   ========================================= */
-footer { 
-    text-align: center; 
-    padding: 5rem 0 3rem; 
-    opacity: 0.4; 
-    font-size: 0.7rem; 
-    border-top: 1px solid var(--border);
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-/* =========================================
-   7. UNIFIED CHAT & SIDEBAR (Glass/Flex)
-   ========================================= */
-   .chat-layout {
-    display: flex;
-    gap: 1.5rem;
-    align-items: stretch; /* Ensures height match without manual px */
-}
-
-#chat-window, .clan-sidebar {
-    background: linear-gradient(180deg, var(--card), #010409);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow-y: auto;
-    /* Shared Scrollbar Logic inherited from Part 1 */
-}
+.chat-layout { display: flex; gap: 1.5rem; margin-top: 1.5rem; }
 
 #chat-window {
     flex: 3;
-    height: 480px;
+    height: 500px;
+    background: linear-gradient(180deg, var(--card), #010409);
+    border: 1px solid var(--border);
+    border-radius: 12px;
     padding: 1.5rem;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-/* Glassmorphism Logic - Single Class */
 .message {
     padding: 0.8rem 1.2rem;
     border-radius: 12px;
@@ -258,133 +137,32 @@ footer {
     border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(8px);
     max-width: 85%;
-    align-self: flex-start;
     font-size: 0.9rem;
-
-    &:hover {
-        border-color: rgba(88, 166, 255, 0.3);
-        background: rgba(255, 255, 255, 0.05);
-    }
 }
+.message:hover { border-color: rgba(88, 166, 255, 0.3); background: rgba(255, 255, 255, 0.05); }
 
-/* =========================================
-   8. SIDEBAR & MEMBER LIST
-   ========================================= */
 .clan-sidebar {
     flex: 1;
     min-width: 220px;
-    padding: 1.2rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
 }
 
 .member-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 0.7rem;
     font-size: 0.8rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    border-left: 2px solid transparent;
-
-    &:hover {
-        background: rgba(88, 166, 255, 0.04);
-        border-left-color: var(--accent);
-        padding-left: 1rem;
-    }
 }
+.member-item:hover { color: var(--accent); padding-left: 1rem; }
 
 /* =========================================
-   9. ADMIN & SYSTEM UI
+   5. LIVE PREVIEW ENGINE (Sticky Monitor)
    ========================================= */
-.admin-area {
-    margin-top: 1rem;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.clear-btn {
-    background: rgba(218, 54, 51, 0.1);
-    color: #ff6b6b;
-    border: 1px solid #da3633;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 0.65rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    
-    &:hover {
-        background: #da3633;
-        color: #fff;
-        box-shadow: 0 0 15px rgba(218, 54, 51, 0.4);
-    }
-}
-
-/* responsive logic in 5 lines */
-@media (max-width: 850px) {
-    .chat-layout { flex-direction: column; }
-    .clan-sidebar { height: 300px; width: 100%; }
-}
-/* =========================================
-   10. CHAT INPUT & MESSAGE MEDIA
-   ========================================= */
-   #chat-form {
-    display: flex;
-    gap: 0.8rem;
-    padding: 1.2rem;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-}
-
-#msg-input {
-    flex: 1;
-    padding: 0.8rem 1rem;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid var(--border);
-    color: #fff;
-    border-radius: 8px;
-    outline: none;
-    
-    &:focus {
-        border-color: var(--accent);
-        background: rgba(255, 255, 255, 0.02);
-        box-shadow: 0 0 15px rgba(88, 166, 255, 0.1);
-    }
-}
-
-/* Inline Code & Media */
-.chat-code {
-    background: #1e1e1e;
-    color: #ce9178;
-    padding: 0.1rem 0.4rem;
-    border-radius: 4px;
-    font-family: 'Fira Code', monospace;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-.meme-container {
-    margin-top: 0.5rem;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid var(--border);
-    display: inline-block;
-    
-    img {
-        max-width: 100%;
-        max-height: 300px;
-        display: block;
-        cursor: zoom-in;
-        &:hover { transform: scale(1.02); }
-    }
-}
-
-/* =========================================
-   11. THE LIVE PREVIEW ENGINE (Sticky Monitor)
-   ========================================= */
-.main-wrapper {
-    display: flex;
-    gap: 2rem;
-    margin-top: 1.5rem;
-}
+.main-wrapper { display: flex; gap: 2rem; align-items: flex-start; }
 
 #preview-container {
     flex: 1;
@@ -392,31 +170,62 @@ footer {
     top: 1rem;
     height: calc(100vh - 2rem);
     background: #010409;
-    border: 1px solid var(--accent);
+    border: 2px solid var(--accent);
     border-radius: 12px;
     overflow: hidden;
-    display: none; /* Injected via JS .active class */
+    display: none;
     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    
-    &.active {
-        display: block;
-        animation: slideIn 0.3s ease;
-    }
 }
+#preview-container.active { display: block; animation: slideIn 0.3s ease; }
 
-#live-preview {
-    width: 100%;
-    height: 100%;
-    background: #fff;
+.preview-header {
+    background: var(--tab-bg);
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--accent);
+    font-size: 0.7rem;
+    letter-spacing: 1px;
 }
 
 /* =========================================
-   12. LOGIN SHIELD (Gate)
+   6. UI ANIMATIONS & UTILITIES
    ========================================= */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.2); }
+}
+
+.status-dot {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: statusPulse 2s infinite;
+}
+
+.run-btn, .browse-link, .clear-btn {
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 0.7rem;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--accent);
+    background: transparent;
+    color: var(--accent);
+}
+.run-btn:hover, .browse-link:hover { background: var(--accent); color: #000; }
+
 #chat-gate {
     position: fixed;
     inset: 0;
-    z-index: 9999;
+    z-index: 10000;
     background: rgba(8, 8, 12, 0.98);
     backdrop-filter: blur(20px);
     display: flex;
@@ -424,210 +233,14 @@ footer {
     justify-content: center;
 }
 
-.gate-card {
-    width: 90%;
-    max-width: 380px;
-    padding: 3rem;
-    background: var(--card);
-    border: 1px solid var(--accent);
-    border-radius: 16px;
-    text-align: center;
-    animation: pulse 4s infinite;
-}
+/* Scrollbar Utility */
+::-webkit-scrollbar { height: 6px; width: 6px; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-/* --- KEYFRAMES --- */
-@keyframes slideIn {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes pulse {
-    0%, 100% { border-color: var(--accent); box-shadow: 0 0 20px rgba(88, 166, 255, 0.1); }
-    50% { border-color: #fff; box-shadow: 0 0 40px rgba(88, 166, 255, 0.2); }
-}
-
-/* --- MOBILE RESPONSIVENESS (The Final Cut) --- */
-@media (max-width: 1100px) {
-    .main-wrapper { flex-direction: column; }
-    #preview-container { position: relative; height: 500px; width: 100%; top: 0; }
-}
-
-/* =========================================
-   13. UTILITY & FOOTER ACTIONS
-   ========================================= */
-   .footer-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0.5rem;
-    border-top: 1px solid var(--border);
-    margin-top: 0.5rem;
-    font-size: 0.75rem;
-}
-
-.control-group { display: flex; gap: 0.8rem; align-items: center; }
-
-/* =========================================
-   14. CODE EXECUTION ENGINE (The Snippet UI)
-   ========================================= */
-.code-snippet-msg {
-    background: var(--code-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.2rem;
-    margin-top: 0.8rem;
-    position: relative;
-    box-shadow: inset 0 4px 20px rgba(0,0,0,0.4);
-
-    &::after {
-        content: "EXECUTABLE_MODULE";
-        position: absolute;
-        top: 0.8rem; right: 1rem;
-        font-size: 0.55rem;
-        color: var(--accent);
-        letter-spacing: 1px;
-        opacity: 0.4;
-    }
-}
-
-.chat-code {
-    display: block;
-    color: #79c0ff;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.85rem;
-    white-space: pre-wrap;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 0.8rem;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    margin-bottom: 1rem;
-}
-
-.run-btn {
-    background: var(--accent);
-    color: #000;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    font-size: 0.65rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-
-    &:hover {
-        box-shadow: 0 0 20px rgba(88, 166, 255, 0.4);
-        transform: translateY(-1px);
-    }
-}
-
-/* =========================================
-   15. PREVIEW INTERFACE (Virtual Monitor)
-   ========================================= */
-.preview-header {
-    background: var(--tab-bg);
-    padding: 0.8rem 1.2rem;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.65rem;
-    color: var(--accent);
-    letter-spacing: 1.5px;
-}
-
-.status-dot {
-    width: 8px; height: 8px;
-    background: var(--accent);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--accent);
-    animation: statusPulse 2s infinite;
-}
-
-@keyframes statusPulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(1.3); }
-}
-
-.preview-footer {
-    background: var(--code-bg);
-    padding: 0.5rem 1rem;
-    font-size: 0.6rem;
-    color: #333;
-    border-top: 1px solid var(--border);
-}
-
-/* =========================================
-   16. THE FINAL RESPONSIVE OVERRIDE
-   ========================================= */
+/* RESPONSIVE DESIGN */
 @media (max-width: 1150px) {
     .main-wrapper, .chat-layout { flex-direction: column; }
-    
-    .clan-sidebar { 
-        order: 2; 
-        height: 250px; 
-    }
-    
-    #preview-container {
-        position: relative;
-        top: 0;
-        height: 50vh;
-        width: 100%;
-        flex: none;
-    }
-}
-/* =========================================
-   17. PREVIEW DISMISSAL (Close UI)
-   ========================================= */
-   .close-preview {
-    width: 32px;
-    height: 32px;
-    background: rgba(255, 68, 68, 0.1);
-    color: #ff4444;
-    border: 1px solid transparent;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-weight: 900;
-
-    &:hover {
-        background: #ff4444;
-        color: #fff;
-        box-shadow: 0 0 15px rgba(255, 68, 68, 0.4);
-    }
-}
-
-/* =========================================
-   18. ADMIN ENGINE (Power Toggles)
-   ========================================= */
-#admin-preview-controls {
-    display: none; /* JS toggles this */
-    padding: 1.5rem;
-    background: #09090b;
-    border-top: 2px solid #da3633;
-    text-align: center;
-    box-shadow: inset 0 10px 30px rgba(0,0,0,0.8);
-}
-
-/* One selector to rule them all */
-body.admin-mode {
-    #admin-preview-controls { display: block !important; }
-    
-    /* Dynamic Theme Swap: Turns the UI "Danger Red" */
-    --accent: #da3633; 
-    --border: #4a1211;
-}
-
-.auth-note {
-    font-size: 0.6rem;
-    color: var(--accent);
-    opacity: 0.7;
-    margin-top: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    /* Reuse the pulse from Part 3 to save 10 lines */
-    animation: statusPulse 3s infinite; 
+    #preview-container { position: relative; height: 50vh; width: 100%; }
+    .container { padding: 1rem; }
 }

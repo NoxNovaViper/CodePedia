@@ -7,22 +7,44 @@
     <link rel="stylesheet" href="Style.css">
     
     <style>
+        /* --- Clean Glassmorphism --- */
         .card {
             background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
         }
+
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
             border-color: var(--accent);
         }
+
         .featured-card {
             border-left: 4px solid var(--accent);
+            cursor: default; /* Not a link itself */
         }
-        .chat-highlight {
-            background: linear-gradient(145deg, rgba(0, 212, 255, 0.1), rgba(0, 0, 0, 0));
+
+        /* Responsive Grid Logic */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .browse-arrow {
+            font-size: 1.2rem;
+            opacity: 0.5;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .card:hover .browse-arrow {
+            transform: translateX(5px);
+            opacity: 1;
+            color: var(--accent);
         }
     </style>
 
@@ -39,15 +61,14 @@
 
 <div class="container">
     <div class="search-wrapper">
-        <input type="text" class="search-box" id="mainSearch" placeholder="Search by language, logic, or keyword..." onkeyup="filterCategories()">
+        <input type="text" class="search-box" id="mainSearch" placeholder="Search algorithms, logic, or keywords..." onkeyup="filterCategories()">
     </div>
 
     <section id="featured">
-        <h2 class="section-title">⭐ Featured Snippet</h2>
+        <h2 class="section-title">Global Logic: Prime Check</h2>
         <div class="card featured-card">
             <div class="featured-info">
-                <h3>Prime Number Check</h3>
-                <p>Efficiently determine primality using the \(O(\sqrt{n})\) approach.</p>
+                <p>Efficiency: \(O(\sqrt{n})\). Optimized primality testing across all core languages.</p>
             </div>
             
             <div class="tabs">
@@ -59,45 +80,41 @@
                 <button class="tab-btn" onclick="openLang(event, 'prime-go', 'featured-box')">Go</button>
             </div>
 
-            <pre id="featured-box" class="code-display">Select a language to view the code...</pre>
+            <pre id="featured-box" class="code-display">Select a language module to begin...</pre>
         </div>
     </section>
 
-    <h2 class="section-title">📂 Explore Categories</h2>
+    <h2 class="section-title">Knowledge Clusters</h2>
     <div class="category-grid" id="categoryGrid">
         
         <div class="card content-card" onclick="location.href='Math.html'">
             <div class="card-info">
-                <div class="icon">∑</div>
                 <h3>Mathematics</h3>
-                <p>Formulas, Prime Logic, and Geometric Algorithms.</p>
+                <p>Core formulas, sequence logic, and geometric computation.</p>
             </div>
             <span class="browse-arrow">&rarr;</span>
         </div>
 
         <div class="card content-card" onclick="location.href='Sorting.html'">
             <div class="card-info">
-                <div class="icon">⇅</div>
                 <h3>Sorting</h3>
-                <p>Organize data with Quick, Merge, and Bubble sort.</p>
+                <p>Data organization via Quick, Merge, and Heap algorithms.</p>
             </div>
             <span class="browse-arrow">&rarr;</span>
         </div>
 
         <div class="card content-card" onclick="location.href='Strings.html'">
             <div class="card-info">
-                <div class="icon">" "</div>
                 <h3>Strings</h3>
-                <p>Text processing, Palindromes, and Reversals.</p>
+                <p>Pattern matching, text reversals, and regex logic.</p>
             </div>
             <span class="browse-arrow">&rarr;</span>
         </div>
 
-        <div class="card content-card chat-highlight" onclick="location.href='Chat.html'">
+        <div class="card content-card" onclick="location.href='Chat.html'">
             <div class="card-info">
-                <div class="icon" style="color: var(--accent);">●</div>
-                <h3>Live Dev Chat</h3>
-                <p>Join the community to collaborate and share code live.</p>
+                <h3>Community Terminal</h3>
+                <p>Collaborative coding and real-time community sharing.</p>
             </div>
             <span class="browse-arrow">&rarr;</span>
         </div>
@@ -108,6 +125,23 @@
     <p>&copy; 2026 CodePedia | Built for the Developer Community</p>
 </footer>
 
+<script>
+    // Search Filter Logic
+    function filterCategories() {
+        const input = document.getElementById('mainSearch').value.toLowerCase();
+        const cards = document.querySelectorAll('#categoryGrid .card');
+        
+        cards.forEach(card => {
+            const title = card.querySelector('h3').innerText.toLowerCase();
+            const desc = card.querySelector('p').innerText.toLowerCase();
+            if (title.includes(input) || desc.includes(input)) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+</script>
 <script type="module" src="script.js"></script>
 </body>
 </html>

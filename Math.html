@@ -10,156 +10,184 @@
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <style>
-        /* Modernized Visualizer */
+        /* --- 2026 MATHEMATICAL DASHBOARD --- */
         .visualizer-card {
-            background: rgba(15, 15, 25, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 212, 255, 0.2);
+            background: rgba(15, 15, 25, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--accent);
             padding: 2.5rem;
             border-radius: 16px;
             position: relative;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
+        }
+
+        .visualizer-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            opacity: 0.2;
         }
         
-        /* Removed the robotic ID tag and replaced with a clean label */
         .visualizer-card::before {
-            content: "Interactive Tool";
+            content: "ALGORITHM_VISUALIZER_v1";
             position: absolute;
-            top: 12px; right: 20px;
-            font-size: 11px; 
-            letter-spacing: 1px;
+            top: 15px; right: 25px;
+            font-size: 10px; 
+            letter-spacing: 2px;
             color: var(--accent); 
-            text-transform: uppercase;
-            font-weight: bold;
+            opacity: 0.6;
+            font-weight: 900;
         }
 
         .math-grid {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 30px; 
+            grid-template-columns: 1fr 1fr;
+            gap: 40px; 
             align-items: center;
         }
 
         #visualizer-output {
             font-family: 'Fira Code', monospace;
-            color: #ffffff;
-            font-size: 2.2rem;
-            text-shadow: 0 0 15px rgba(0, 212, 255, 0.4);
+            color: #fff;
+            font-size: 3rem;
+            text-shadow: 0 0 20px rgba(88, 166, 255, 0.5);
+            margin-bottom: 5px;
         }
 
-        .math-section { margin-bottom: 5rem; }
-        
-        .status-label {
-            font-size: 11px;
-            color: var(--accent);
-            letter-spacing: 0.5px;
+        .math-section { margin-bottom: 6rem; }
+
+        .code-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 850px) {
+            .math-grid { grid-template-columns: 1fr; text-align: center; }
+            #visualizer-output { font-size: 2.2rem; }
         }
     </style>
 </head>
 <body>
 
 <header>
-    <nav><a href="index.html" class="back-link">&larr; Home</a></nav>
-    <h1 class="main-title">Mathematical Algorithms</h1>
-    <p>Explore the logic and efficiency behind essential math functions.</p>
+    <nav><a href="index.html" class="back-link">← Terminal Home</a></nav>
+    <h1 class="main-title">MATHEMATICAL <span class="accent-text">LOGIC</span></h1>
+    <p class="subtitle">Visualizing computational complexity and algorithm efficiency.</p>
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Search by name or logic (e.g., GCD, Factorial)..." onkeyup="filterMath()">
+    <div class="search-wrapper" style="margin-bottom: 3rem;">
+        <input type="text" id="pageSearch" class="search-box" placeholder="Filter math modules (GCD, Prime, Factorial)..." onkeyup="filterMath()">
+    </div>
 
-    <section class="math-section" id="prime-visualizer">
-        <h2 class="section-title">Prime Efficiency Tool</h2>
-        <p>This visualizer demonstrates why we only need to check factors up to the square root of a number (\(O(\sqrt{n})\)).</p>
+    <section class="math-section" id="prime-visualizer" data-name="prime">
+        <h2 class="section-title">Prime Factor Boundaries</h2>
+        <p style="margin-bottom: 1rem;">Why check up to \(O(\sqrt{n})\)? Factors always come in pairs. If a number \(n\) has a factor larger than \(\sqrt{n}\), its corresponding pair must be smaller than \(\sqrt{n}\).</p>
         
+        
+
         <div class="visualizer-card">
             <div class="math-grid">
                 <div class="controls">
-                    <label style="display:block; margin-bottom:10px; font-weight:600;">Test number: 36</label>
-                    <input type="range" id="mathSlider" min="1" max="36" value="1" style="width: 100%; accent-color: var(--accent);">
-                    <p id="logic-explanation" style="margin-top: 15px; font-size: 0.95rem; line-height: 1.5; color: #ccc;">
-                        Slide to see how factors are paired.
+                    <label style="display:block; margin-bottom:15px; font-weight:800; font-size: 0.8rem; color: var(--accent);">
+                        NUMERIC TARGET: 36
+                    </label>
+                    <input type="range" id="mathSlider" min="1" max="36" value="1" step="1" style="width:100%;">
+                    <p id="logic-explanation" style="margin-top: 25px; font-size: 0.9rem; color: #8b949e; line-height: 1.6;">
+                        Slide the control to visualize factor discovery.
                     </p>
                 </div>
                 <div style="text-align: right;">
-                    <div id="visualizer-output">1 &times; 36.0</div>
-                    <div class="status-label">LIVE CALCULATION</div>
+                    <div id="visualizer-output">1 <span style="color:var(--accent)">×</span> 36.0</div>
+                    <div class="status-label" style="font-weight: 900; letter-spacing: 2px;">REAL-TIME PAIRING</div>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="math-section" data-name="factorial">
-        <h2 class="section-title">Factorial (\(n!\))</h2>
-        <p>The product of all positive integers up to \(n\). Total time complexity: \(O(n)\).</p>
+        <h2 class="section-title">Linear Factorial (\(n!\))</h2>
+        <p>Iterative product mapping. Time Complexity: \(O(n)\) | Space Complexity: \(O(1)\).</p>
 
         <div class="card">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="openLang(event, 'fact-py', 'fact-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'fact-js', 'fact-box')">JavaScript</button>
-                <button class="tab-btn" onclick="openLang(event, 'fact-cpp', 'fact-box')">C++</button>
-                <button class="tab-btn" onclick="openLang(event, 'fact-java', 'fact-box')">Java</button>
-                <button class="tab-btn" onclick="openLang(event, 'fact-go', 'fact-box')">Go</button>
+            <div class="code-card-header">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="openLang(event, 'fact-py', 'fact-box')">Python</button>
+                    <button class="tab-btn" onclick="openLang(event, 'fact-js', 'fact-box')">JavaScript</button>
+                    <button class="tab-btn" onclick="openLang(event, 'fact-cpp', 'fact-box')">C++</button>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard('fact-box')">Copy</button>
             </div>
-            <div class="code-header">
-                <button class="copy-btn" onclick="copyCode('fact-box')">Copy Snippet</button>
-            </div>
-            <pre id="fact-box" class="code-display">Select a language to view the implementation...</pre>
+            <pre id="fact-box" class="code-display">Select a core language...</pre>
         </div>
     </section>
 
     <section class="math-section" data-name="gcd">
-        <h2 class="section-title">Greatest Common Divisor (GCD)</h2>
-        <p>Based on the Euclidean Algorithm: \(\text{gcd}(a, b) = \text{gcd}(b, a \pmod b)\).</p>
-
-        <div class="card">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="openLang(event, 'gcd-py', 'gcd-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'gcd-js', 'gcd-box')">JavaScript</button>
-                <button class="tab-btn" onclick="openLang(event, 'gcd-cpp', 'gcd-box')">C++</button>
-                <button class="tab-btn" onclick="openLang(event, 'gcd-java', 'gcd-box')">Java</button>
-                <button class="tab-btn" onclick="openLang(event, 'gcd-go', 'gcd-box')">Go</button>
+        <h2 class="section-title">Euclidean GCD</h2>
+        <p>The most efficient way to find the Greatest Common Divisor using modular reduction: \(\text{gcd}(a, b) = \text{gcd}(b, a \pmod b)\).</p><div class="card">
+            <div class="code-card-header">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="openLang(event, 'gcd-py', 'gcd-box')">Python</button>
+                    <button class="tab-btn" onclick="openLang(event, 'gcd-js', 'gcd-box')">JavaScript</button>
+                    <button class="tab-btn" onclick="openLang(event, 'gcd-cpp', 'gcd-box')">C++</button>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard('gcd-box')">Copy</button>
             </div>
-            <div class="code-header">
-                <button class="copy-btn" onclick="copyCode('gcd-box')">Copy Snippet</button>
-            </div>
-            <pre id="gcd-box" class="code-display">Select a language to view the implementation...</pre>
+            <pre id="gcd-box" class="code-display">Select a core language...</pre>
         </div>
     </section>
 </div>
 
 <footer>
-    <p>&copy; 2026 CodePedia | Mathematical Algorithms Guide</p>
+    <p style="opacity: 0.4; font-size: 0.7rem; letter-spacing: 1px;">CODEPEDIA MATH_ENGINE // 2026</p>
 </footer>
 
 <script type="module" src="script.js"></script>
 
 <script>
+    // Slider Logic
     const slider = document.getElementById('mathSlider');
     const output = document.getElementById('visualizer-output');
     const explain = document.getElementById('logic-explanation');
 
     if(slider) {
         slider.oninput = function() {
-            let val = parseFloat(this.value);
+            let val = parseInt(this.value);
             let pair = (36 / val).toFixed(1);
-            output.innerHTML = `${val} &times; ${pair}`;
+            output.innerHTML = `${val} <span style="color:var(--accent)">×</span> ${pair}`;
             
             if (val > 6) {
-                explain.innerHTML = `<span style="color:var(--accent)">Note:</span> This factor pair was already found (e.g., ${pair} × ${val}).`;
+                explain.innerHTML = `<span style="color:var(--accent)">SYMMETRY DETECTED:</span> Factor pair <strong>(${pair}, ${val})</strong> is just a reversal of <strong>(${val}, ${pair})</strong>. We could have stopped at 6!`;
             } else if (val == 6) {
-                explain.innerHTML = `<span style="color:#00ff88">Efficiency Peak:</span> We have reached the square root. Any factors after this point are just repeats!`;
+                explain.innerHTML = `<span style="color:#afff94">EFFICIENCY PEAK:</span> Square root reached. All unique factor pairs have been identified.`;
             } else {
-                explain.innerHTML = `Calculating factor boundaries for 36...`;
+                explain.innerHTML = `Exploring unique factor pairs below the square root threshold...`;
             }
         };
     }
 
+    // Search Filter
     window.filterMath = function() {
         let input = document.getElementById('pageSearch').value.toLowerCase();
         let sections = document.querySelectorAll('.math-section');
         sections.forEach(sec => {
+            let name = sec.getAttribute('data-name') || "";
             let text = sec.innerText.toLowerCase();
-            sec.style.display = text.includes(input) ? "" : "none";
+            sec.style.display = (text.includes(input) || name.includes(input)) ? "block" : "none";
+        });
+    }
+
+    // Helper: Copy to Clipboard
+    window.copyToClipboard = function(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Snippet copied to terminal!");
         });
     }
 </script>
