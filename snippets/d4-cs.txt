@@ -1,0 +1,6 @@
+// Move Diagonally Right-Down from a point (r, c)
+while (r < rows && c < cols) {
+    Console.Write(matrix[r, c] + " ");
+    r++;
+    c++;
+}

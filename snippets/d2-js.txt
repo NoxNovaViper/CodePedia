@@ -1,0 +1,6 @@
+// Move Diagonally Left-Down from a point (r, c)
+while (r < rows && c >= 0) {
+    console.log(matrix[r][c]);
+    r++;
+    c--;
+}

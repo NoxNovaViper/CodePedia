@@ -1,0 +1,5 @@
+for (int c = 0; c < cols; c++) {
+    for (int r = 0; r < rows; r++) {
+        System.out.print(matrix[r][c] + " ");
+    }
+}

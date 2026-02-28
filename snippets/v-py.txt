@@ -1,0 +1,3 @@
+for c in range(cols):
+    for r in range(rows):
+        print(matrix[r][c])
