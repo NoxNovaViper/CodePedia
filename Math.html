@@ -4,13 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Encyclopedia | CodePedia</title>
-    
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
 
 <header>
-    <nav><a href="index.html">&larr; Back to Home</a></nav>
+    <nav>
+        <a href="index.html">&larr; Home</a>
+        <a href="Sorting.html">Sorting</a>
+        <a href="Strings.html">Strings</a>
+        <a href="Chat.html">💬 Live Chat</a>
+    </nav>
     <h1>Math Encyclopedia</h1>
     <p>Essential mathematical algorithms and efficiency logic.</p>
 </header>
@@ -20,7 +24,7 @@
 
     <section class="card">
         <h2>Prime Efficiency Visualizer</h2>
-        <p>Why we only check factors up to $\sqrt{n}$ to determine primality:</p>
+        <p>Why we only check factors up to √n to determine primality:</p>
         <div class="visualizer">
             <input type="range" id="mathSlider" min="1" max="36" value="1" style="width: 80%;">
             <h3 id="visualizer-output">Factor Pair: 1 × 36.0</h3>
@@ -30,7 +34,7 @@
 
     <section>
         <h2>Factorial (n!)</h2>
-        <p>Calculates the product of all positive integers up to $n$ using iteration or recursion.</p>
+        <p>Calculates the product of all positive integers up to n using iteration or recursion.</p>
         <div class="card">
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'fact-py', 'fact-box')">Python</button>
