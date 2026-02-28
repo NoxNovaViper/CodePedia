@@ -1,6 +1,0 @@
-// Move Diagonally Right-Up from a point (r, c)
-while (r >= 0 && c < cols) {
-    cout << matrix[r][c] << " ";
-    r--;
-    c++;
-}
