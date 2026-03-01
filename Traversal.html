@@ -204,7 +204,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script type="module" src="script.js"></script>
 <script type="module">
-    // All snippet boxes and their filename prefixes
     const snippets = [
         { prefix: 'base', boxId: 'base-box' },
         { prefix: 'h',    boxId: 'h-box'    },
@@ -220,41 +219,40 @@
         java: 'Java', cs: 'C#', go: 'Go'
     };
 
+    const langMap = {
+        py: 'python', js: 'javascript', cpp: 'cpp',
+        java: 'java', cs: 'csharp', go: 'go'
+    };
+
     async function loadSnippet(prefix, lang, boxId) {
         const box = document.getElementById(boxId);
         box.textContent = '// Loading...';
         try {
             const res = await fetch(`./snippets/${prefix}-${lang}.txt`);
             if (!res.ok) throw new Error('Not found');
-            box.textContent = await res.text();
+            const code = await res.text();
+            box.className = `code-display language-${langMap[lang] || 'plaintext'}`;
+            delete box.dataset.highlighted;
+            box.textContent = code;
+            hljs.highlightElement(box);
         } catch {
             box.textContent = `// Error: ${prefix}-${lang}.txt not found in /snippets/`;
         }
     }
 
     function loadAllSnippets(lang) {
-        // Update base label
-        document.getElementById('base-label').textContent =
-            `${langNames[lang]} — 2D Array Base`;
-
-        // Load every snippet for the selected language
-        snippets.forEach(({ prefix, boxId }) => {
-            loadSnippet(prefix, lang, boxId);
-        });
+        document.getElementById('base-label').textContent = `${langNames[lang]} — 2D Array Base`;
+        snippets.forEach(({ prefix, boxId }) => loadSnippet(prefix, lang, boxId));
     }
 
-    // Language selector click handler
     document.getElementById('langSelector').addEventListener('click', (e) => {
         const btn = e.target.closest('.lang-btn');
         if (!btn) return;
-
         document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
         loadAllSnippets(btn.dataset.lang);
     });
 
-    // Load Python by default on page load
     document.addEventListener('DOMContentLoaded', () => {
         loadAllSnippets('py');
     });
