@@ -4,7 +4,7 @@
  * Page-specific logic (visualizer, chat) lives in extra.js
  */
 
-// 1. Snippet Loader
+// 1. Snippet Loader with Highlight.js
 async function openLang(evt, filename, targetId) {
     const card = evt.currentTarget.closest('.card');
     const displayBox = document.getElementById(targetId);
@@ -17,6 +17,16 @@ async function openLang(evt, filename, targetId) {
         const response = await fetch(`./snippets/${filename}.txt`);
         if (!response.ok) throw new Error("File not found");
         displayBox.textContent = await response.text();
+
+        // Syntax highlighting
+        const lang = filename.split('-')[1];
+        const langMap = {
+            py: 'python', js: 'javascript', cpp: 'cpp',
+            java: 'java', cs: 'csharp', go: 'go'
+        };
+        displayBox.className = `code-display language-${langMap[lang] || 'plaintext'}`;
+        hljs.highlightElement(displayBox);
+
     } catch (err) {
         displayBox.textContent = `// Error: Could not find ${filename}.txt in /snippets/`;
         console.error("Snippet Fetch Error:", err);
@@ -63,33 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     console.log("CodePedia Core Loaded.");
 });
-async function openLang(evt, filename, targetId) {
-    const card = evt.currentTarget.closest('.card');
-    const displayBox = document.getElementById(targetId);
-
-    card.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    evt.currentTarget.classList.add('active');
-
-    try {
-        displayBox.textContent = "// Loading snippet...";
-        const response = await fetch(`./snippets/${filename}.txt`);
-        if (!response.ok) throw new Error("File not found");
-        displayBox.textContent = await response.text();
-
-        // Detect language from filename and highlight
-        const lang = filename.split('-')[1]; // e.g. 'py', 'js', 'cpp'
-        const langMap = {
-            py: 'python', js: 'javascript', cpp: 'cpp',
-            java: 'java', cs: 'csharp', go: 'go'
-        };
-        displayBox.className = `code-display language-${langMap[lang] || 'plaintext'}`;
-        hljs.highlightElement(displayBox);
-
-    } catch (err) {
-        displayBox.textContent = `// Error: Could not find ${filename}.txt in /snippets/`;
-        console.error("Snippet Fetch Error:", err);
-    }
-}
 
 // Expose to global scope for inline onclick with type="module"
 window.openLang = openLang;
