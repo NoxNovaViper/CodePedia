@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Searching Algorithms | CodePedia</title>
+    <title>Sorting Algorithms | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
 </head>
 <body>
@@ -13,61 +13,83 @@
     <nav>
         <a href="index.html">&larr; Home</a>
         <a href="Math.html">Math</a>
-        <a href="Sorting.html">Sorting</a>
         <a href="Strings.html">Strings</a>
+        <a href="Searching.html">Searching</a>
+        <a href="Stack.html">Stack</a>
+        <a href="Queue.html">Queue</a>
+        <a href="LinkedList.html">Linked List</a>
+        <a href="Traversal.html">2D Traversal</a>
         <a href="Arrays.html">Arrays</a>
         <a href="Recursion.html">Recursion</a>
-        <a href="Traversal.html">2D Traversal</a>
         <a href="Chat.html">💬 Live Chat</a>
     </nav>
-    <h1>Searching Algorithms</h1>
-    <p>Efficient techniques for finding elements in data structures.</p>
+    <h1>Sorting Algorithms</h1>
+    <p>Efficient ways to organize data structures.</p>
 </header>
 
 <div class="container">
-    <input type="text" id="pageSearch" class="search-box" placeholder="Filter searching algorithms (e.g., 'Binary')...">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Filter sorting algorithms (e.g., 'Quick')...">
 
     <section>
-        <h2>Linear Search</h2>
-        <p>Scans through every element one by one until the target is found (O(n)). Works on unsorted arrays.</p>
+        <h2>Bubble Sort</h2>
+        <p>Simple comparison sort that repeatedly swaps adjacent elements (O(n²)). Best for small or nearly-sorted data.</p>
         <div class="card">
             <div class="tabs">
-                <button class="tab-btn active" onclick="openLang(event, 'l_search-py', 'l_search-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'l_search-js', 'l_search-box')">JS</button>
-                <button class="tab-btn" onclick="openLang(event, 'l_search-cpp', 'l_search-box')">C++</button>
-                <button class="tab-btn" onclick="openLang(event, 'l_search-java', 'l_search-box')">Java</button>
-                <button class="tab-btn" onclick="openLang(event, 'l_search-cs', 'l_search-box')">C#</button>
-                <button class="tab-btn" onclick="openLang(event, 'l_search-go', 'l_search-box')">Go</button>
+                <button class="tab-btn active" onclick="openLang(event, 'bubble-py', 'bubble-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'bubble-js', 'bubble-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'bubble-cpp', 'bubble-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'bubble-java', 'bubble-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'bubble-cs', 'bubble-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'bubble-go', 'bubble-box')">Go</button>
             </div>
             <div class="code-header">
-                <button class="copy-btn" onclick="copyCode('l_search-box')">Copy Code</button>
+                <button class="copy-btn" onclick="copyCode('bubble-box')">Copy Code</button>
             </div>
-            <pre id="l_search-box" class="code-display">Loading...</pre>
+            <pre id="bubble-box" class="code-display">Loading...</pre>
         </div>
     </section>
 
     <section>
-        <h2>Binary Search</h2>
-        <p>Finds an element in a sorted array by repeatedly halving the search space (O(log n)). Far faster than linear search for large datasets.</p>
+        <h2>Quick Sort</h2>
+        <p>Divide-and-conquer algorithm using a pivot element (O(n log n) average). Fast in practice for most datasets.</p>
         <div class="card">
             <div class="tabs">
-                <button class="tab-btn active" onclick="openLang(event, 'bi_s-py', 'bis-box')">Python</button>
-                <button class="tab-btn" onclick="openLang(event, 'bi_s-js', 'bis-box')">JS</button>
-                <button class="tab-btn" onclick="openLang(event, 'bi_s-cpp', 'bis-box')">C++</button>
-                <button class="tab-btn" onclick="openLang(event, 'bi_s-java', 'bis-box')">Java</button>
-                <button class="tab-btn" onclick="openLang(event, 'bi_s-cs', 'bis-box')">C#</button>
-                <button class="tab-btn" onclick="openLang(event, 'bi_s-go', 'bis-box')">Go</button>
+                <button class="tab-btn active" onclick="openLang(event, 'quick-py', 'quick-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'quick-js', 'quick-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'quick-cpp', 'quick-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'quick-java', 'quick-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'quick-cs', 'quick-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'quick-go', 'quick-box')">Go</button>
             </div>
             <div class="code-header">
-                <button class="copy-btn" onclick="copyCode('bis-box')">Copy Code</button>
+                <button class="copy-btn" onclick="copyCode('quick-box')">Copy Code</button>
             </div>
-            <pre id="bis-box" class="code-display">Loading...</pre>
+            <pre id="quick-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Merge Sort</h2>
+        <p>Stable divide-and-conquer sort that splits and merges (O(n log n) guaranteed). Great for linked lists and large datasets.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'merge-py', 'merge-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'merge-js', 'merge-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'merge-cpp', 'merge-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'merge-java', 'merge-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'merge-cs', 'merge-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'merge-go', 'merge-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('merge-box')">Copy Code</button>
+            </div>
+            <pre id="merge-box" class="code-display">Loading...</pre>
         </div>
     </section>
 
 </div>
 
-<footer>&copy; 2026 CodePedia | Searching Encyclopedia</footer>
+<footer>&copy; 2026 CodePedia Sorting | Logic and Order</footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script type="module" src="script.js"></script>
 </body>

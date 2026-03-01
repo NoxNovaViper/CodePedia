@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue | CodePedia</title>
+    <meta name="description" content="Queue operations in 6 languages — Enqueue and Dequeue. Free code reference on CodePedia.">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html">&larr; Home</a>
+        <a href="Math.html">Math</a>
+        <a href="Sorting.html">Sorting</a>
+        <a href="Strings.html">Strings</a>
+        <a href="Searching.html">Searching</a>
+        <a href="Arrays.html">Arrays</a>
+        <a href="Recursion.html">Recursion</a>
+        <a href="Stack.html">Stack</a>
+        <a href="LinkedList.html">Linked List</a>
+        <a href="Traversal.html">2D Traversal</a>
+        <a href="Chat.html">💬 Live Chat</a>
+    </nav>
+    <h1>Queue</h1>
+    <p>First-In First-Out (FIFO) data structure operations across all 6 languages.</p>
+</header>
+
+<div class="container">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Search queue operations (e.g. 'Enqueue')...">
+
+    <section>
+        <h2>Enqueue</h2>
+        <p>Adds an element to the back of the queue (O(1)).</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'q_en-py', 'q_en-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'q_en-js', 'q_en-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'q_en-cpp', 'q_en-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'q_en-java', 'q_en-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'q_en-cs', 'q_en-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'q_en-go', 'q_en-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('q_en-box')">Copy Code</button>
+            </div>
+            <pre id="q_en-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Dequeue</h2>
+        <p>Removes and returns the front element of the queue (O(1)).</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'q_de-py', 'q_de-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'q_de-js', 'q_de-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'q_de-cpp', 'q_de-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'q_de-java', 'q_de-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'q_de-cs', 'q_de-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'q_de-go', 'q_de-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('q_de-box')">Copy Code</button>
+            </div>
+            <pre id="q_de-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+</div>
+
+<footer>&copy; 2026 CodePedia | Queue Encyclopedia</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script type="module" src="script.js"></script>
+</body>
+</html>

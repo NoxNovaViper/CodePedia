@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stack | CodePedia</title>
+    <meta name="description" content="Stack operations in 6 languages — Push, Pop and Peek. Free code reference on CodePedia.">
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html">&larr; Home</a>
+        <a href="Math.html">Math</a>
+        <a href="Sorting.html">Sorting</a>
+        <a href="Strings.html">Strings</a>
+        <a href="Searching.html">Searching</a>
+        <a href="Arrays.html">Arrays</a>
+        <a href="Recursion.html">Recursion</a>
+        <a href="Queue.html">Queue</a>
+        <a href="LinkedList.html">Linked List</a>
+        <a href="Traversal.html">2D Traversal</a>
+        <a href="Chat.html">💬 Live Chat</a>
+    </nav>
+    <h1>Stack</h1>
+    <p>Last-In First-Out (LIFO) data structure operations across all 6 languages.</p>
+</header>
+
+<div class="container">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Search stack operations (e.g. 'Push')...">
+
+    <section>
+        <h2>Push</h2>
+        <p>Adds an element to the top of the stack (O(1)).</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'stack_push-py', 'stack_push-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_push-js', 'stack_push-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_push-cpp', 'stack_push-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_push-java', 'stack_push-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_push-cs', 'stack_push-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_push-go', 'stack_push-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('stack_push-box')">Copy Code</button>
+            </div>
+            <pre id="stack_push-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Pop</h2>
+        <p>Removes and returns the top element of the stack (O(1)).</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'stack_pop-py', 'stack_pop-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_pop-js', 'stack_pop-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_pop-cpp', 'stack_pop-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_pop-java', 'stack_pop-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_pop-cs', 'stack_pop-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_pop-go', 'stack_pop-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('stack_pop-box')">Copy Code</button>
+            </div>
+            <pre id="stack_pop-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Peek</h2>
+        <p>Returns the top element without removing it (O(1)).</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'stack_peek-py', 'stack_peek-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_peek-js', 'stack_peek-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_peek-cpp', 'stack_peek-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_peek-java', 'stack_peek-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_peek-cs', 'stack_peek-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'stack_peek-go', 'stack_peek-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('stack_peek-box')">Copy Code</button>
+            </div>
+            <pre id="stack_peek-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+</div>
+
+<footer>&copy; 2026 CodePedia | Stack Encyclopedia</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script type="module" src="script.js"></script>
+</body>
+</html>
