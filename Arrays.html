@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrays | CodePedia</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+
+<header>
+    <nav>
+        <a href="index.html">&larr; Home</a>
+        <a href="Math.html">Math</a>
+        <a href="Sorting.html">Sorting</a>
+        <a href="Strings.html">Strings</a>
+        <a href="Searching.html">Searching</a>
+        <a href="Recursion.html">Recursion</a>
+        <a href="Traversal.html">2D Traversal</a>
+        <a href="Chat.html">💬 Live Chat</a>
+    </nav>
+    <h1>Arrays</h1>
+    <p>Core array operations across all 6 languages.</p>
+</header>
+
+<div class="container">
+    <input type="text" id="pageSearch" class="search-box" placeholder="Search array operations (e.g. 'Insert')...">
+
+    <section>
+        <h2>Insert Element</h2>
+        <p>Adds an element at a specific index, shifting existing elements to make room.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'ins-py', 'ins-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'ins-js', 'ins-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'ins-cpp', 'ins-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'ins-java', 'ins-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'ins-cs', 'ins-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'ins-go', 'ins-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('ins-box')">Copy Code</button>
+            </div>
+            <pre id="ins-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Delete Element</h2>
+        <p>Removes an element at a specific index, shifting remaining elements to fill the gap.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'del-py', 'del-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'del-js', 'del-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'del-cpp', 'del-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'del-java', 'del-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'del-cs', 'del-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'del-go', 'del-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('del-box')">Copy Code</button>
+            </div>
+            <pre id="del-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Reverse Array</h2>
+        <p>Inverts the order of elements in an array in O(n) time.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'arr_rev-py', 'arr_rev-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'arr_rev-js', 'arr_rev-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'arr_rev-cpp', 'arr_rev-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'arr_rev-java', 'arr_rev-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'arr_rev-cs', 'arr_rev-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'arr_rev-go', 'arr_rev-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('arr_rev-box')">Copy Code</button>
+            </div>
+            <pre id="arr_rev-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Find Maximum</h2>
+        <p>Finds the largest element in an array by scanning through once (O(n)).</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'max-py', 'max-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'max-js', 'max-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'max-cpp', 'max-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'max-java', 'max-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'max-cs', 'max-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'max-go', 'max-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('max-box')">Copy Code</button>
+            </div>
+            <pre id="max-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+    <section>
+        <h2>Find Minimum</h2>
+        <p>Finds the smallest element in an array by scanning through once (O(n)).</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'min-py', 'min-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'min-js', 'min-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'min-cpp', 'min-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'min-java', 'min-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'min-cs', 'min-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'min-go', 'min-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('min-box')">Copy Code</button>
+            </div>
+            <pre id="min-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
+
+</div>
+
+<footer>&copy; 2026 CodePedia | Arrays Encyclopedia</footer>
+<script type="module" src="script.js"></script>
+</body>
+</html>

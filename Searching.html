@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="description" content="Searching algorithms in 6 languages — Binary Search implementation. Free code reference on CodePedia.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Searching Algorithms | CodePedia</title>
@@ -15,6 +14,8 @@
         <a href="Math.html">Math</a>
         <a href="Sorting.html">Sorting</a>
         <a href="Strings.html">Strings</a>
+        <a href="Arrays.html">Arrays</a>
+        <a href="Recursion.html">Recursion</a>
         <a href="Traversal.html">2D Traversal</a>
         <a href="Chat.html">💬 Live Chat</a>
     </nav>
@@ -24,6 +25,25 @@
 
 <div class="container">
     <input type="text" id="pageSearch" class="search-box" placeholder="Filter searching algorithms (e.g., 'Binary')...">
+
+    <section>
+        <h2>Linear Search</h2>
+        <p>Scans through every element one by one until the target is found (O(n)). Works on unsorted arrays.</p>
+        <div class="card">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openLang(event, 'l_search-py', 'l_search-box')">Python</button>
+                <button class="tab-btn" onclick="openLang(event, 'l_search-js', 'l_search-box')">JS</button>
+                <button class="tab-btn" onclick="openLang(event, 'l_search-cpp', 'l_search-box')">C++</button>
+                <button class="tab-btn" onclick="openLang(event, 'l_search-java', 'l_search-box')">Java</button>
+                <button class="tab-btn" onclick="openLang(event, 'l_search-cs', 'l_search-box')">C#</button>
+                <button class="tab-btn" onclick="openLang(event, 'l_search-go', 'l_search-box')">Go</button>
+            </div>
+            <div class="code-header">
+                <button class="copy-btn" onclick="copyCode('l_search-box')">Copy Code</button>
+            </div>
+            <pre id="l_search-box" class="code-display">Loading...</pre>
+        </div>
+    </section>
 
     <section>
         <h2>Binary Search</h2>
