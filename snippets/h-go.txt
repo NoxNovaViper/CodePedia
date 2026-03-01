@@ -1,5 +1,5 @@
-for c := 0; c < cols; c++ {
-    for r := 0; r < rows; r++ {
+for r := 0; r < rows; r++ {
+    for c := 0; c < cols; c++ {
         fmt.Printf("%d ", matrix[r][c])
     }
 }
