@@ -18,13 +18,14 @@ async function openLang(evt, filename, targetId) {
         if (!response.ok) throw new Error("File not found");
         displayBox.textContent = await response.text();
 
-        // Syntax highlighting
+        // Syntax highlighting — reset first so hljs re-highlights on every tab switch
         const lang = filename.split('-')[1];
         const langMap = {
             py: 'python', js: 'javascript', cpp: 'cpp',
             java: 'java', cs: 'csharp', go: 'go'
         };
         displayBox.className = `code-display language-${langMap[lang] || 'plaintext'}`;
+        delete displayBox.dataset.highlighted; // remove hljs "already done" flag
         hljs.highlightElement(displayBox);
 
     } catch (err) {
