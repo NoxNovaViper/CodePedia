@@ -8,7 +8,6 @@
     <title>2D Traversal | CodePedia</title>
     <link rel="stylesheet" href="Style.css">
     <style>
-        /* Language selector bar at top */
         .lang-selector {
             display: flex;
             background: var(--tab-bg);
@@ -17,66 +16,32 @@
             overflow: hidden;
             margin-bottom: 2.5rem;
         }
-
         .lang-btn {
-            flex: 1;
-            padding: 14px 10px;
-            border: none;
-            background: none;
-            color: var(--text);
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: bold;
-            transition: background 0.2s, color 0.2s;
-            border-right: 1px solid var(--border);
+            flex: 1; padding: 14px 10px; border: none; background: none;
+            color: var(--text); cursor: pointer; font-size: 0.9rem; font-weight: bold;
+            transition: background 0.2s, color 0.2s; border-right: 1px solid var(--border);
         }
         .lang-btn:last-child { border-right: none; }
         .lang-btn.active { background: var(--accent); color: white; }
         .lang-btn:hover:not(.active) { background: rgba(88,166,255,0.1); }
 
-        /* Traversal direction grid */
         .traversal-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
             gap: 20px;
         }
-
         .traversal-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            overflow: hidden;
-            transition: transform 0.2s;
+            background: var(--card); border: 1px solid var(--border);
+            border-radius: 8px; overflow: hidden; transition: transform 0.2s;
         }
         .traversal-card:hover { transform: translateY(-2px); }
-
         .traversal-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 14px;
-            background: var(--tab-bg);
-            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 14px; background: var(--tab-bg); border-bottom: 1px solid var(--border);
         }
-
-        .traversal-card-header h3 {
-            margin: 0;
-            font-size: 0.9rem;
-            color: var(--accent);
-        }
-
-        .direction-icon {
-            font-size: 1.2rem;
-            opacity: 0.8;
-        }
-
-        .traversal-card pre {
-            margin: 0;
-            border-radius: 0;
-            border: none;
-            min-height: 120px;
-            font-size: 0.82rem;
-        }
+        .traversal-card-header h3 { margin: 0; font-size: 0.9rem; color: var(--accent); }
+        .direction-icon { font-size: 1.2rem; opacity: 0.8; }
+        .traversal-card pre { margin: 0; border-radius: 0; border: none; min-height: 120px; font-size: 0.82rem; }
     </style>
 </head>
 <body>
@@ -102,7 +67,6 @@
 
 <div class="container">
 
-    <!-- Single language selector controls everything below -->
     <div class="lang-selector" id="langSelector">
         <button class="lang-btn active" data-lang="py">Python</button>
         <button class="lang-btn" data-lang="js">JS</button>
@@ -112,9 +76,8 @@
         <button class="lang-btn" data-lang="go">Go</button>
     </div>
 
-    <!-- Base Skeleton -->
     <section>
-        <h2>Array Skeleton</h2>
+        <h2>Array Skeleton <button class="info-btn" onclick="openTravDrawer('base')">ⓘ Info</button></h2>
         <p>The basic structure for declaring and accessing a 2D array in the selected language.</p>
         <div class="card" style="padding: 0; overflow: hidden;">
             <div class="traversal-card-header">
@@ -125,18 +88,17 @@
         </div>
     </section>
 
-    <!-- Traversal Directions -->
     <section>
-        <h2>Traversal Directions</h2>
+        <h2>Traversal Directions <button class="info-btn" onclick="openTravDrawer('all')">ⓘ Info</button></h2>
         <p>All six directional traversal patterns for 2D arrays — language updates all at once.</p>
         <div class="traversal-grid">
 
             <div class="traversal-card">
                 <div class="traversal-card-header">
-                    <h3>Horizontal →</h3>
+                    <h3>Horizontal → <button class="info-btn" onclick="openTravDrawer('h')">ⓘ</button></h3>
                     <span class="direction-icon">➡️</span>
                 </div>
-                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                <div style="display:flex;justify-content:flex-end;padding:4px 8px;background:var(--tab-bg);border-bottom:1px solid var(--border);">
                     <button class="copy-btn" onclick="copyCode('h-box')">Copy</button>
                 </div>
                 <pre id="h-box" class="code-display">Loading...</pre>
@@ -144,10 +106,10 @@
 
             <div class="traversal-card">
                 <div class="traversal-card-header">
-                    <h3>Vertical ↓</h3>
+                    <h3>Vertical ↓ <button class="info-btn" onclick="openTravDrawer('v')">ⓘ</button></h3>
                     <span class="direction-icon">⬇️</span>
                 </div>
-                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                <div style="display:flex;justify-content:flex-end;padding:4px 8px;background:var(--tab-bg);border-bottom:1px solid var(--border);">
                     <button class="copy-btn" onclick="copyCode('v-box')">Copy</button>
                 </div>
                 <pre id="v-box" class="code-display">Loading...</pre>
@@ -155,10 +117,10 @@
 
             <div class="traversal-card">
                 <div class="traversal-card-header">
-                    <h3>Diagonal ↖ (Left-Up)</h3>
+                    <h3>Diagonal ↖ (Left-Up) <button class="info-btn" onclick="openTravDrawer('d1')">ⓘ</button></h3>
                     <span class="direction-icon">↖️</span>
                 </div>
-                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                <div style="display:flex;justify-content:flex-end;padding:4px 8px;background:var(--tab-bg);border-bottom:1px solid var(--border);">
                     <button class="copy-btn" onclick="copyCode('d1-box')">Copy</button>
                 </div>
                 <pre id="d1-box" class="code-display">Loading...</pre>
@@ -166,10 +128,10 @@
 
             <div class="traversal-card">
                 <div class="traversal-card-header">
-                    <h3>Diagonal ↙ (Left-Down)</h3>
+                    <h3>Diagonal ↙ (Left-Down) <button class="info-btn" onclick="openTravDrawer('d2')">ⓘ</button></h3>
                     <span class="direction-icon">↙️</span>
                 </div>
-                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                <div style="display:flex;justify-content:flex-end;padding:4px 8px;background:var(--tab-bg);border-bottom:1px solid var(--border);">
                     <button class="copy-btn" onclick="copyCode('d2-box')">Copy</button>
                 </div>
                 <pre id="d2-box" class="code-display">Loading...</pre>
@@ -177,10 +139,10 @@
 
             <div class="traversal-card">
                 <div class="traversal-card-header">
-                    <h3>Diagonal ↗ (Right-Up)</h3>
+                    <h3>Diagonal ↗ (Right-Up) <button class="info-btn" onclick="openTravDrawer('d3')">ⓘ</button></h3>
                     <span class="direction-icon">↗️</span>
                 </div>
-                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                <div style="display:flex;justify-content:flex-end;padding:4px 8px;background:var(--tab-bg);border-bottom:1px solid var(--border);">
                     <button class="copy-btn" onclick="copyCode('d3-box')">Copy</button>
                 </div>
                 <pre id="d3-box" class="code-display">Loading...</pre>
@@ -188,10 +150,10 @@
 
             <div class="traversal-card">
                 <div class="traversal-card-header">
-                    <h3>Diagonal ↘ (Right-Down)</h3>
+                    <h3>Diagonal ↘ (Right-Down) <button class="info-btn" onclick="openTravDrawer('d4')">ⓘ</button></h3>
                     <span class="direction-icon">↘️</span>
                 </div>
-                <div style="display:flex; justify-content:flex-end; padding: 4px 8px; background: var(--tab-bg); border-bottom: 1px solid var(--border);">
+                <div style="display:flex;justify-content:flex-end;padding:4px 8px;background:var(--tab-bg);border-bottom:1px solid var(--border);">
                     <button class="copy-btn" onclick="copyCode('d4-box')">Copy</button>
                 </div>
                 <pre id="d4-box" class="code-display">Loading...</pre>
@@ -205,6 +167,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script type="module" src="script.js"></script>
 <script type="module">
+    // ── Snippet loading ──────────────────────────────────────
     const snippets = [
         { prefix: 'base', boxId: 'base-box' },
         { prefix: 'h',    boxId: 'h-box'    },
@@ -215,15 +178,8 @@
         { prefix: 'd4',   boxId: 'd4-box'   },
     ];
 
-    const langNames = {
-        py: 'Python', js: 'JavaScript', cpp: 'C++',
-        java: 'Java', cs: 'C#', go: 'Go'
-    };
-
-    const langMap = {
-        py: 'python', js: 'javascript', cpp: 'cpp',
-        java: 'java', cs: 'csharp', go: 'go'
-    };
+    const langNames = { py:'Python', js:'JavaScript', cpp:'C++', java:'Java', cs:'C#', go:'Go' };
+    const langMap   = { py:'python', js:'javascript', cpp:'cpp', java:'java', cs:'csharp', go:'go' };
 
     async function loadSnippet(prefix, lang, boxId) {
         const box = document.getElementById(boxId);
@@ -254,9 +210,171 @@
         loadAllSnippets(btn.dataset.lang);
     });
 
-    document.addEventListener('DOMContentLoaded', () => {
-        loadAllSnippets('py');
-    });
+    document.addEventListener('DOMContentLoaded', () => { loadAllSnippets('py'); });
+
+    // ── Traversal Info Drawer Data ───────────────────────────
+    const travInfo = {
+        base: {
+            title: '2D Array Skeleton',
+            how: ['Declare a 2D array as an array of arrays (or matrix).','Access elements with two indices: row and column — arr[row][col].','Row index selects which inner array, column index selects element within it.'],
+            complexity: { time: 'O(1) access', space: 'O(n×m)', best: 'O(1)', worst: 'O(1)' },
+            whenToUse: 'Any grid, matrix, board, or table problem. Foundation for all 2D traversal patterns.',
+            edgeCases: ['Empty grid (0 rows or 0 cols) → guard before accessing.','Jagged arrays (rows of different lengths) → check column bounds per row.'],
+            errorPoints: ['Accessing arr[col][row] instead of arr[row][col] → wrong element.','Not initializing inner arrays → null reference crash in Java/C++.'],
+        },
+        h: {
+            title: 'Horizontal Traversal →',
+            how: ['Outer loop iterates over each row (i from 0 to rows-1).','Inner loop iterates over each column in that row (j from 0 to cols-1).','Access element at arr[i][j] — left to right, top to bottom.'],
+            complexity: { time: 'O(n×m)', space: 'O(1)', best: 'O(n×m)', worst: 'O(n×m)' },
+            whenToUse: 'Most common traversal. Row-by-row processing, summing rows, printing matrices.',
+            edgeCases: ['Empty grid → both loops never execute.','Single row → outer loop runs once.','Single column → inner loop runs once per row.'],
+            errorPoints: ['Swapping i and j → column-by-column instead of row-by-row.','Wrong loop bounds → index out of bounds.'],
+        },
+        v: {
+            title: 'Vertical Traversal ↓',
+            how: ['Outer loop iterates over each column (j from 0 to cols-1).','Inner loop iterates over each row in that column (i from 0 to rows-1).','Access element at arr[i][j] — top to bottom, left to right.'],
+            complexity: { time: 'O(n×m)', space: 'O(1)', best: 'O(n×m)', worst: 'O(n×m)' },
+            whenToUse: 'Column-by-column processing, transposing matrices, vertical scans.',
+            edgeCases: ['Non-square matrix → cols and rows may differ, use correct bounds.','Empty grid → loops never execute.'],
+            errorPoints: ['Using rows bound for column loop → index out of bounds on non-square grids.','Confusing row/col variable names → wrong access pattern.'],
+        },
+        d1: {
+            title: 'Diagonal ↖ Left-Up',
+            how: ['Start at bottom-right corner.','Move up (-row) and left (-col) each step.','Stay within bounds: row >= 0 and col >= 0.'],
+            complexity: { time: 'O(min(n,m))', space: 'O(1)', best: 'O(1)', worst: 'O(min(n,m))' },
+            whenToUse: 'Anti-diagonal traversal from a starting point. Used in word search, matrix rotation checks.',
+            edgeCases: ['Starting at corner → only one diagonal step possible.','Non-square matrix → hits one boundary before the other.'],
+            errorPoints: ['Not checking both row and col bounds → out of bounds crash.','Decrementing wrong variable → traverses wrong direction.'],
+        },
+        d2: {
+            title: 'Diagonal ↙ Left-Down',
+            how: ['Start at top-right corner.','Move down (+row) and left (-col) each step.','Stay within bounds: row < rows and col >= 0.'],
+            complexity: { time: 'O(min(n,m))', space: 'O(1)', best: 'O(1)', worst: 'O(min(n,m))' },
+            whenToUse: 'Diagonal scan from top-right. Used in game boards and pattern matching.',
+            edgeCases: ['Single column → only one step possible.','Non-square matrix → asymmetric diagonal length.'],
+            errorPoints: ['Incrementing row AND decrementing col → verify direction is correct for your use case.'],
+        },
+        d3: {
+            title: 'Diagonal ↗ Right-Up',
+            how: ['Start at bottom-left corner.','Move up (-row) and right (+col) each step.','Stay within bounds: row >= 0 and col < cols.'],
+            complexity: { time: 'O(min(n,m))', space: 'O(1)', best: 'O(1)', worst: 'O(min(n,m))' },
+            whenToUse: 'Anti-diagonal from bottom-left. Used in chess move validation, diagonal win checks.',
+            edgeCases: ['Single row → only moves right.','Non-square → one boundary hit before the other.'],
+            errorPoints: ['Mixing up ↗ and ↘ directions → wrong traversal silently.'],
+        },
+        d4: {
+            title: 'Diagonal ↘ Right-Down',
+            how: ['Start at top-left corner.','Move down (+row) and right (+col) each step.','Stay within bounds: row < rows and col < cols.'],
+            complexity: { time: 'O(min(n,m))', space: 'O(1)', best: 'O(1)', worst: 'O(min(n,m))' },
+            whenToUse: 'Main diagonal traversal. Used in matrix trace, diagonal sum, tic-tac-toe win checks.',
+            edgeCases: ['Square matrix → diagonal has exactly n elements.','Non-square → diagonal length = min(rows, cols).'],
+            errorPoints: ['Using rows or cols alone as bound instead of min(rows,cols) → out of bounds on non-square grids.'],
+        },
+        all: {
+            title: '2D Traversal Overview',
+            how: ['A 2D array is a grid of rows and columns.','6 directional patterns: horizontal, vertical, and 4 diagonals.','Each direction requires different loop control and bounds checking.','Always validate row and column bounds before accessing any element.'],
+            complexity: { time: 'O(n×m) full / O(min(n,m)) diagonal', space: 'O(1)', best: 'O(1)', worst: 'O(n×m)' },
+            whenToUse: 'Grid problems, pathfinding, image processing, game boards, matrix operations.',
+            edgeCases: ['Empty grid → always guard against 0 rows or 0 columns.','Non-square grids → rows ≠ cols, never assume square.','Single row or column → degenerate cases.'],
+            errorPoints: ['Assuming square grid → wrong bounds on non-square input.','Swapping row/col indices → silent wrong results.','Off-by-one in loop bounds → missing last row or column.'],
+        },
+    };
+
+    // ── Drawer UI ────────────────────────────────────────────
+    function buildTravDrawer() {
+        if (document.getElementById('trav-drawer')) return;
+        const drawer = document.createElement('div');
+        drawer.id = 'trav-drawer';
+        drawer.innerHTML = `
+            <div id="trav-overlay"></div>
+            <div id="trav-panel">
+                <div id="trav-header">
+                    <span id="trav-title">Info</span>
+                    <button id="trav-close" onclick="closeTravDrawer()">✕</button>
+                </div>
+                <div id="trav-body"></div>
+            </div>
+        `;
+        document.body.appendChild(drawer);
+
+        const style = document.createElement('style');
+        style.textContent = `
+            #trav-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:999; }
+            #trav-panel {
+                position:fixed; top:0; right:-420px; width:400px; height:100vh;
+                background:#161b22; border-left:1px solid #30363d;
+                z-index:1000; overflow-y:auto; transition:right 0.3s ease;
+                display:flex; flex-direction:column;
+            }
+            #trav-drawer.open #trav-overlay { display:block; }
+            #trav-drawer.open #trav-panel { right:0; }
+            #trav-header {
+                display:flex; justify-content:space-between; align-items:center;
+                padding:16px 20px; border-bottom:1px solid #30363d;
+                background:#0d1117; position:sticky; top:0; z-index:1;
+            }
+            #trav-title { font-weight:700; font-size:1rem; color:#58a6ff; }
+            #trav-close { background:none; border:1px solid #30363d; color:#c9d1d9; border-radius:4px; padding:2px 8px; cursor:pointer; }
+            #trav-close:hover { background:#30363d; }
+            #trav-body { padding:20px; display:flex; flex-direction:column; gap:20px; }
+            .trav-section h4 { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.5px; color:#58a6ff; margin-bottom:10px; }
+            .trav-section ol, .trav-section ul { padding-left:18px; display:flex; flex-direction:column; gap:6px; }
+            .trav-section li, .trav-section p { font-size:0.87rem; color:#c9d1d9; line-height:1.5; }
+            .trav-cx-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+            .trav-cx-item { background:#0d1117; border:1px solid #30363d; border-radius:6px; padding:8px 12px; display:flex; flex-direction:column; gap:2px; }
+            .trav-cx-item span { font-size:0.7rem; color:#5a6478; text-transform:uppercase; }
+            .trav-cx-item strong { font-size:0.85rem; color:#3fb950; font-family:'Courier New',monospace; }
+            .info-btn { background:none; border:1px solid #30363d; color:#58a6ff; border-radius:4px; padding:2px 10px; font-size:0.72rem; cursor:pointer; transition:all 0.2s; margin-left:8px; }
+            .info-btn:hover { background:rgba(88,166,255,0.1); border-color:#58a6ff; }
+            @media(max-width:500px){ #trav-panel{ width:100vw; right:-100vw; } }
+        `;
+        document.head.appendChild(style);
+    }
+
+    function openTravDrawer(key) {
+        const info = travInfo[key];
+        if (!info) return;
+        document.getElementById('trav-title').textContent = info.title;
+        document.getElementById('trav-body').innerHTML = `
+            <div class="trav-section">
+                <h4>⚙️ How it Works</h4>
+                <ol>${info.how.map(s => `<li>${s}</li>`).join('')}</ol>
+            </div>
+            <div class="trav-section">
+                <h4>📊 Complexity</h4>
+                <div class="trav-cx-grid">
+                    <div class="trav-cx-item"><span>Time</span><strong>${info.complexity.time}</strong></div>
+                    <div class="trav-cx-item"><span>Space</span><strong>${info.complexity.space}</strong></div>
+                    <div class="trav-cx-item"><span>Best</span><strong>${info.complexity.best}</strong></div>
+                    <div class="trav-cx-item"><span>Worst</span><strong>${info.complexity.worst}</strong></div>
+                </div>
+            </div>
+            <div class="trav-section">
+                <h4>✅ When to Use</h4>
+                <p>${info.whenToUse}</p>
+            </div>
+            <div class="trav-section">
+                <h4>⚠️ Edge Cases</h4>
+                <ul>${info.edgeCases.map(s => `<li>${s}</li>`).join('')}</ul>
+            </div>
+            <div class="trav-section">
+                <h4>🐛 Common Errors</h4>
+                <ul>${info.errorPoints.map(s => `<li>${s}</li>`).join('')}</ul>
+            </div>
+        `;
+        document.getElementById('trav-drawer').classList.add('open');
+        document.getElementById('trav-overlay').onclick = closeTravDrawer;
+    }
+
+    function closeTravDrawer() {
+        document.getElementById('trav-drawer').classList.remove('open');
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTravDrawer(); });
+    document.addEventListener('DOMContentLoaded', () => { buildTravDrawer(); });
+
+    window.openTravDrawer  = openTravDrawer;
+    window.closeTravDrawer = closeTravDrawer;
 </script>
 </body>
 </html>

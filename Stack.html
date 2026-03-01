@@ -34,7 +34,7 @@
     <input type="text" id="pageSearch" class="search-box" placeholder="Search stack operations (e.g. 'Push')...">
 
     <section>
-        <h2>Push</h2>
+        <h2>Push<button class="info-btn" onclick="openDrawer('stack_push')">ⓘ Info</button></h2>
         <p>Adds an element to the top of the stack (O(1)).</p>
         <div class="card">
             <div class="tabs">
@@ -53,7 +53,7 @@
     </section>
 
     <section>
-        <h2>Pop</h2>
+        <h2>Pop<button class="info-btn" onclick="openDrawer('stack_pop')">ⓘ Info</button></h2>
         <p>Removes and returns the top element of the stack (O(1)).</p>
         <div class="card">
             <div class="tabs">
@@ -72,7 +72,7 @@
     </section>
 
     <section>
-        <h2>Peek</h2>
+        <h2>Peek<button class="info-btn" onclick="openDrawer('stack_peek')">ⓘ Info</button></h2>
         <p>Returns the top element without removing it (O(1)).</p>
         <div class="card">
             <div class="tabs">
