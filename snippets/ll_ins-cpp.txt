@@ -1,0 +1,21 @@
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Insert at the front
+void insertHead(Node** head_ref, int newData) {
+    Node* newNode = new Node();
+    newNode->data = newData;
+    newNode->next = (*head_ref);
+    (*head_ref) = newNode;
+}
+
+// Insert after a specific node
+void insertAfter(Node* prevNode, int newData) {
+    if (prevNode == NULL) return;
+    Node* newNode = new Node();
+    newNode->data = newData;
+    newNode->next = prevNode->next;
+    prevNode->next = newNode;
+}

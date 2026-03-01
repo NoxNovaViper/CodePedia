@@ -1,0 +1,19 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+# 1. Setup
+head = Node(10); head.next = Node(20); head.next.next = Node(30)
+target = 20
+
+# 2. Search Logic
+current = head
+found = False
+while current is not None:
+    if current.data == target:
+        found = True
+        break
+    current = current.next
+
+print("Found:", found)

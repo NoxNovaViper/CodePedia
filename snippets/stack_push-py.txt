@@ -1,0 +1,12 @@
+stack = [0] * 5
+top = -1
+
+def push(val):
+    global top
+    if top >= 4:
+        print("Stack Overflow")
+        return
+    top += 1
+    stack[top] = val
+
+push(10)

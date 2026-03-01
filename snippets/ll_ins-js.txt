@@ -1,0 +1,19 @@
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+function insertHead(head, data) {
+    let newNode = new Node(data);
+    newNode.next = head;
+    return newNode;
+}
+
+function insertAfter(prevNode, data) {
+    if (!prevNode) return;
+    let newNode = new Node(data);
+    newNode.next = prevNode.next;
+    prevNode.next = newNode;
+}

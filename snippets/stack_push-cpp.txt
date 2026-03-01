@@ -1,0 +1,8 @@
+#include <iostream>
+int stack[5];
+int top = -1;
+
+void push(int val) {
+    if (top >= 4) return; // Overflow
+    stack[++top] = val;
+}

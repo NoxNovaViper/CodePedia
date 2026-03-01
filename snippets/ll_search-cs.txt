@@ -1,0 +1,25 @@
+using System;
+
+class Node {
+    public int data;
+    public Node next;
+    public Node(int d) { data = d; next = null; }
+}
+
+class Program {
+    static void Main() {
+        Node head = new Node(10); head.next = new Node(20);
+        int target = 20;
+
+        Node current = head;
+        bool found = false;
+        while (current != null) {
+            if (current.data == target) {
+                found = true;
+                break;
+            }
+            current = current.next;
+        }
+        Console.WriteLine("Found: " + found);
+    }
+}

@@ -1,0 +1,19 @@
+# 1. Delete by Value
+def delete_node(head, key):
+    temp = head
+    # If head node holds the key
+    if temp is not None and temp.data == key:
+        return temp.next
+    
+    # Search for the key to be deleted
+    prev = None
+    while temp is not None and temp.data != key:
+        prev = temp
+        temp = temp.next
+
+    # If key was not present
+    if temp is None: return head
+
+    # Unlink the node from linked list
+    prev.next = temp.next
+    return head

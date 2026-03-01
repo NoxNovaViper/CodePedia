@@ -1,0 +1,7 @@
+void enqueue(int val) {
+    if (rear >= 5) {
+        System.out.println("Queue Full");
+        return;
+    }
+    queue[rear++] = val;
+}

@@ -1,0 +1,18 @@
+func (ll *LinkedList) deleteNode(key int) {
+    temp := ll.head
+    var prev *Node
+
+    if temp != nil && temp.data == key {
+        ll.head = temp.next
+        return
+    }
+
+    for temp != nil && temp.data != key {
+        prev = temp
+        temp = temp.next
+    }
+
+    if temp == nil { return }
+
+    prev.next = temp.next
+}

@@ -1,0 +1,7 @@
+void push(int val) {
+    if (top >= 4) {
+        System.out.println("Stack Overflow");
+        return;
+    }
+    stack[++top] = val;
+}

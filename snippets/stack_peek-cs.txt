@@ -1,0 +1,7 @@
+int Peek() {
+    if (top == -1) {
+        Console.WriteLine("Stack is Empty");
+        return -1;
+    }
+    return stack[top];
+}

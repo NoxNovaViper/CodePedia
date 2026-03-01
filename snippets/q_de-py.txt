@@ -1,0 +1,13 @@
+# Assuming queue, front, and rear are defined
+def dequeue():
+    global front
+    if front == rear:
+        print("Queue Empty (Underflow)")
+        return None
+    
+    val = queue[front]
+    front += 1  # Move the exit pointer forward
+    return val
+
+# Execution
+item = dequeue()

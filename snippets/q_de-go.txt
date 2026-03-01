@@ -1,0 +1,8 @@
+func dequeue() int {
+    if front == rear {
+        return -1 // Empty
+    }
+    val := queue[front]
+    front++
+    return val
+}

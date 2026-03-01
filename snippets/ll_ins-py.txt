@@ -1,0 +1,22 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+# 1. Insert at Head (O(1))
+def insert_head(head, new_data):
+    new_node = Node(new_data)
+    new_node.next = head
+    return new_node
+
+# 2. Insert After a Node (O(1))
+def insert_after(prev_node, new_data):
+    if not prev_node: return
+    new_node = Node(new_data)
+    new_node.next = prev_node.next
+    prev_node.next = new_node
+
+# Execution
+head = Node(10)
+head = insert_head(head, 5)
+insert_after(head, 7) # List: 5 -> 7 -> 10

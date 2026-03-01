@@ -1,0 +1,7 @@
+func enqueue(val int) {
+    if rear >= 5 {
+        return // Full
+    }
+    queue[rear] = val
+    rear++
+}

@@ -1,0 +1,21 @@
+package main
+import "fmt"
+
+type Node struct {
+    data int
+    next *Node
+}
+
+func main() {
+    // 1. Create Nodes
+    head := &Node{data: 10}
+    head.next = &Node{data: 20}
+    head.next.next = &Node{data: 30}
+
+    // 2. Traverse
+    current := head
+    for current != nil {
+        fmt.Println(current.data)
+        current = current.next
+    }
+}

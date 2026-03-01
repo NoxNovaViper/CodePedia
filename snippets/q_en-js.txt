@@ -1,0 +1,11 @@
+let queue = new Array(5);
+let front = 0;
+let rear = 0;
+
+function enqueue(val) {
+    if (rear >= 5) {
+        console.log("Queue Full");
+        return;
+    }
+    queue[rear++] = val;
+}

@@ -1,0 +1,23 @@
+package main
+import "fmt"
+
+type Node struct {
+    data int
+    next *Node
+}
+
+func main() {
+    head := &Node{data: 10, next: &Node{data: 20}}
+    target := 20
+
+    current := head
+    found := false
+    for current != nil {
+        if current.data == target {
+            found = true
+            break
+        }
+        current = current.next
+    }
+    fmt.Println("Found:", found)
+}

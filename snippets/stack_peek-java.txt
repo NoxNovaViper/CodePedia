@@ -1,0 +1,7 @@
+int peek() {
+    if (top == -1) {
+        System.out.println("Stack is Empty");
+        return -1;
+    }
+    return stack[top];
+}

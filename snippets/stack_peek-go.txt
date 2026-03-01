@@ -1,0 +1,6 @@
+func peek() int {
+    if top == -1 {
+        return -1 // Empty
+    }
+    return stack[top]
+}

@@ -1,0 +1,7 @@
+func push(val int) {
+    if top >= 4 {
+        return // Overflow
+    }
+    top++
+    stack[top] = val
+}

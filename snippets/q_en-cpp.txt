@@ -1,0 +1,7 @@
+int queue[5];
+int front = 0, rear = 0;
+
+void enqueue(int val) {
+    if (rear >= 5) return; // Overflow
+    queue[rear++] = val;
+}

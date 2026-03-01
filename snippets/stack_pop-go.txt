@@ -1,0 +1,8 @@
+func pop() int {
+    if top == -1 {
+        return -1 // Underflow
+    }
+    val := stack[top]
+    top--
+    return val
+}

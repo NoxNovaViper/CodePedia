@@ -1,0 +1,13 @@
+# Assuming stack and top are already defined
+def pop():
+    global top
+    if top == -1:
+        print("Stack Underflow")
+        return None
+    
+    val = stack[top]
+    top -= 1
+    return val
+
+# Execution
+popped_item = pop()

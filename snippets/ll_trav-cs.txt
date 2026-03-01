@@ -1,0 +1,21 @@
+using System;
+
+class Node {
+    public int data;
+    public Node next;
+    public Node(int d) { data = d; next = null; }
+}
+
+class Program {
+    static void Main() {
+        Node head = new Node(10);
+        head.next = new Node(20);
+        head.next.next = new Node(30);
+
+        Node current = head;
+        while (current != null) {
+            Console.WriteLine(current.data);
+            current = current.next;
+        }
+    }
+}

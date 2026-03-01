@@ -1,0 +1,23 @@
+class Node {
+    int data;
+    Node next;
+    Node(int d) { data = d; next = null; }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Node head = new Node(10); head.next = new Node(20);
+        int target = 20;
+
+        Node current = head;
+        boolean found = false;
+        while (current != null) {
+            if (current.data == target) {
+                found = true;
+                break;
+            }
+            current = current.next;
+        }
+        System.out.println("Found: " + found);
+    }
+}

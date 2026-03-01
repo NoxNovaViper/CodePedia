@@ -1,0 +1,7 @@
+void Push(int val) {
+    if (top >= 4) {
+        Console.WriteLine("Stack Overflow");
+        return;
+    }
+    stack[++top] = val;
+}

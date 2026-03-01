@@ -1,0 +1,7 @@
+int dequeue() {
+    if (front == rear) {
+        cout << "Queue Empty" << endl;
+        return -1;
+    }
+    return queue[front++];
+}

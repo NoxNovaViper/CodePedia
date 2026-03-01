@@ -1,0 +1,7 @@
+int Pop() {
+    if (top == -1) {
+        Console.WriteLine("Stack Underflow");
+        return -1;
+    }
+    return stack[top--];
+}

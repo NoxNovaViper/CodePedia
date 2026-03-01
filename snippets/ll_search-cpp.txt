@@ -1,0 +1,25 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+int main() {
+    Node* head = new Node{10, new Node{20, NULL}};
+    int target = 20;
+
+    // Search Logic
+    Node* current = head;
+    bool found = false;
+    while (current != NULL) {
+        if (current->data == target) {
+            found = true;
+            break;
+        }
+        current = current->next;
+    }
+    cout << (found ? "Found" : "Not Found") << endl;
+    return 0;
+}

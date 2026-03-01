@@ -1,0 +1,20 @@
+class Node {
+    public int data;
+    public Node next;
+    public Node(int d) { data = d; next = null; }
+}
+
+class Ops {
+    public static Node InsertHead(Node head, int data) {
+        Node newNode = new Node(data);
+        newNode.next = head;
+        return newNode;
+    }
+
+    public static void InsertAfter(Node prevNode, int data) {
+        if (prevNode == null) return;
+        Node newNode = new Node(data);
+        newNode.next = prevNode.next;
+        prevNode.next = newNode;
+    }
+}

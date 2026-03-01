@@ -1,0 +1,8 @@
+function pop() {
+    if (top === -1) {
+        console.log("Stack Underflow");
+        return null;
+    }
+    // Return the value at current top, then decrement
+    return stack[top--];
+}

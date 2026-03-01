@@ -1,0 +1,8 @@
+function dequeue() {
+    if (front === rear) {
+        console.log("Queue Empty");
+        return null;
+    }
+    // Return value at front, then increment front
+    return queue[front++];
+}

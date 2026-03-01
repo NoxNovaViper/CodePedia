@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+int main() {
+    // 1. Create Nodes
+    Node* head = new Node{10, NULL};
+    head->next = new Node{20, NULL};
+    head->next->next = new Node{30, NULL};
+
+    // 2. Manual Traverse
+    Node* current = head;
+    while (current != NULL) {
+        cout << current->data << endl;
+        current = current->next;
+    }
+    return 0;
+}

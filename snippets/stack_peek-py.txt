@@ -1,0 +1,11 @@
+# Assuming stack and top are defined
+def peek():
+    if top == -1:
+        print("Stack is Empty")
+        return None
+    
+    # Just return, don't decrement top
+    return stack[top]
+
+# Execution
+top_item = peek()

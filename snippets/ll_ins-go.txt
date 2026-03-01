@@ -1,0 +1,17 @@
+type Node struct {
+    data int
+    next *Node
+}
+
+func insertHead(head *Node, data int) *Node {
+    newNode := &Node{data: data}
+    newNode.next = head
+    return newNode
+}
+
+func insertAfter(prevNode *Node, data int) {
+    if prevNode == nil { return }
+    newNode := &Node{data: data}
+    newNode.next = prevNode.next
+    prevNode.next = newNode
+}

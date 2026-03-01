@@ -1,0 +1,7 @@
+void Enqueue(int val) {
+    if (rear >= 5) {
+        Console.WriteLine("Queue Full");
+        return;
+    }
+    queue[rear++] = val;
+}

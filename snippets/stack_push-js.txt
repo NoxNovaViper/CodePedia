@@ -1,0 +1,12 @@
+let stack = new Array(5);
+let top = -1;
+
+function push(val) {
+    if (top >= 4) {
+        console.log("Stack Overflow");
+        return;
+    }
+    stack[++top] = val;
+}
+
+push(10);

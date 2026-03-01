@@ -1,0 +1,13 @@
+queue = [0] * 5
+front = 0
+rear = 0
+
+def enqueue(val):
+    global rear
+    if rear >= 5:
+        print("Queue Full (Overflow)")
+        return
+    queue[rear] = val
+    rear += 1
+
+enqueue(10)
