@@ -1,0 +1,17 @@
+// 1. Define the Array
+let arr = [10, 20, 30, 40, 50];
+
+// 2. Reverse (Manual Two-Pointer)
+let start = 0;
+let end = arr.length - 1;
+
+while (start < end) {
+    let temp = arr[start];
+    arr[start] = arr[end];
+    arr[end] = temp;
+    
+    start++;
+    end--;
+}
+
+console.log("Reversed Array:", arr);

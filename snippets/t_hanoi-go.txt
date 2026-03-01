@@ -1,0 +1,16 @@
+package main
+import "fmt"
+
+func towerOfHanoi(n int, from, to, aux string) {
+    if n == 1 {
+        fmt.Printf("Move disk 1 from %s to %s\n", from, to)
+        return
+    }
+    towerOfHanoi(n-1, from, aux, to)
+    fmt.Printf("Move disk %d from %s to %s\n", n, from, to)
+    towerOfHanoi(n-1, aux, to, from)
+}
+
+func main() {
+    towerOfHanoi(3, "A", "C", "B")
+}

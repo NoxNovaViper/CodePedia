@@ -1,0 +1,13 @@
+// 1. Define the Array
+let arr = [10, 20, 30, 40, 50];
+let pos = 2; // Delete index 2
+
+// 2. Shift left (Manual loop)
+for (let i = pos; i < arr.length - 1; i++) {
+    arr[i] = arr[i + 1];
+}
+
+// 3. Manually reduce length
+arr.length = arr.length - 1;
+
+console.log("After Deletion:", arr);

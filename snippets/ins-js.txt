@@ -1,0 +1,14 @@
+// 1. Define the Array
+let arr = [10, 20, 30, 40, 50];
+let pos = 2;
+let val = 99;
+
+// 2. Shift elements to the right (Manual loop)
+for (let i = arr.length; i > pos; i--) {
+    arr[i] = arr[i - 1];
+}
+
+// 3. Insert
+arr[pos] = val;
+
+console.log("After Insertion:", arr);

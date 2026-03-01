@@ -1,0 +1,23 @@
+#include <iostream>
+using namespace std;
+
+int main() {
+    // 1. Define the Array
+    int arr[] = {10, 20, 30, 40, 50};
+    int n = 5;
+
+    // 2. Reverse
+    int start = 0, end = n - 1;
+    while (start < end) {
+        int temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        
+        start++;
+        end--;
+    }
+
+    // Output result
+    for(int i = 0; i < n; i++) cout << arr[i] << " ";
+    return 0;
+}

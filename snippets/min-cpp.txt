@@ -1,0 +1,12 @@
+// 1. Define the Array
+int arr[] = {64, 34, 25, 12, 22, 11, 90};
+int n = sizeof(arr)/sizeof(arr[0]);
+
+// 2. Find Min
+int minVal = arr[0];
+for(int i = 1; i < n; i++) {
+    if(arr[i] < minVal) {
+        minVal = arr[i];
+    }
+}
+cout << "Minimum Value: " << minVal << endl;

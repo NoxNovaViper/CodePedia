@@ -1,0 +1,17 @@
+package main
+import "fmt"
+
+func main() {
+    // 1. Define the Array
+    arr := []int{64, 34, 25, 12, 22, 11, 90}
+
+    // 2. Find Min
+    min := arr[0]
+    for i := 1; i < len(arr); i++ {
+        if arr[i] < min {
+            min = arr[i]
+        }
+    }
+
+    fmt.Println("Minimum Value:", min)
+}

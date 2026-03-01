@@ -1,0 +1,16 @@
+public class Main {
+    public static void main(String[] args) {
+        // 1. Define the Array
+        int[] arr = {64, 34, 25, 12, 22, 11, 90};
+
+        // 2. Find Min
+        int min = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
+            }
+        }
+
+        System.out.println("Minimum Value: " + min);
+    }
+}

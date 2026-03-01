@@ -1,0 +1,14 @@
+# 1. Define the Array (with space for one more)
+arr = [10, 20, 30, 40, 50, 0] 
+n = 5 # Current number of elements
+pos = 2 # Index where we want to insert
+val = 99 # Value to insert
+
+# 2. Shift elements to the right
+for i in range(n, pos, -1):
+    arr[i] = arr[i-1]
+
+# 3. Insert the value
+arr[pos] = val
+
+print("After Insertion:", arr)

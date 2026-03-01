@@ -1,0 +1,21 @@
+package main
+import "fmt"
+
+func main() {
+    // 1. Define the Slice
+    arr := []int{10, 20, 30, 40, 50}
+    pos, val := 2, 99
+
+    // 2. Add a dummy element to expand the capacity
+    arr = append(arr, 0)
+
+    // 3. Shift elements right
+    for i := len(arr) - 1; i > pos; i-- {
+        arr[i] = arr[i-1]
+    }
+
+    // 4. Insert
+    arr[pos] = val
+
+    fmt.Println("After Insertion:", arr)
+}

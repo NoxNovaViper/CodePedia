@@ -1,0 +1,17 @@
+public class Main {
+    public static void main(String[] args) {
+        // 1. Define the Array
+        int[] arr = {10, 20, 30, 40, 50};
+        int n = arr.length;
+
+        // 2. Reverse
+        for (int i = 0; i < n / 2; i++) {
+            int temp = arr[i];
+            arr[i] = arr[n - 1 - i];
+            arr[n - 1 - i] = temp;
+        }
+
+        // Print
+        for (int i : arr) System.out.print(i + " ");
+    }
+}

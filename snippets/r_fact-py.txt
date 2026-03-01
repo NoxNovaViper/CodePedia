@@ -1,0 +1,12 @@
+# 1. Input
+num = 5
+
+# 2. Recursive Function
+def factorial(n):
+    if n == 0 or n == 1:
+        return 1  # Base Case
+    return n * factorial(n - 1) # Recursive Call
+
+# 3. Execution
+result = factorial(num)
+print(f"Factorial of {num} is {result}")

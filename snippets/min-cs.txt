@@ -1,0 +1,18 @@
+using System;
+
+class Program {
+    static void Main() {
+        // 1. Define the Array
+        int[] arr = { 64, 34, 25, 12, 22, 11, 90 };
+
+        // 2. Find Min
+        int min = arr[0];
+        for (int i = 1; i < arr.Length; i++) {
+            if (arr[i] < min) {
+                min = arr[i];
+            }
+        }
+
+        Console.WriteLine("Minimum Value: " + min);
+    }
+}
