@@ -15,26 +15,44 @@
     <meta name="description" content="CodePedia — free algorithm reference for Python, JS, C++, Java, C# and Go. Math, Sorting, Strings, Searching, Arrays, Recursion, Stack, Queue, Linked List and 2D Traversal.">
     <link rel="stylesheet" href="Style.css">
     <style>
-        /* Big O trigger button */
-        .bigo-trigger {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: var(--accent);
-            border-radius: 8px;
-            padding: 8px 16px;
-            font-size: 0.85rem;
-            font-family: 'Fira Code', monospace;
-            font-weight: bold;
+        /* Big O sticky side strip */
+        .bigo-tab {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 28px;
+            height: 100vh;
+            background: #0a0e14;
+            border-left: 1px solid #1e2733;
             cursor: pointer;
-            transition: all 0.2s;
-            margin-bottom: 1.5rem;
+            z-index: 998;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: background 0.2s, border-color 0.2s;
         }
-        .bigo-trigger:hover {
-            border-color: var(--accent);
-            background: rgba(88,166,255,0.08);
+        .bigo-tab:hover { background: #0d1320; border-color: var(--accent); }
+        .bigo-tab:hover .tab-label { color: var(--accent); }
+        .bigo-tab:hover .tab-line  { background: var(--accent); }
+        .tab-icon { font-size: 0.85rem; }
+        .tab-label {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: #3a4a60;
+            letter-spacing: 2px;
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            transition: color 0.2s;
+            text-transform: uppercase;
+        }
+        .tab-line {
+            width: 1px;
+            height: 40px;
+            background: #1e2733;
+            transition: background 0.2s;
         }
 
         /* Overlay */
