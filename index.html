@@ -14,6 +14,110 @@
     <title>CodePedia | Home</title>
     <meta name="description" content="CodePedia — free algorithm reference for Python, JS, C++, Java, C# and Go. Math, Sorting, Strings, Searching, Arrays, Recursion, Stack, Queue, Linked List and 2D Traversal.">
     <link rel="stylesheet" href="Style.css">
+    <style>
+        /* Side-by-side layout for categories + sidebar */
+        .categories-layout {
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        /* Sidebar sticks while scrolling through the categories section */
+        .bigo-sidebar {
+            position: sticky;
+            top: 20px;
+        }
+
+        .bigo-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .bigo-header {
+            background: var(--tab-bg);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .bigo-header h3 {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .bigo-body {
+            padding: 12px 0;
+        }
+
+        .bigo-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            border-bottom: 1px solid rgba(48,54,61,0.5);
+            transition: background 0.15s;
+        }
+        .bigo-row:last-child { border-bottom: none; }
+        .bigo-row:hover { background: rgba(255,255,255,0.02); }
+
+        .bigo-name {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .bigo-desc {
+            font-size: 0.72rem;
+            color: #5a6478;
+            text-align: right;
+            line-height: 1.3;
+        }
+
+        .bigo-divider {
+            padding: 6px 16px 4px;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #3a4150;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .bigo-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-right: 6px;
+        }
+
+        /* Color coding by performance */
+        .fast  { background: #3fb950; }
+        .good  { background: #58a6ff; }
+        .ok    { background: #d29922; }
+        .slow  { background: #f85149; }
+
+        .bigo-name.fast-text  { color: #3fb950; }
+        .bigo-name.good-text  { color: #58a6ff; }
+        .bigo-name.ok-text    { color: #d29922; }
+        .bigo-name.slow-text  { color: #f85149; }
+
+        /* Hide sidebar on small screens */
+        @media (max-width: 700px) {
+            .categories-layout {
+                grid-template-columns: 1fr;
+            }
+            .bigo-sidebar { display: none; }
+        }
+    </style>
 </head>
 <body>
 
@@ -33,7 +137,7 @@
     <a href="Chat.html">💬 Live Chat</a>
 </nav>
     <h1>CodePedia</h1>
-    <p>The Universal Code Encyclopedia for the Python, JavaScript, C++, Java, C#, and Go.</p>
+    <p>The Universal Code Encyclopedia for Python, JavaScript, C++, Java, C#, and Go.</p>
 </header>
 
 <div class="container">
@@ -42,7 +146,7 @@
     <section id="featured">
         <h2>Featured Snippet</h2>
         <div class="card">
-            <h3>Prime Number Check<button class="info-btn" onclick="openDrawer('prime')">ⓘ Info</button></h3>           
+            <h3>Prime Number Check <button class="info-btn" onclick="openDrawer('prime')">ⓘ Info</button></h3>
             <p>Determine if a number is prime using the efficient O(√n) method.</p>
             <div class="tabs">
                 <button class="tab-btn active" onclick="openLang(event, 'prime-py', 'featured-box')">Python</button>
@@ -59,49 +163,140 @@
         </div>
     </section>
 
-    <h2>Categories</h2>
-    <div class="category-grid">
-        <div class="card content-card">
-            <div><h3>Mathematics</h3><p>Prime, Factorial, GCD, LCM, Fibonacci, and Power algorithms.</p></div>
-            <a href="Math.html" class="browse-link">Browse Math &rarr;</a>
+    <!-- Categories + Big O sidebar side by side -->
+    <div class="categories-layout">
+
+        <!-- Left: category grid -->
+        <div>
+            <h2>Categories</h2>
+            <div class="category-grid">
+                <div class="card content-card">
+                    <div><h3>Mathematics</h3><p>Prime, Factorial, GCD, LCM, Fibonacci, and Power algorithms.</p></div>
+                    <a href="Math.html" class="browse-link">Browse Math &rarr;</a>
+                </div>
+                <div class="card content-card">
+                    <div><h3>Sorting</h3><p>Bubble Sort, Quick Sort, and Merge Sort implementations.</p></div>
+                    <a href="Sorting.html" class="browse-link">Browse Sorting &rarr;</a>
+                </div>
+                <div class="card content-card">
+                    <div><h3>Strings</h3><p>Reverse String and Palindrome Check across all 6 languages.</p></div>
+                    <a href="Strings.html" class="browse-link">Browse Strings &rarr;</a>
+                </div>
+                <div class="card content-card">
+                    <div><h3>Searching</h3><p>Linear Search and Binary Search across all 6 languages.</p></div>
+                    <a href="Searching.html" class="browse-link">Browse Searching &rarr;</a>
+                </div>
+                <div class="card content-card">
+                    <div><h3>Arrays</h3><p>Insert, Delete, Reverse, Find Max and Min operations.</p></div>
+                    <a href="Arrays.html" class="browse-link">Browse Arrays &rarr;</a>
+                </div>
+                <div class="card content-card">
+                    <div><h3>Recursion</h3><p>Recursive Factorial, Fibonacci, and Tower of Hanoi.</p></div>
+                    <a href="Recursion.html" class="browse-link">Browse Recursion &rarr;</a>
+                </div>
+                <div class="card content-card">
+                    <div><h3>Stack</h3><p>LIFO structure — Push, Pop, and Peek operations.</p></div>
+                    <a href="Stack.html" class="browse-link">Browse Stack &rarr;</a>
+                </div>
+                <div class="card content-card">
+                    <div><h3>Queue</h3><p>FIFO structure — Enqueue and Dequeue operations.</p></div>
+                    <a href="Queue.html" class="browse-link">Browse Queue &rarr;</a>
+                </div>
+                <div class="card content-card">
+                    <div><h3>Linked List</h3><p>Insert, Delete, Search, and Traverse a singly linked list.</p></div>
+                    <a href="LinkedList.html" class="browse-link">Browse Linked List &rarr;</a>
+                </div>
+                <div class="card content-card">
+                    <div><h3>2D Traversal</h3><p>Grid traversal in all 6 directions — horizontal, vertical, and all 4 diagonals.</p></div>
+                    <a href="Traversal.html" class="browse-link">Browse Traversal &rarr;</a>
+                </div>
+            </div>
         </div>
-        <div class="card content-card">
-            <div><h3>Sorting</h3><p>Bubble Sort, Quick Sort, and Merge Sort implementations.</p></div>
-            <a href="Sorting.html" class="browse-link">Browse Sorting &rarr;</a>
+
+        <!-- Right: sticky Big O sidebar -->
+        <div class="bigo-sidebar">
+            <div class="bigo-card">
+                <div class="bigo-header">
+                    <h3>⏱ Big O Notation</h3>
+                </div>
+                <div class="bigo-body">
+
+                    <div class="bigo-divider">// fast</div>
+
+                    <div class="bigo-row">
+                        <div style="display:flex;align-items:center;">
+                            <div class="bigo-dot fast"></div>
+                            <span class="bigo-name fast-text">O(1)</span>
+                        </div>
+                        <span class="bigo-desc">Constant<br>Stack push/pop</span>
+                    </div>
+
+                    <div class="bigo-row">
+                        <div style="display:flex;align-items:center;">
+                            <div class="bigo-dot fast"></div>
+                            <span class="bigo-name fast-text">O(log n)</span>
+                        </div>
+                        <span class="bigo-desc">Logarithmic<br>Binary search</span>
+                    </div>
+
+                    <div class="bigo-row">
+                        <div style="display:flex;align-items:center;">
+                            <div class="bigo-dot good"></div>
+                            <span class="bigo-name good-text">O(√n)</span>
+                        </div>
+                        <span class="bigo-desc">Square root<br>Prime check</span>
+                    </div>
+
+                    <div class="bigo-divider">// moderate</div>
+
+                    <div class="bigo-row">
+                        <div style="display:flex;align-items:center;">
+                            <div class="bigo-dot good"></div>
+                            <span class="bigo-name good-text">O(n)</span>
+                        </div>
+                        <span class="bigo-desc">Linear<br>Linear search</span>
+                    </div>
+
+                    <div class="bigo-row">
+                        <div style="display:flex;align-items:center;">
+                            <div class="bigo-dot ok"></div>
+                            <span class="bigo-name ok-text">O(n log n)</span>
+                        </div>
+                        <span class="bigo-desc">Linearithmic<br>Merge/Quick sort</span>
+                    </div>
+
+                    <div class="bigo-divider">// slow</div>
+
+                    <div class="bigo-row">
+                        <div style="display:flex;align-items:center;">
+                            <div class="bigo-dot slow"></div>
+                            <span class="bigo-name slow-text">O(n²)</span>
+                        </div>
+                        <span class="bigo-desc">Quadratic<br>Bubble sort</span>
+                    </div>
+
+                    <div class="bigo-row">
+                        <div style="display:flex;align-items:center;">
+                            <div class="bigo-dot slow"></div>
+                            <span class="bigo-name slow-text">O(2^n)</span>
+                        </div>
+                        <span class="bigo-desc">Exponential<br>Recursive fib</span>
+                    </div>
+
+                    <div class="bigo-row">
+                        <div style="display:flex;align-items:center;">
+                            <div class="bigo-dot slow"></div>
+                            <span class="bigo-name slow-text">O(n!)</span>
+                        </div>
+                        <span class="bigo-desc">Factorial<br>Permutations</span>
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <div class="card content-card">
-            <div><h3>Strings</h3><p>Reverse String and Palindrome Check across all 6 languages.</p></div>
-            <a href="Strings.html" class="browse-link">Browse Strings &rarr;</a>
-        </div>
-        <div class="card content-card">
-            <div><h3>Searching</h3><p>Linear Search and Binary Search across all 6 languages.</p></div>
-            <a href="Searching.html" class="browse-link">Browse Searching &rarr;</a>
-        </div>
-        <div class="card content-card">
-            <div><h3>Arrays</h3><p>Insert, Delete, Reverse, Find Max and Min operations.</p></div>
-            <a href="Arrays.html" class="browse-link">Browse Arrays &rarr;</a>
-        </div>
-        <div class="card content-card">
-            <div><h3>Recursion</h3><p>Recursive Factorial, Fibonacci, and Tower of Hanoi.</p></div>
-            <a href="Recursion.html" class="browse-link">Browse Recursion &rarr;</a>
-        </div>
-        <div class="card content-card">
-            <div><h3>Stack</h3><p>LIFO structure — Push, Pop, and Peek operations.</p></div>
-            <a href="Stack.html" class="browse-link">Browse Stack &rarr;</a>
-        </div>
-        <div class="card content-card">
-            <div><h3>Queue</h3><p>FIFO structure — Enqueue and Dequeue operations.</p></div>
-            <a href="Queue.html" class="browse-link">Browse Queue &rarr;</a>
-        </div>
-        <div class="card content-card">
-            <div><h3>Linked List</h3><p>Insert, Delete, Search, and Traverse a singly linked list.</p></div>
-            <a href="LinkedList.html" class="browse-link">Browse Linked List &rarr;</a>
-        </div>
-        <div class="card content-card">
-            <div><h3>2D Traversal</h3><p>Grid traversal in all 6 directions — horizontal, vertical, and all 4 diagonals.</p></div>
-            <a href="Traversal.html" class="browse-link">Browse Traversal &rarr;</a>
-        </div>
-    </div>
+
+    </div><!-- end categories-layout -->
+
 </div>
 
 <footer>&copy; 2026 CodePedia Encyclopedia | Hosted on GitHub Pages</footer>
